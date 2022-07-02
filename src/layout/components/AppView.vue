@@ -1,9 +1,8 @@
 <script setup lang="ts">
-// import { useTagsViewStore } from '@/store/modules/tagsView'
+import { useTagsViewStore } from '@/store/modules/tagsView'
 import { useAppStore } from '@/store/modules/app'
 import { Footer } from '@/components/Footer'
-import { computed, ref } from 'vue'
-import Test from './test.vue'
+import { computed } from 'vue'
 
 const appStore = useAppStore()
 
@@ -13,15 +12,11 @@ const fixedHeader = computed(() => appStore.getFixedHeader)
 
 const footer = computed(() => appStore.getFooter)
 
-// const tagsViewStore = useTagsViewStore()
+const tagsViewStore = useTagsViewStore()
 
-// const getCaches = computed((): string[] => {
-//   return tagsViewStore.getCachedViews
-// })
-const TestRef = ref(null)
-setTimeout(() => {
-  console.log(TestRef.value)
-}, 4000)
+const getCaches = computed((): string[] => {
+  return tagsViewStore.getCachedViews
+})
 </script>
 
 <template>
@@ -46,19 +41,11 @@ setTimeout(() => {
     ]"
   >
     <router-view>
-      <!-- <template #default="{ Component, route }">
+      <template #default="{ Component, route }">
         <keep-alive :include="getCaches">
           <component :is="Component" :key="route.fullPath" />
         </keep-alive>
-      </template> -->
-      <div class="p-5px mt-4 bg-purple-500">测试</div>
-      <div class="bg-white dark:hover:(bg-gray-800 font-medium text-white)">测试</div>
-      <div class="bg-white dark:hover:bg-gray-800 dark:hover:font-medium dark:hover:text-white"
-        >测试</div
-      >
-      <Test :msg="'hello'" aaa="123" ref="TestRef">
-        <template #one></template>
-      </Test>
+      </template>
     </router-view>
   </section>
   <Footer v-if="footer" />

@@ -22,6 +22,12 @@ const List: {
     password: 'test',
     role: 'test',
     roleId: '2'
+  },
+  {
+    username: 'asd',
+    password: 'asd',
+    role: 'asd',
+    roleId: '3'
   }
 ]
 

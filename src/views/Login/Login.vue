@@ -100,9 +100,9 @@ const toLogin = () => {
       width: 100%;
       height: 100%;
       background-image: url('@/assets/svgs/login-bg.svg');
-      content: '';
-      background-repeat: no-repeat;
       background-position: center;
+      background-repeat: no-repeat;
+      content: '';
     }
   }
 }

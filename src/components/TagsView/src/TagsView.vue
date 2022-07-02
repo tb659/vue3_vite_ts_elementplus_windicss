@@ -39,7 +39,7 @@ const tagsViewIcon = computed(() => appStore.getTagsViewIcon)
 const initTags = () => {
   affixTagArr.value = filterAffixTags(unref(routers))
   for (const tag of unref(affixTagArr)) {
-    // Must have tag name
+    // 必须有标签名称
     if (tag.name) {
       tagsViewStore.addVisitedView(tag)
     }
@@ -114,7 +114,7 @@ const toLastView = () => {
       addTags()
       return
     }
-    // You can set another route
+    // 可以设置其他路由
     push(permissionStore.getAddRouters[0].path)
   }
 }
@@ -142,7 +142,7 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
   let lastTag: Nullable<RouterLinkProps> = null
 
   const tagList = unref(tagLinksRefs)
-  // find first tag and last tag
+  // 找到第一个tag和最后一个tag
   if (tagList.length > 0) {
     firstTag = tagList[0]
     lastTag = tagList[tagList.length - 1]
@@ -166,7 +166,7 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
     })
     start()
   } else {
-    // find preTag and nextTag
+    // 找到上一个tag和下一个tag
     const currentIndex: number = tagList.findIndex(
       (item) => (item?.to as RouteLocationNormalizedLoaded).fullPath === currentTag.fullPath
     )
@@ -175,10 +175,10 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
     const prevTag = tgsRefs[currentIndex - 1] as HTMLElement
     const nextTag = tgsRefs[currentIndex + 1] as HTMLElement
 
-    // the tag's offsetLeft after of nextTag
+    // tag的offsetLeft在下一个tag之后
     const afterNextTagOffsetLeft = nextTag.offsetLeft + nextTag.offsetWidth + 4
 
-    // the tag's offsetLeft before of prevTag
+    // tag的offsetLeft在上一个tag之前
     const beforePrevTagOffsetLeft = prevTag.offsetLeft - 4
 
     if (afterNextTagOffsetLeft > unref(scrollLeftNumber) + wrap$!.offsetWidth) {
@@ -502,8 +502,8 @@ watch(
     height: calc(~'100% - 4px');
     padding-right: 25px;
     font-size: 12px;
-    border: 1px solid #d9d9d9;
     cursor: pointer;
+    border: 1px solid #d9d9d9;
 
     &--close {
       position: absolute;
@@ -557,8 +557,8 @@ watch(
       height: calc(~'100% - 4px');
       padding-right: 25px;
       font-size: 12px;
-      border: 1px solid var(--el-border-color);
       cursor: pointer;
+      border: 1px solid var(--el-border-color);
     }
 
     &__item:not(.is-active) {

@@ -42,7 +42,7 @@ export const generateRoutesFn1 = (
 
   for (const route of routes) {
     const meta = route.meta as RouteMeta
-    // skip some route
+    // 跳过一些路由
     if (meta.hidden && !meta.showMainRoute) {
       continue
     }
@@ -71,7 +71,7 @@ export const generateRoutesFn1 = (
       }
     }
 
-    // recursive child routes
+    // 递归子路由
     if (route.children && data) {
       data.children = generateRoutesFn1(route.children, keys, pathResolve(basePath, data.path))
     }
@@ -116,7 +116,7 @@ export const generateRoutesFn2 = (routes: AppCustomRouteRecordRaw[]): AppRouteRe
 export const pathResolve = (parentPath: string, path: string) => {
   if (isUrl(path)) return path
   const childPath = path.startsWith('/') || !path ? path : `/${path}`
-  return `${parentPath}${childPath}`.replace(/\/\//g, '/')
+  return `${parentPath}${childPath}`.replace(/\/\//g, '/') // 双斜杠转换单斜杠
 }
 
 // 路由降级

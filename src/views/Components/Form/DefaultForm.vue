@@ -1090,9 +1090,9 @@ const schema = reactive<FormSchema[]>([
 
 <style lang="less" scoped>
 .cell {
-  box-sizing: border-box;
   height: 30px;
   padding: 3px 0;
+  box-sizing: border-box;
 
   .text {
     position: absolute;

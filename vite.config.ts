@@ -60,14 +60,20 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         svgoOptions: true
       }),
       PurgeIcons(),
+      // 开启mock
       viteMockServe({
         ignore: /^\_/,
-        mockPath: 'mock',
-        localEnabled: !isBuild,
-        prodEnabled: isBuild,
+        // 解析根目录下的mock文件夹
+        mockPath: 'mock', 
+        // 开发打包开关
+        localEnabled: !isBuild, 
+        // 生产打包开关
+        prodEnabled: isBuild, 
+        // 打开后，可以读取 ts 文件模块。 请注意，打开后将无法监视.js 文件。
+        supportTs: false, 
+        // 这样可以控制关闭mock的时候不让mock打包到最终代码内
         injectCode: `
           import { setupProdMockServer } from '../mock/_createProductionServer'
-
           setupProdMockServer()
           `
       }),

@@ -135,21 +135,7 @@ const signIn = async () => {
         const res = await loginApi(formData)
 
         if (res) {
-          if (remember.value) {
-            Cookies.set(appStore.getUsername, formData.username, {
-              expires: appStore.getIParkRememberTime
-            })
-            Cookies.set(appStore.getPassword, formData.password, {
-              expires: appStore.getIParkRememberTime
-            })
-            Cookies.set(appStore.getRemember, remember.value.toString(), {
-              expires: appStore.getIParkRememberTime
-            })
-          } else {
-            Cookies.remove(appStore.getUsername)
-            Cookies.remove(appStore.getPassword)
-            Cookies.remove(appStore.getRemember)
-          }
+          setLoginInfoCookie(formData)
           wsCache.set(appStore.getUserInfo, res.data)
           getRole()
         }
@@ -188,6 +174,24 @@ const getRole = async () => {
   }
 }
 
+const setLoginInfoCookie = (formData) => {
+  if (remember.value) {
+    Cookies.set(appStore.getUsername, formData.username, {
+      expires: appStore.getIParkRememberTime
+    })
+    Cookies.set(appStore.getPassword, formData.password, {
+      expires: appStore.getIParkRememberTime
+    })
+    Cookies.set(appStore.getRemember, remember.value.toString(), {
+      expires: appStore.getIParkRememberTime
+    })
+  } else {
+    Cookies.remove(appStore.getUsername)
+    Cookies.remove(appStore.getPassword)
+    Cookies.remove(appStore.getRemember)
+  }
+}
+
 // 去注册页面
 // const toRegister = () => {
 //   emit('to-register')
@@ -205,7 +209,7 @@ const getRole = async () => {
     @register="register"
   >
     <template #title>
-      <h2 class="text-2xl font-bold text-center w-[100%]">{{ t('login.login') }}</h2>
+      <h1 class="text-2xl font-bold text-center w-[100%]">{{ t('login.login') }}</h1>
     </template>
 
     <template #tool>

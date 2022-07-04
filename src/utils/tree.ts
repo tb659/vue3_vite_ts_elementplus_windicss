@@ -3,10 +3,11 @@ interface TreeHelperConfig {
   children: string
   pid: string
 }
+// 默认值 可根据项目自行修改 value 值
 const DEFAULT_CONFIG: TreeHelperConfig = {
   id: 'id',
   children: 'children',
-  pid: 'pid'
+  pid: 'parentId'
 }
 
 const getConfig = (config: Partial<TreeHelperConfig>) => Object.assign({}, DEFAULT_CONFIG, config)
@@ -37,6 +38,30 @@ export const treeToList = <T = any>(tree: any, config: Partial<TreeHelperConfig>
     if (!result[i][children!]) continue
     result.splice(i + 1, 0, ...result[i][children!])
   }
+  return result
+}
+
+/**
+ * @description: 整理菜单
+ * @param {*} T
+ * @return {*}
+ */
+export const handleMenuList = (list) => {
+  const result: any[] = []
+  list.for((menu) => {
+    const node = {
+      path: menu.href,
+      component: '#',
+      name: 'Dashboard',
+      meta: {
+        title: menu.name,
+        icon: 'ant-design:dashboard-filled',
+        alwaysShow: true
+      }
+    }
+    result.push(node)
+  })
+
   return result
 }
 

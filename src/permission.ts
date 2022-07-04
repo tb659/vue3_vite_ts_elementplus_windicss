@@ -7,7 +7,8 @@ import { useNProgress } from '@/hooks/web/useNProgress'
 import { usePermissionStoreWithOut } from '@/store/modules/permission'
 import { useDictStoreWithOut } from '@/store/modules/dict'
 import { usePageLoading } from '@/hooks/web/usePageLoading'
-import { getDictApi } from '@/api/common'
+// import { getDictApi } from '@/api/common'
+import { dictRes } from '@/config/app'
 
 const permissionStore = usePermissionStoreWithOut()
 
@@ -37,7 +38,8 @@ router.beforeEach(async (to, from, next) => {
 
       if (!dictStore.getIsSetDict) {
         // 获取所有字典
-        const res = await getDictApi()
+        // const res = await getDictApi()
+        const res = dictRes
         if (res) {
           dictStore.setDictObj(res.data)
           dictStore.setIsSetDict(true)
@@ -46,11 +48,7 @@ router.beforeEach(async (to, from, next) => {
 
       // 开发者可根据实际情况进行修改
       const roleRouters = wsCache.get('roleRouters') || []
-      const userInfo = wsCache.get(appStore.getUserInfo)
-
-      userInfo.role === 'admin'
-        ? await permissionStore.generateRoutes('admin', roleRouters as AppCustomRouteRecordRaw[])
-        : await permissionStore.generateRoutes('test', roleRouters as string[])
+      await permissionStore.generateRoutes('test', roleRouters as string[])
 
       permissionStore.getAddRouters.forEach((route) => {
         router.addRoute(route as unknown as RouteRecordRaw) // 动态添加可访问路由表

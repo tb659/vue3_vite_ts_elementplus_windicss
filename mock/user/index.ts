@@ -58,14 +58,13 @@ export default [
   },
   // 登录接口
   {
-    url: '/user/login',
+    url: '/login',
     method: 'post',
     timeout,
-    response: ({ body }) => {
-      const data = body
+    response: ({ query }) => {
       let hasUser = false
       for (const user of List) {
-        if (user.username === data.username && user.password === data.password) {
+        if (user.username === query.username && user.password === query.password) {
           hasUser = true
           return {
             code: result_code,

@@ -89,6 +89,299 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     ]
   },
   {
+    path: '/shop-manager',
+    component: Layout,
+    redirect: '/shop-manager/shop-info',
+    meta: {
+      title: t('router.shopManager'),
+      icon: 'ant-design:dashboard-filled',
+      alwaysShow: true
+    },
+    name: 'ShopManager',
+    children: [
+      {
+        path: 'shop-info',
+        component: () => import('@/views/ShopManager/ShopInfo/ShopInfo.vue'),
+        name: 'ShopInfo',
+        meta: {
+          title: t('router.shopInfo'),
+          icon: 'clarity:document-solid'
+        }
+      },
+      {
+        path: 'good-info',
+        component: () => import('@/views/ShopManager/GoodInfo/GoodInfo.vue'),
+        name: 'GoodInfo',
+        meta: {
+          title: t('router.goodInfo'),
+          icon: 'clarity:document-solid'
+        }
+      },
+      {
+        path: 'good-category',
+        component: () => import('@/views/ShopManager/GoodCategory/GoodCategory.vue'),
+        name: 'GoodCategory',
+        meta: {
+          title: t('router.goodCategory'),
+          icon: 'clarity:document-solid'
+        }
+      },
+      {
+        path: 'good-order',
+        component: () => import('@/views/ShopManager/GoodOrder/GoodOrder.vue'),
+        name: 'GoodOrder',
+        meta: {
+          title: t('router.goodOrder'),
+          icon: 'clarity:document-solid'
+        }
+      }
+    ]
+  },
+  {
+    path: '/venue-manager',
+    component: Layout,
+    redirect: '/venue-manager/venue-info',
+    meta: {
+      title: t('router.venueManager'),
+      icon: 'ant-design:dashboard-filled',
+      alwaysShow: true
+    },
+    name: 'VenueManager',
+    children: [
+      {
+        path: 'venue-info',
+        component: () => import('@/views/VenueManager/VenueInfo/VenueInfo.vue'),
+        name: 'VenueInfo',
+        meta: {
+          title: t('router.venueInfo'),
+          icon: 'clarity:document-solid'
+        }
+      },
+      {
+        path: 'lease-good',
+        component: () => import('@/views/VenueManager/LeaseGood/LeaseGood.vue'),
+        name: 'LeaseGood',
+        meta: {
+          title: t('router.leaseGood'),
+          icon: 'clarity:document-solid'
+        }
+      }
+    ]
+  },
+  {
+    path: '/tourist-manager',
+    component: Layout,
+    redirect: '/tourist-manager/tourist',
+    meta: {
+      title: t('router.touristManager'),
+      icon: 'ant-design:dashboard-filled',
+      alwaysShow: true
+    },
+    name: 'TouristManager',
+    children: [
+      {
+        path: 'tourist',
+        component: () => import('@/views/TouristManager/Tourist/Tourist.vue'),
+        name: 'Tourist',
+        meta: {
+          title: t('router.tourist'),
+          icon: 'clarity:document-solid'
+        }
+      },
+      {
+        path: 'epidemic',
+        component: () => import('@/views/TouristManager/Epidemic/Epidemic.vue'),
+        name: 'Epidemic',
+        meta: {
+          title: t('router.epidemic'),
+          icon: 'clarity:document-solid'
+        }
+      },
+      {
+        path: 'tickets-manager',
+        component: () => import('@/views/TouristManager/TicketsManager/TicketsManager.vue'),
+        name: 'TicketsManager',
+        meta: {
+          title: t('router.ticketsManager'),
+          icon: 'clarity:document-solid'
+        }
+      },
+      {
+        path: 'tickets-order',
+        component: () => import('@/views/TouristManager/TicketsOrder/TicketsOrder.vue'),
+        name: 'TicketsOrder',
+        meta: {
+          title: t('router.ticketsOrder'),
+          icon: 'clarity:document-solid'
+        }
+      }
+    ]
+  },
+  {
+    path: '/staff-manager',
+    component: Layout,
+    redirect: '/staff-manager/staff',
+    meta: {
+      title: t('router.staffManager'),
+      icon: 'ant-design:dashboard-filled',
+      alwaysShow: true
+    },
+    name: 'StaffManager',
+    children: [
+      {
+        path: 'staff',
+        component: () => import('@/views/StaffManager/Staff/Staff.vue'),
+        name: 'Staff',
+        meta: {
+          title: t('router.staff'),
+          icon: 'clarity:document-solid'
+        }
+      },
+      {
+        path: 'epartment',
+        component: () => import('@/views/StaffManager/Epartment/Epartment.vue'),
+        name: 'Epartment',
+        meta: {
+          title: t('router.epartment'),
+          icon: 'clarity:document-solid'
+        }
+      }
+    ]
+  },
+  {
+    path: '/garden-device',
+    component: Layout,
+    redirect: '/garden-device/energy-sensor',
+    meta: {
+      title: t('router.gardenDevice'),
+      icon: 'ant-design:dashboard-filled',
+      alwaysShow: true
+    },
+    name: 'GardenDevice',
+    children: [
+      {
+        path: 'energy-sensor',
+        component: () => import('@/views/GardenDevice/EnergySensor/EnergySensor.vue'),
+        name: 'EnergySensor',
+        meta: {
+          title: t('router.energySensor'),
+          icon: 'clarity:document-solid'
+        }
+      },
+      {
+        path: 'energy-statistic',
+        component: () => import('@/views/GardenDevice/EnergyStatistic/EnergyStatistic.vue'),
+        name: 'EnergyStatistic',
+        meta: {
+          title: t('router.energyStatistic'),
+          icon: 'clarity:document-solid'
+        }
+      }
+    ]
+  },
+  {
+    path: '/queue-anager',
+    component: Layout,
+    redirect: '/queue-anager/queue-terminal',
+    meta: {
+      title: t('router.queueManager'),
+      icon: 'ant-design:dashboard-filled',
+      alwaysShow: true
+    },
+    name: 'QueueManager',
+    children: [
+      {
+        path: 'queue-terminal',
+        component: () => import('@/views/QueueManager/QueueTerminal/QueueTerminal.vue'),
+        name: 'QueueTerminal',
+        meta: {
+          title: t('router.queueTerminal'),
+          icon: 'clarity:document-solid'
+        }
+      },
+      {
+        path: 'queue-info',
+        component: () => import('@/views/QueueManager/QueueInfo/QueueInfo.vue'),
+        name: 'QueueInfo',
+        meta: {
+          title: t('router.queueInfo'),
+          icon: 'clarity:document-solid'
+        }
+      }
+    ]
+  },
+  {
+    path: '/work-order',
+    component: Layout,
+    redirect: '/work-order/work-process',
+    meta: {
+      title: t('router.workOrder'),
+      icon: 'ant-design:dashboard-filled',
+      alwaysShow: true
+    },
+    name: 'WorkOrder',
+    children: [
+      {
+        path: 'work-process',
+        component: () => import('@/views/WorkOrder/WorkProcess/WorkProcess.vue'),
+        name: 'WorkProcess',
+        meta: {
+          title: t('router.workProcess'),
+          icon: 'clarity:document-solid'
+        }
+      }
+    ]
+  },
+  {
+    path: '/system-mamager',
+    component: Layout,
+    redirect: '/system-mamager/user',
+    meta: {
+      title: t('router.systemMamager'),
+      icon: 'ant-design:dashboard-filled',
+      alwaysShow: true
+    },
+    name: 'SystemMamager',
+    children: [
+      {
+        path: 'user',
+        component: () => import('@/views/SystemMamager/User/User.vue'),
+        name: 'User',
+        meta: {
+          title: t('router.user'),
+          icon: 'clarity:document-solid'
+        }
+      },
+      {
+        path: 'role',
+        component: () => import('@/views/SystemMamager/Role/Role.vue'),
+        name: 'Role',
+        meta: {
+          title: t('router.role'),
+          icon: 'clarity:document-solid'
+        }
+      },
+      {
+        path: 'function',
+        component: () => import('@/views/SystemMamager/Function/Function.vue'),
+        name: 'Function',
+        meta: {
+          title: t('router.function'),
+          icon: 'clarity:document-solid'
+        }
+      },
+      {
+        path: 'params',
+        component: () => import('@/views/SystemMamager/Params/Params.vue'),
+        name: 'Params',
+        meta: {
+          title: t('router.params'),
+          icon: 'clarity:document-solid'
+        }
+      }
+    ]
+  },
+  {
     path: '/external-link',
     component: Layout,
     meta: {},
@@ -325,7 +618,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     redirect: '/hooks/useWatermark',
     name: 'Hooks',
     meta: {
-      title: t('router.component'),
+      title: t('router.hooks'),
       icon: 'ic:outline-webhook',
       alwaysShow: true
     },
@@ -533,6 +826,102 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
   //     }
   //   ]
   // }
+]
+
+export const menuList: string[] = [
+  '/dashboard',
+  '/dashboard/analysis',
+  '/dashboard/workplace',
+
+  'external-link',
+  'https://element-plus-admin-doc.cn/',
+
+  '/guide',
+  '/guide/index',
+
+  '/shop-manager',
+  '/shop-manager/shop-info',
+  '/shop-manager/good-info',
+  '/shop-manager/good-category',
+  '/shop-manager/good-order',
+
+  '/venue-manager',
+  '/venue-manager/venue-info',
+  '/venue-manager/lease-good',
+
+  '/tourist-manager',
+  '/tourist-manager/tourist',
+  '/tourist-manager/epidemic',
+  '/tourist-manager/tickets-manager',
+  '/tourist-manager/tickets-order',
+
+  '/staff-manager',
+  '/staff-manager/staff',
+  '/staff-manager/epartment',
+
+  '/garden-device',
+  '/garden-device/energy-sensor',
+  '/garden-device/energy-statistic',
+
+  '/queue-anager',
+  '/queue-anager/queue-terminal',
+  '/queue-anager/queue-info',
+
+  '/work-order',
+  '/work-order/work-process',
+
+  '/system-mamager',
+  '/system-mamager/user',
+  '/system-mamager/role',
+  '/system-mamager/function',
+  '/system-mamager/params',
+
+  '/components',
+  '/components/form',
+  '/components/form/default-form',
+  '/components/form/use-form',
+  '/components/form/ref-form',
+  '/components/table',
+  '/components/table/default-table',
+  '/components/table/use-table',
+  '/components/table/ref-table',
+  '/components/editor-demo',
+  '/components/editor-demo/editor',
+  '/components/search',
+  '/components/descriptions',
+  '/components/image-viewer',
+  '/components/dialog',
+  '/components/icon',
+  '/components/echart',
+  '/components/count-to',
+  '/components/qrcode',
+  '/components/highlight',
+  '/components/infotip',
+
+  '/Components/InputPassword',
+  '/Components/Sticky',
+
+  '/hooks',
+  '/hooks/useWatermark',
+
+  '/level',
+  '/level/menu1',
+  '/level/menu1/menu1-1',
+  '/level/menu1/menu1-1/menu1-1-1',
+  '/level/menu1/menu1-2',
+  '/level/menu2',
+
+  '/example',
+  '/example/example-dialog',
+  '/example/example-page',
+  '/example/example-add',
+  '/example/example-edit',
+  '/example/example-detail',
+
+  '/error',
+  '/error/404-demo',
+  '/error/403-demo',
+  '/error/500-demo'
 ]
 
 const router = createRouter({

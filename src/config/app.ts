@@ -1,5 +1,8 @@
 import { useCache } from '@/hooks/web/useCache'
 
+import { config } from '@/config/axios/config'
+const { result_code } = config
+
 const { wsCache } = useCache()
 
 export type LayoutType = 'classic' | 'topLeft' | 'top' | 'cutMenu'
@@ -109,4 +112,26 @@ export const appModules: AppState = {
     // 头部边框颜色
     topToolBorderColor: '#eee'
   }
+}
+
+const dictObj: Recordable = {
+  importance: [
+    {
+      value: 0,
+      label: 'tableDemo.commonly'
+    },
+    {
+      value: 1,
+      label: 'tableDemo.good'
+    },
+    {
+      value: 2,
+      label: 'tableDemo.important'
+    }
+  ]
+}
+
+export const dictRes = {
+  code: result_code,
+  data: dictObj
 }

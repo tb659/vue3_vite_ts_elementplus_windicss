@@ -15,6 +15,9 @@ const schema = reactive<FormSchema[]>([
     field: 'field1',
     label: t('formDemo.input'),
     component: 'Input',
+    colProps: {
+      span: 6
+    },
     formItemProps: {
       rules: [required()]
     }
@@ -70,6 +73,9 @@ const schema = reactive<FormSchema[]>([
     field: 'field8',
     label: t('formDemo.input'),
     component: 'Input',
+    colProps: {
+      span: 6
+    },
     formItemProps: {
       rules: [required()]
     }
@@ -78,6 +84,9 @@ const schema = reactive<FormSchema[]>([
     field: 'field9',
     label: t('formDemo.input'),
     component: 'Input',
+    colProps: {
+      span: 6
+    },
     formItemProps: {
       rules: [required()]
     }
@@ -86,6 +95,9 @@ const schema = reactive<FormSchema[]>([
     field: 'field10',
     label: t('formDemo.input'),
     component: 'Input',
+    colProps: {
+      span: 6
+    },
     formItemProps: {
       rules: [required()]
     }
@@ -94,6 +106,9 @@ const schema = reactive<FormSchema[]>([
     field: 'field11',
     label: t('formDemo.input'),
     component: 'Input',
+    colProps: {
+      span: 6
+    },
     formItemProps: {
       rules: [required()]
     }
@@ -102,6 +117,9 @@ const schema = reactive<FormSchema[]>([
     field: 'field12',
     label: t('formDemo.input'),
     component: 'Input',
+    colProps: {
+      span: 6
+    },
     formItemProps: {
       rules: [required()]
     }
@@ -110,6 +128,9 @@ const schema = reactive<FormSchema[]>([
     field: 'field13',
     label: t('formDemo.input'),
     component: 'Input',
+    colProps: {
+      span: 6
+    },
     formItemProps: {
       rules: [required()]
     }
@@ -118,6 +139,9 @@ const schema = reactive<FormSchema[]>([
     field: 'field14',
     label: t('formDemo.input'),
     component: 'Input',
+    colProps: {
+      span: 6
+    },
     formItemProps: {
       rules: [required()]
     }
@@ -126,6 +150,9 @@ const schema = reactive<FormSchema[]>([
     field: 'field15',
     label: t('formDemo.input'),
     component: 'Input',
+    colProps: {
+      span: 6
+    },
     formItemProps: {
       rules: [required()]
     }
@@ -134,6 +161,9 @@ const schema = reactive<FormSchema[]>([
     field: 'field16',
     label: t('formDemo.input'),
     component: 'Input',
+    colProps: {
+      span: 6
+    },
     formItemProps: {
       rules: [required()]
     }
@@ -142,6 +172,9 @@ const schema = reactive<FormSchema[]>([
     field: 'field17',
     label: t('formDemo.input'),
     component: 'Input',
+    colProps: {
+      span: 6
+    },
     formItemProps: {
       rules: [required()]
     }
@@ -150,6 +183,9 @@ const schema = reactive<FormSchema[]>([
     field: 'field18',
     label: t('formDemo.input'),
     component: 'Input',
+    colProps: {
+      span: 6
+    },
     formItemProps: {
       rules: [required()]
     }

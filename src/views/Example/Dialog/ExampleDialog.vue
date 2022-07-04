@@ -152,6 +152,7 @@ const dialogTitle = ref('')
 
 const AddAction = () => {
   dialogTitle.value = t('exampleDemo.add')
+  actionType.value = ''
   tableObject.currentRow = null
   dialogVisible.value = true
 }

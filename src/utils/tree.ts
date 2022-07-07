@@ -181,7 +181,7 @@ export const forEach = <T = any>(
 }
 
 /**
- * @description: Extract tree specified structure
+ * @description: 提取树指定的结构
  */
 export const treeMap = <T = any>(
   treeData: T[],
@@ -191,7 +191,7 @@ export const treeMap = <T = any>(
 }
 
 /**
- * @description: Extract tree specified structure
+ * @description: 提取树指定的结构
  */
 export const treeMapEach = (
   data: any,

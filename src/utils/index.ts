@@ -107,3 +107,17 @@ export function toAnyString() {
   })
   return str
 }
+
+/**
+ * @description: 时间数字处理
+ * @return {*}
+ */
+export function dateNumFormat(num) {
+  const str = String(num)
+  const year = str.substring(0, 4)
+  const month = str.substring(4, 6)
+  const day = str.substring(6, 8)
+  const hour = str.substring(8, 10)
+  const minute = str.substring(10, 12)
+  return `${year}-${month}-${day} ${hour}:${minute}`
+}

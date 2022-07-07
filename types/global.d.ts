@@ -33,8 +33,17 @@ declare interface AxiosConfig {
   headersType?: string
   responseType?: AxiosResponseType
 }
-
+interface Data {
+  page: number
+  rows: any[]
+  size: number
+  total: number
+}
 declare interface IResponse<T = any> {
   code: string
-  data: T extends any ? T : T & any
+  // data: Data
+  data: T extends Data ? T : T & any
+  message: string
+  sign: null
+  success: boolean
 }

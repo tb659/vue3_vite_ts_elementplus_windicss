@@ -10,10 +10,7 @@ import { useTable } from '@/hooks/web/useTable'
 
 const { register, tableObject, methods } = useTable<TableData>({
   getListApi: getTableListApi,
-  response: {
-    list: 'list',
-    total: 'total'
-  }
+  response: { rows: 'rows', total: 'total' }
 })
 
 const { getList } = methods

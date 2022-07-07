@@ -5,7 +5,7 @@ import { Layout, getParentLayout } from '@/utils/routerHelper'
 import { useI18n } from '@/hooks/web/useI18n'
 
 const { t } = useI18n()
-
+// 基础路由
 export const constantRouterMap: AppRouteRecordRaw[] = [
   {
     path: '/',
@@ -54,7 +54,7 @@ export const constantRouterMap: AppRouteRecordRaw[] = [
     }
   }
 ]
-
+// 全部的路由
 export const asyncRouterMap: AppRouteRecordRaw[] = [
   {
     path: '/dashboard',
@@ -83,6 +83,15 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'Workplace',
         meta: {
           title: t('router.workplace'),
+          noCache: true
+        }
+      },
+      {
+        path: 'big-screen',
+        component: () => import('@/views/Dashboard/bigScreen.vue'),
+        name: 'BigScreen',
+        meta: {
+          title: t('router.bigScreen'),
           noCache: true
         }
       }
@@ -171,7 +180,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
   {
     path: '/tourist-manager',
     component: Layout,
-    redirect: '/tourist-manager/tourist',
+    redirect: '/tourist-manager/tourist-info',
     meta: {
       title: t('router.touristManager'),
       icon: 'ant-design:dashboard-filled',
@@ -180,20 +189,20 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     name: 'TouristManager',
     children: [
       {
-        path: 'tourist',
-        component: () => import('@/views/TouristManager/Tourist/Tourist.vue'),
-        name: 'Tourist',
+        path: 'tourist-info',
+        component: () => import('@/views/TouristManager/TouristInfo/TouristInfo.vue'),
+        name: 'TouristInfo',
         meta: {
-          title: t('router.tourist'),
+          title: t('router.touristInfo'),
           icon: 'clarity:document-solid'
         }
       },
       {
-        path: 'epidemic',
-        component: () => import('@/views/TouristManager/Epidemic/Epidemic.vue'),
-        name: 'Epidemic',
+        path: 'epidemic-manager',
+        component: () => import('@/views/TouristManager/EpidemicManager/EpidemicManager.vue'),
+        name: 'EpidemicManager',
         meta: {
-          title: t('router.epidemic'),
+          title: t('router.epidemicManager'),
           icon: 'clarity:document-solid'
         }
       },
@@ -220,7 +229,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
   {
     path: '/staff-manager',
     component: Layout,
-    redirect: '/staff-manager/staff',
+    redirect: '/staff-manager/staff-info',
     meta: {
       title: t('router.staffManager'),
       icon: 'ant-design:dashboard-filled',
@@ -229,11 +238,11 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     name: 'StaffManager',
     children: [
       {
-        path: 'staff',
-        component: () => import('@/views/StaffManager/Staff/Staff.vue'),
-        name: 'Staff',
+        path: 'staff-info',
+        component: () => import('@/views/StaffManager/StaffInfo/StaffInfo.vue'),
+        name: 'StaffInfo',
         meta: {
-          title: t('router.staff'),
+          title: t('router.staffInfo'),
           icon: 'clarity:document-solid'
         }
       },
@@ -280,9 +289,9 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     ]
   },
   {
-    path: '/queue-anager',
+    path: '/queue-manager',
     component: Layout,
-    redirect: '/queue-anager/queue-terminal',
+    redirect: '/queue-manager/queue-terminal',
     meta: {
       title: t('router.queueManager'),
       icon: 'ant-design:dashboard-filled',
@@ -333,19 +342,19 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     ]
   },
   {
-    path: '/system-mamager',
+    path: '/system-manager',
     component: Layout,
-    redirect: '/system-mamager/user',
+    redirect: '/system-manager/user',
     meta: {
-      title: t('router.systemMamager'),
+      title: t('router.systemManager'),
       icon: 'ant-design:dashboard-filled',
       alwaysShow: true
     },
-    name: 'SystemMamager',
+    name: 'SystemManager',
     children: [
       {
         path: 'user',
-        component: () => import('@/views/SystemMamager/User/User.vue'),
+        component: () => import('@/views/SystemManager/User/User.vue'),
         name: 'User',
         meta: {
           title: t('router.user'),
@@ -354,7 +363,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       },
       {
         path: 'role',
-        component: () => import('@/views/SystemMamager/Role/Role.vue'),
+        component: () => import('@/views/SystemManager/Role/Role.vue'),
         name: 'Role',
         meta: {
           title: t('router.role'),
@@ -362,8 +371,17 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         }
       },
       {
+        path: 'resource',
+        component: () => import('@/views/SystemManager/Resource/Resource.vue'),
+        name: 'Resource',
+        meta: {
+          title: t('router.resource'),
+          icon: 'clarity:document-solid'
+        }
+      },
+      {
         path: 'function',
-        component: () => import('@/views/SystemMamager/Function/Function.vue'),
+        component: () => import('@/views/SystemManager/Function/Function.vue'),
         name: 'Function',
         meta: {
           title: t('router.function'),
@@ -372,7 +390,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       },
       {
         path: 'params',
-        component: () => import('@/views/SystemMamager/Params/Params.vue'),
+        component: () => import('@/views/SystemManager/Params/Params.vue'),
         name: 'Params',
         meta: {
           title: t('router.params'),
@@ -796,6 +814,28 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: '/test-demo',
+    component: Layout,
+    redirect: '/test-demo/demo1',
+    name: 'TestDemo',
+    meta: {
+      // title: t('test.title'),
+      title: '测试',
+      icon: 'file-icons:test-go',
+      alwaysShow: true
+    },
+    children: [
+      {
+        path: 'demo1',
+        component: () => import('@/views/test-demo/demo1/demo1.vue'),
+        name: 'demo1',
+        meta: {
+          title: 'demo1'
+        }
+      }
+    ]
   }
   // {
   //   path: '/authorization',
@@ -827,11 +867,12 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
   //   ]
   // }
 ]
-
+// 当前展示的导航栏
 export const menuList: string[] = [
   '/dashboard',
   '/dashboard/analysis',
   '/dashboard/workplace',
+  '/dashboard/big-screen',
 
   'external-link',
   'https://element-plus-admin-doc.cn/',
@@ -850,31 +891,32 @@ export const menuList: string[] = [
   '/venue-manager/lease-good',
 
   '/tourist-manager',
-  '/tourist-manager/tourist',
-  '/tourist-manager/epidemic',
+  '/tourist-manager/tourist-info',
+  '/tourist-manager/epidemic-manager',
   '/tourist-manager/tickets-manager',
   '/tourist-manager/tickets-order',
 
   '/staff-manager',
-  '/staff-manager/staff',
+  '/staff-manager/staff-info',
   '/staff-manager/epartment',
 
   '/garden-device',
   '/garden-device/energy-sensor',
   '/garden-device/energy-statistic',
 
-  '/queue-anager',
-  '/queue-anager/queue-terminal',
-  '/queue-anager/queue-info',
+  '/queue-manager',
+  '/queue-manager/queue-terminal',
+  '/queue-manager/queue-info',
 
   '/work-order',
   '/work-order/work-process',
 
-  '/system-mamager',
-  '/system-mamager/user',
-  '/system-mamager/role',
-  '/system-mamager/function',
-  '/system-mamager/params',
+  '/system-manager',
+  '/system-manager/user',
+  '/system-manager/role',
+  '/system-manager/resource',
+  '/system-manager/function',
+  '/system-manager/params',
 
   '/components',
   '/components/form',
@@ -921,7 +963,11 @@ export const menuList: string[] = [
   '/error',
   '/error/404-demo',
   '/error/403-demo',
-  '/error/500-demo'
+  '/error/500-demo',
+
+  // 测试使用
+  '/test-demo',
+  '/test-demo/demo1'
 ]
 
 const router = createRouter({

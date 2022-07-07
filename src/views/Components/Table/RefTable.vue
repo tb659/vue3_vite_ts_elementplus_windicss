@@ -64,13 +64,8 @@ const columns = reactive<TableColumn[]>([
 
 const { register, tableObject, methods } = useTable<TableData>({
   getListApi: getTableListApi,
-  response: {
-    list: 'list',
-    total: 'total'
-  },
-  props: {
-    columns
-  }
+  response: { rows: 'rows', total: 'total' },
+  props: { columns }
 })
 
 const { getList } = methods

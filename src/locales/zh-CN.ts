@@ -35,12 +35,41 @@ export default {
     reset: '重置',
     shrink: '收起',
     expand: '展开',
+    //
     delMessage: '是否删除所选中数据？',
     delWarning: '提示',
     delOk: '确定',
     delCancel: '取消',
     delNoData: '请选择需要删除的数据',
-    delSuccess: '删除成功'
+    delSuccess: '删除成功',
+    //
+    enableMessage: '是否启用所选中数据？',
+    enableWarning: '提示',
+    enableOk: '确定',
+    enableCancel: '取消',
+    enableNoData: '请选择需要启用的数据',
+    enableSuccess: '启用成功',
+    //
+    disableMessage: '是否禁用所选中数据？',
+    disableWarning: '提示',
+    disableOk: '确定',
+    disableCancel: '取消',
+    disableNoData: '请选择需要禁用的数据',
+    disableSuccess: '禁用成功',
+    //
+    createTime: '创建时间',
+    superAdmin: '超级管理员',
+    staff: '普通员工',
+    enable: '启用',
+    disable: '禁用',
+    roleType: '角色类型',
+    passwordSetting: '密码设置',
+    add: '新增',
+    del: '删除',
+    edit: '编辑',
+    save: '保存',
+    detail: '详情',
+    action: '操作'
   },
   error: {
     noPermission: `抱歉，您无权访问此页面。`,
@@ -110,6 +139,7 @@ export default {
     dashboard: '首页',
     analysis: '分析页',
     workplace: '工作台',
+    bigScreen: '大屏',
     guide: '引导',
     component: '组件',
     icon: '图标',
@@ -153,24 +183,25 @@ export default {
     venueInfo: '场馆信息',
     leaseGood: '租赁商品',
     touristManager: '游客管理',
-    tourist: '游客',
-    epidemic: '防疫',
+    touristInfo: '游客信息',
+    epidemicManager: '防疫管理',
     ticketsManager: '门票管理',
     ticketsOrder: '门票订单',
     staffManager: '员工管理',
-    staff: '员工',
+    staffInfo: '员工信息',
     epartment: '部门班组管理',
     gardenDevice: '园区设备',
     energySensor: '能耗传感器',
     energyStatistic: '能耗统计',
     queueManager: '排队管理',
-    queueTerminal: '排队终端管理',
-    queueInfo: '排队信息管理',
+    queueTerminal: '排队终端',
+    queueInfo: '排队信息',
     workOrder: '工单管理',
     workProcess: '工单流程',
-    systemMamager: '系统管理',
+    systemManager: '系统管理',
     user: '账号管理',
     role: '角色管理',
+    resource: '资源管理',
     function: '功能管理',
     params: '系统参数'
   },
@@ -455,5 +486,33 @@ export default {
   inputPasswordDemo: {
     title: '密码输入框',
     inputPasswordDes: '基于 ElementPlus 的 Input 组件二次封装'
+  },
+  systemManager: {
+    // resource
+    resourceName: '资源名称',
+    resourceHref: '资源地址',
+    resourceCode: '资源编号',
+    parentResourceName: '父级资源',
+    resourceType: '资源类型',
+    resourceNote: '资源备注',
+    resourceStatus: '资源状态',
+    //
+    menu: 'menu菜单',
+    tab: 'tab页签',
+    button: 'buttom按钮',
+    // role
+    roleName: '角色名称',
+    roleCode: '角色编码',
+    roleDecription: '角色描述',
+    roleType: '角色类型',
+    roleStatus: '角色状态',
+    // user
+    accountName: '账号名称',
+    accountType: '账号类型',
+    accountStatus: '账号状态'
+  },
+  //
+  test: {
+    title: '测试-模板'
   }
 }

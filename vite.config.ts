@@ -31,6 +31,18 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
   }
   return {
     base: env.VITE_BASE_PATH,
+    build: {
+      minify: 'terser',
+      outDir: env.VITE_OUT_DIR || 'dist',
+      sourcemap: env.VITE_SOURCEMAP === 'true' ? 'inline' : false,
+      brotliSize: false,
+      terserOptions: {
+        compress: {
+          drop_debugger: env.VITE_DROP_DEBUGGER === 'true',
+          drop_console: env.VITE_DROP_CONSOLE === 'true'
+        }
+      }
+    },
     plugins: [
       Vue(),
       VueJsx(),
@@ -87,7 +99,6 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         }
       })
     ],
-
     css: {
       preprocessorOptions: {
         less: {
@@ -109,33 +120,6 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         }
       ]
     },
-    build: {
-      minify: 'terser',
-      outDir: env.VITE_OUT_DIR || 'dist',
-      sourcemap: env.VITE_SOURCEMAP === 'true' ? 'inline' : false,
-      brotliSize: false,
-      terserOptions: {
-        compress: {
-          drop_debugger: env.VITE_DROP_DEBUGGER === 'true',
-          drop_console: env.VITE_DROP_CONSOLE === 'true'
-        }
-      }
-    },
-    server: {
-      port: 4000,
-      proxy: {
-        // 选项写法
-        '/api': {
-          target: 'http://120.55.167.167:9201',
-          changeOrigin: true,
-          rewrite: path => path.replace(/^\/api/, '')
-        }
-      },
-      hmr: {
-        overlay: false
-      },
-      host: '0.0.0.0'
-    },
     optimizeDeps: {
       include: [
         'vue',
@@ -155,6 +139,21 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         '@wangeditor/editor-for-vue',
         'js-md5'
       ]
+    },
+    server: {
+      host: '0.0.0.0',
+      port: 4000,
+      hmr: {
+        overlay: false
+      },
+      proxy: {
+        // 选项写法
+        '/api': {
+          target: 'http://120.55.167.167:9202',
+          changeOrigin: true,
+          rewrite: path => path.replace(/^\/api/, '')
+        }
+      }
     }
   }
 }

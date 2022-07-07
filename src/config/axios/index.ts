@@ -4,11 +4,15 @@ import { ElMessage } from 'element-plus'
 
 import qs from 'qs'
 
+import { getToken, setToken } from '@/utils/auth'
+
 import { config } from '@/config/axios/config'
 
 const { result_code, base_url } = config
 
 export const PATH_URL = base_url[import.meta.env.VITE_API_BASEPATH]
+
+export const REQUEST_TOKEN_KEY = 'authorization'
 
 // 创建axios实例
 const service: AxiosInstance = axios.create({
@@ -39,6 +43,8 @@ service.interceptors.request.use(
       config.params = {}
       config.url = url
     }
+    // 携带授权信息
+    config!.headers![REQUEST_TOKEN_KEY] = getToken() || ''
     return config
   },
   (error: AxiosError) => {
@@ -51,6 +57,10 @@ service.interceptors.request.use(
 // response 拦截器
 service.interceptors.response.use(
   (response: AxiosResponse<Recordable>) => {
+    // 存储授权信息
+    if (response.headers.authorization) {
+      setToken(response.headers.authorization)
+    }
     if (response.data.code === result_code) {
       return response
     } else {

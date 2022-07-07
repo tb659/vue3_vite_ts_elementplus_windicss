@@ -21,10 +21,7 @@ const { push } = useRouter()
 const { register, tableObject, methods } = useTable<TableData>({
   getListApi: getTableListApi,
   delListApi: delTableListApi,
-  response: {
-    list: 'list',
-    total: 'total'
-  }
+  response: { rows: 'rows', total: 'total' }
 })
 
 const { getList, setSearchParams } = methods

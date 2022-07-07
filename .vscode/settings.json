@@ -2,8 +2,8 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "prettier.enable": false,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-		"source.fixAll.stylelint": true, // 开启stylelint自动修复
+    // "source.fixAll.eslint": true,
+		// "source.fixAll.stylelint": true, // 开启stylelint自动修复
   },
   "[vue]": {
     "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"

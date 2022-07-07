@@ -14,7 +14,8 @@ const prefixCls = getPrefixCls('input-password')
 const props = defineProps({
   // 是否显示密码强度
   strength: propTypes.bool.def(false),
-  modelValue: propTypes.string.def('')
+  modelValue: propTypes.string.def(''),
+  loginEvent: propTypes.func
 })
 
 watch(
@@ -38,7 +39,7 @@ const changeTextType = () => {
 
 // 输入框的值
 const valueRef = ref(props.modelValue)
-
+console.log(props)
 // 监听
 watch(
   () => valueRef.value,
@@ -61,7 +62,7 @@ const getIconName = computed(() =>
 
 <template>
   <div :class="[prefixCls, `${prefixCls}--${configGlobal?.size}`]">
-    <ElInput v-bind="$attrs" v-model="valueRef" :type="textType">
+    <ElInput v-bind="$attrs" v-model="valueRef" :type="textType" @keyup.enter="$props.loginEvent">
       <template #suffix>
         <Icon class="el-input__icon cursor-pointer" :icon="getIconName" @click="changeTextType" />
       </template>

@@ -1,9 +1,12 @@
 import { useCache } from '@/hooks/web/useCache'
 
 import { config } from '@/config/axios/config'
+
 const { result_code } = config
 
 const { wsCache } = useCache()
+
+export const prefix = 'ipark'
 
 export type LayoutType = 'classic' | 'topLeft' | 'top' | 'cutMenu'
 
@@ -54,35 +57,35 @@ export interface AppState {
 }
 
 export const appModules: AppState = {
-  userInfo: 'ipark_userInfo', // 登录信息存储字段-建议每个项目换一个字段，避免与其他项目冲突
-  username: 'ipark_username', // 登录状态存储字段-建议每个项目换一个字段，避免与其他项目冲突
-  password: 'ipark_password', // 登录状态存储字段-建议每个项目换一个字段，避免与其他项目冲突
-  remember: 'ipark_remember', // 登录状态存储字段-建议每个项目换一个字段，避免与其他项目冲突
+  userInfo: `${prefix}_userInfo`, // 登录信息存储字段-建议每个项目换一个字段，避免与其他项目冲突
+  username: `${prefix}_username`, // 登录状态存储字段-建议每个项目换一个字段，避免与其他项目冲突
+  password: `${prefix}_password`, // 登录状态存储字段-建议每个项目换一个字段，避免与其他项目冲突
+  remember: `${prefix}_remember`, // 登录状态存储字段-建议每个项目换一个字段，避免与其他项目冲突
   iParkRememberTime: 30, // 登录状态存储30天
   sizeMap: ['default', 'large', 'small'],
-  mobile: false, // 是否是移动端
+  mobile: wsCache.get(`${prefix}_mobile`) || false, // 是否是移动端
   title: import.meta.env.VITE_APP_TITLE, // 标题
-  pageLoading: false, // 路由跳转loading
+  pageLoading: wsCache.get(`${prefix}_pageLoading`) || false, // 路由跳转loading
 
-  breadcrumb: true, // 面包屑
-  breadcrumbIcon: true, // 面包屑图标
-  collapse: false, // 折叠菜单
-  uniqueOpened: false, // 是否只保持一个子菜单的展开
-  hamburger: true, // 折叠图标
-  screenfull: true, // 全屏图标
-  size: true, // 尺寸图标
-  locale: true, // 多语言图标
-  tagsView: true, // 标签页
-  tagsViewIcon: true, // 是否显示标签图标
-  logo: true, // logo
-  fixedHeader: true, // 固定toolheader
-  footer: true, // 显示页脚
-  greyMode: false, // 是否开始灰色模式，用于特殊悼念日
+  breadcrumb: wsCache.get(`${prefix}_breadcrumb`) || true, // 面包屑
+  breadcrumbIcon: wsCache.get(`${prefix}_breadcrumbIcon`) || true, // 面包屑图标
+  collapse: wsCache.get(`${prefix}_collapse`) || false, // 折叠菜单
+  uniqueOpened: wsCache.get(`${prefix}_uniqueOpened`) || false, // 是否只保持一个子菜单的展开
+  hamburger: wsCache.get(`${prefix}_hamburger`) || true, // 折叠图标
+  screenfull: wsCache.get(`${prefix}_screenfull`) || true, // 全屏图标
+  size: wsCache.get(`${prefix}_size`) || true, // 尺寸图标
+  locale: wsCache.get(`${prefix}_locale`) || true, // 多语言图标
+  tagsView: wsCache.get(`${prefix}_tagsView`) || true, // 标签页
+  tagsViewIcon: wsCache.get(`${prefix}_tagsViewIcon`) || true, // 是否显示标签图标
+  logo: wsCache.get(`${prefix}_logo`) || true, // logo
+  fixedHeader: wsCache.get(`${prefix}_fixedHeader`) || true, // 固定toolheader
+  footer: wsCache.get(`${prefix}_footer`) || false, // 显示页脚
+  greyMode: wsCache.get(`${prefix}_greyMode`) || false, // 是否开始灰色模式，用于特殊悼念日
 
-  layout: wsCache.get('layout') || 'classic', // layout布局
-  isDark: wsCache.get('isDark') || false, // 是否是暗黑模式
+  layout: wsCache.get(`${prefix}_layout`) || 'classic', // layout布局
+  isDark: wsCache.get(`${prefix}_isDark`) || false, // 是否是暗黑模式
   currentSize: wsCache.get('default') || 'default', // 组件尺寸
-  theme: wsCache.get('theme') || {
+  theme: wsCache.get(`${prefix}_theme`) || {
     // 主题色
     elColorPrimary: '#409eff',
     // 左侧菜单边框颜色

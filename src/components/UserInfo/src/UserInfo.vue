@@ -4,9 +4,12 @@ import { useI18n } from '@/hooks/web/useI18n'
 import { useCache } from '@/hooks/web/useCache'
 import { resetRouter } from '@/router'
 import { useRouter } from 'vue-router'
-import { loginOutApi } from '@/api/login'
+// import { loginOutApi } from '@/api/login'
 import { useDesign } from '@/hooks/web/useDesign'
 import { useTagsViewStore } from '@/store/modules/tagsView'
+import { useAppStore } from '@/store/modules/app'
+
+const appStore = useAppStore()
 
 const tagsViewStore = useTagsViewStore()
 
@@ -27,38 +30,42 @@ const loginOut = () => {
     type: 'warning'
   })
     .then(async () => {
-      const res = await loginOutApi().catch(() => {})
-      if (res) {
-        wsCache.clear()
-        tagsViewStore.delAllViews()
-        resetRouter() // 重置静态路由表
-        replace('/login')
-      }
+      // const res = await loginOutApi().catch(() => {})
+      // if (res) {
+      replace('/login')
+      wsCache.clear()
+      tagsViewStore.delAllViews()
+      resetRouter() // 重置静态路由表
+      // }
     })
     .catch(() => {})
 }
 
-const toDocument = () => {
-  window.open('https://element-plus-admin-doc.cn/')
-}
+const userInfo = wsCache.get(appStore.getUserInfo)
+
+// const toDocument = () => {
+//   window.open('https://element-plus-admin-doc.cn/')
+// }
 </script>
 
 <template>
   <ElDropdown :class="prefixCls" trigger="click">
     <div class="flex items-center">
       <img
-        src="@/assets/imgs/avatar.jpg"
+        src="@/assets/imgs/logo.png"
         alt=""
         class="w-[calc(var(--logo-height)-25px)] rounded-[50%]"
       />
-      <span class="<lg:hidden text-14px pl-[5px] text-[var(--top-header-text-color)]">Archer</span>
+      <span class="<lg:hidden text-14px pl-[5px] text-[var(--top-header-text-color)]">
+        {{ userInfo.username }}
+      </span>
     </div>
     <template #dropdown>
       <ElDropdownMenu>
         <ElDropdownItem>
-          <div @click="toDocument">{{ t('common.document') }}</div>
+          <!-- <div @click="toDocument">{{ t('common.document') }}</div>
         </ElDropdownItem>
-        <ElDropdownItem divided>
+        <ElDropdownItem divided> -->
           <div @click="loginOut">{{ t('common.loginOut') }}</div>
         </ElDropdownItem>
       </ElDropdownMenu>

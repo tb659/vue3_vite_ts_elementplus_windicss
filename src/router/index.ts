@@ -103,7 +103,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     redirect: '/shop-manager/shop-info',
     meta: {
       title: t('router.shopManager'),
-      icon: 'ant-design:dashboard-filled',
+      icon: 'maki:commercial',
       alwaysShow: true
     },
     name: 'ShopManager',
@@ -114,7 +114,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'ShopInfo',
         meta: {
           title: t('router.shopInfo'),
-          icon: 'clarity:document-solid'
+          icon: 'bi:shop'
         }
       },
       {
@@ -123,7 +123,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'GoodInfo',
         meta: {
           title: t('router.goodInfo'),
-          icon: 'clarity:document-solid'
+          icon: 'uil:file-info-alt'
         }
       },
       {
@@ -132,7 +132,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'GoodCategory',
         meta: {
           title: t('router.goodCategory'),
-          icon: 'clarity:document-solid'
+          icon: 'carbon:data-class'
         }
       },
       {
@@ -141,7 +141,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'GoodOrder',
         meta: {
           title: t('router.goodOrder'),
-          icon: 'clarity:document-solid'
+          icon: 'clarity:form-line'
         }
       }
     ]
@@ -152,7 +152,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     redirect: '/venue-manager/venue-info',
     meta: {
       title: t('router.venueManager'),
-      icon: 'ant-design:dashboard-filled',
+      icon: 'dashicons:admin-multisite',
       alwaysShow: true
     },
     name: 'VenueManager',
@@ -163,7 +163,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'VenueInfo',
         meta: {
           title: t('router.venueInfo'),
-          icon: 'clarity:document-solid'
+          icon: 'ooui:view-details-ltr'
         }
       },
       {
@@ -172,7 +172,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'LeaseGood',
         meta: {
           title: t('router.leaseGood'),
-          icon: 'clarity:document-solid'
+          icon: 'icon-park-outline:commodity'
         }
       }
     ]
@@ -183,7 +183,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     redirect: '/tourist-manager/tourist-info',
     meta: {
       title: t('router.touristManager'),
-      icon: 'ant-design:dashboard-filled',
+      icon: 'fa6-solid:people-group',
       alwaysShow: true
     },
     name: 'TouristManager',
@@ -194,7 +194,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'TouristInfo',
         meta: {
           title: t('router.touristInfo'),
-          icon: 'clarity:document-solid'
+          icon: 'mdi:card-account-details-outline'
         }
       },
       {
@@ -203,7 +203,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'EpidemicManager',
         meta: {
           title: t('router.epidemicManager'),
-          icon: 'clarity:document-solid'
+          icon: 'fa6-solid:shield-virus'
         }
       },
       {
@@ -212,7 +212,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'TicketsManager',
         meta: {
           title: t('router.ticketsManager'),
-          icon: 'clarity:document-solid'
+          icon: 'majesticons:tickets'
         }
       },
       {
@@ -221,7 +221,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'TicketsOrder',
         meta: {
           title: t('router.ticketsOrder'),
-          icon: 'clarity:document-solid'
+          icon: 'fluent:form-24-regular'
         }
       }
     ]
@@ -232,7 +232,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     redirect: '/staff-manager/staff-info',
     meta: {
       title: t('router.staffManager'),
-      icon: 'ant-design:dashboard-filled',
+      icon: 'mdi:account-cog-outline',
       alwaysShow: true
     },
     name: 'StaffManager',
@@ -243,7 +243,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'StaffInfo',
         meta: {
           title: t('router.staffInfo'),
-          icon: 'clarity:document-solid'
+          icon: 'mdi:account-details'
         }
       },
       {
@@ -252,7 +252,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'Epartment',
         meta: {
           title: t('router.epartment'),
-          icon: 'clarity:document-solid'
+          icon: 'akar-icons:people-group'
         }
       }
     ]
@@ -263,7 +263,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     redirect: '/garden-device/energy-sensor',
     meta: {
       title: t('router.gardenDevice'),
-      icon: 'ant-design:dashboard-filled',
+      icon: 'map:amusement-park',
       alwaysShow: true
     },
     name: 'GardenDevice',
@@ -274,7 +274,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'EnergySensor',
         meta: {
           title: t('router.energySensor'),
-          icon: 'clarity:document-solid'
+          icon: 'ri:sensor-line'
         }
       },
       {
@@ -283,7 +283,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'EnergyStatistic',
         meta: {
           title: t('router.energyStatistic'),
-          icon: 'clarity:document-solid'
+          icon: 'wpf:statistics'
         }
       }
     ]
@@ -294,7 +294,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     redirect: '/queue-manager/queue-terminal',
     meta: {
       title: t('router.queueManager'),
-      icon: 'ant-design:dashboard-filled',
+      icon: 'healthicons:young-people',
       alwaysShow: true
     },
     name: 'QueueManager',
@@ -305,7 +305,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'QueueTerminal',
         meta: {
           title: t('router.queueTerminal'),
-          icon: 'clarity:document-solid'
+          icon: 'bi:terminal'
         }
       },
       {
@@ -314,7 +314,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'QueueInfo',
         meta: {
           title: t('router.queueInfo'),
-          icon: 'clarity:document-solid'
+          icon: 'bx:message-alt-detail'
         }
       }
     ]
@@ -325,7 +325,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     redirect: '/work-order/work-process',
     meta: {
       title: t('router.workOrder'),
-      icon: 'ant-design:dashboard-filled',
+      icon: 'fluent:text-word-count-24-filled',
       alwaysShow: true
     },
     name: 'WorkOrder',
@@ -336,7 +336,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'WorkProcess',
         meta: {
           title: t('router.workProcess'),
-          icon: 'clarity:document-solid'
+          icon: 'fluent:text-word-count-24-filled'
         }
       }
     ]
@@ -347,7 +347,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     redirect: '/system-manager/user',
     meta: {
       title: t('router.systemManager'),
-      icon: 'ant-design:dashboard-filled',
+      icon: 'eos-icons:rotating-gear',
       alwaysShow: true
     },
     name: 'SystemManager',
@@ -358,7 +358,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'User',
         meta: {
           title: t('router.user'),
-          icon: 'clarity:document-solid'
+          icon: 'line-md:account-add'
         }
       },
       {
@@ -367,7 +367,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'Role',
         meta: {
           title: t('router.role'),
-          icon: 'clarity:document-solid'
+          icon: 'clarity:tree-view-line'
         }
       },
       {
@@ -376,7 +376,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'Resource',
         meta: {
           title: t('router.resource'),
-          icon: 'clarity:document-solid'
+          icon: 'fa6-solid:folder-tree'
         }
       },
       {
@@ -385,7 +385,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'Function',
         meta: {
           title: t('router.function'),
-          icon: 'clarity:document-solid'
+          icon: 'carbon:function'
         }
       },
       {
@@ -394,7 +394,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'Params',
         meta: {
           title: t('router.params'),
-          icon: 'clarity:document-solid'
+          icon: 'carbon:parameter'
         }
       }
     ]
@@ -821,8 +821,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     redirect: '/test-demo/demo1',
     name: 'TestDemo',
     meta: {
-      // title: t('test.title'),
-      title: '测试',
+      title: t('test.title'),
       icon: 'file-icons:test-go',
       alwaysShow: true
     },
@@ -830,9 +829,17 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       {
         path: 'demo1',
         component: () => import('@/views/test-demo/demo1/demo1.vue'),
-        name: 'demo1',
+        name: 'Demo1',
         meta: {
-          title: 'demo1'
+          title: t('test.demo1')
+        }
+      },
+      {
+        path: 'demo2',
+        component: () => import('@/views/test-demo/demo2/bigScreen.vue'),
+        name: 'Demo2',
+        meta: {
+          title: t('test.demo2')
         }
       }
     ]
@@ -879,44 +886,6 @@ export const menuList: string[] = [
 
   '/guide',
   '/guide/index',
-
-  '/shop-manager',
-  '/shop-manager/shop-info',
-  '/shop-manager/good-info',
-  '/shop-manager/good-category',
-  '/shop-manager/good-order',
-
-  '/venue-manager',
-  '/venue-manager/venue-info',
-  '/venue-manager/lease-good',
-
-  '/tourist-manager',
-  '/tourist-manager/tourist-info',
-  '/tourist-manager/epidemic-manager',
-  '/tourist-manager/tickets-manager',
-  '/tourist-manager/tickets-order',
-
-  '/staff-manager',
-  '/staff-manager/staff-info',
-  '/staff-manager/epartment',
-
-  '/garden-device',
-  '/garden-device/energy-sensor',
-  '/garden-device/energy-statistic',
-
-  '/queue-manager',
-  '/queue-manager/queue-terminal',
-  '/queue-manager/queue-info',
-
-  '/work-order',
-  '/work-order/work-process',
-
-  '/system-manager',
-  '/system-manager/user',
-  '/system-manager/role',
-  '/system-manager/resource',
-  '/system-manager/function',
-  '/system-manager/params',
 
   '/components',
   '/components/form',
@@ -965,9 +934,48 @@ export const menuList: string[] = [
   '/error/403-demo',
   '/error/500-demo',
 
+  // '/shop-manager',
+  // '/shop-manager/shop-info',
+  // '/shop-manager/good-info',
+  // '/shop-manager/good-category',
+  // '/shop-manager/good-order',
+
+  // '/venue-manager',
+  // '/venue-manager/venue-info',
+  // '/venue-manager/lease-good',
+
+  // '/tourist-manager',
+  // '/tourist-manager/tourist-info',
+  // '/tourist-manager/epidemic-manager',
+  // '/tourist-manager/tickets-manager',
+  // '/tourist-manager/tickets-order',
+
+  // '/staff-manager',
+  // '/staff-manager/staff-info',
+  // '/staff-manager/epartment',
+
+  // '/garden-device',
+  // '/garden-device/energy-sensor',
+  // '/garden-device/energy-statistic',
+
+  // '/queue-manager',
+  // '/queue-manager/queue-terminal',
+  // '/queue-manager/queue-info',
+
+  // '/work-order',
+  // '/work-order/work-process',
+
+  // '/system-manager',
+  // '/system-manager/user',
+  // '/system-manager/role',
+  // '/system-manager/resource',
+  // '/system-manager/function',
+  // '/system-manager/params',
+
   // 测试使用
   '/test-demo',
-  '/test-demo/demo1'
+  '/test-demo/demo1',
+  '/test-demo/demo2'
 ]
 
 const router = createRouter({

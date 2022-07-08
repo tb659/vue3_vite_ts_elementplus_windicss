@@ -15,6 +15,9 @@ import { sexOptions } from '@/views/Dashboard/components/bigScreenChart'
 <style lang="less" scoped>
 .rightCenterBox {
   height: 100%;
+  font-weight: bold;
+  background-image: url('@/assets/imgs-bigScreen/bigScreen25.png');
+  background-size: 100% 100%;
 
   .rightCenterBoxTitle {
     display: flex;
@@ -27,7 +30,8 @@ import { sexOptions } from '@/views/Dashboard/components/bigScreenChart'
       font-size: 20px;
       color: #fff;
       text-align: center;
-      background-color: rgb(136, 136, 136);
+      background-image: url('@/assets/imgs-bigScreen/bigScreen23.png');
+      background-size: 100% 100%;
       transform: translateY(-50%);
     }
   }

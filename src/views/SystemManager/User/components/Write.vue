@@ -2,14 +2,19 @@
 import { Form } from '@/components/Form'
 import { useForm } from '@/hooks/web/useForm'
 import { PropType, reactive, watch } from 'vue'
-import { TableData } from '@/api/table/types'
 import { useValidator } from '@/hooks/web/useValidator'
+import { UserListData } from '@/api/systemManager/user/types'
+import { useI18n } from '@/hooks/web/useI18n'
+
+type Callback = (error?: string | Error | undefined) => void
 
 const { required } = useValidator()
 
+const { t } = useI18n()
+
 const props = defineProps({
   currentRow: {
-    type: Object as PropType<Nullable<TableData>>,
+    type: Object as PropType<Nullable<UserListData>>,
     default: () => null
   },
   formSchema: {
@@ -18,15 +23,25 @@ const props = defineProps({
   }
 })
 
-const rules = reactive({
-  username: [required()],
-  password: [required()],
-  roleList: [required()],
-  status: []
-})
-
 const { register, methods, elFormRef } = useForm({
   schema: props.formSchema
+})
+
+const isEqual = async (_, value: string, callback: Callback) => {
+  const data = (await methods.getFormData()) as UserListData
+  if (data.newPassword === value) {
+    callback()
+  } else {
+    callback(new Error(t('systemManager.notEqual')))
+  }
+}
+
+const rules = reactive({
+  username: [required()],
+  roleList: [required()],
+  password: [required()],
+  newPassword: [required()],
+  confirmPassword: [required(), { validator: isEqual }]
 })
 
 watch(
@@ -36,10 +51,7 @@ watch(
     const { setValues } = methods
     setValues(currentRow)
   },
-  {
-    deep: true,
-    immediate: true
-  }
+  { deep: true, immediate: true }
 )
 
 defineExpose({

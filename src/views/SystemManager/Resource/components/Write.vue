@@ -2,14 +2,14 @@
 import { Form } from '@/components/Form'
 import { useForm } from '@/hooks/web/useForm'
 import { PropType, reactive, watch } from 'vue'
-import { TableData } from '@/api/systemManager/resource/types'
+import { ResourceListData } from '@/api/systemManager/resource/types'
 import { useValidator } from '@/hooks/web/useValidator'
 
 const { required } = useValidator()
 
 const props = defineProps({
   currentRow: {
-    type: Object as PropType<Nullable<TableData>>,
+    type: Object as PropType<Nullable<ResourceListData>>,
     default: () => null
   },
   formSchema: {
@@ -38,10 +38,7 @@ watch(
     const { setValues } = methods
     setValues(currentRow)
   },
-  {
-    deep: true,
-    immediate: true
-  }
+  { deep: true, immediate: true }
 )
 
 defineExpose({

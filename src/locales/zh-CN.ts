@@ -68,8 +68,10 @@ export default {
     del: '删除',
     edit: '编辑',
     save: '保存',
+    saveSuccess: '保存成功',
     detail: '详情',
-    action: '操作'
+    action: '操作',
+    canNotOperation: '禁止操作'
   },
   error: {
     noPermission: `抱歉，您无权访问此页面。`,
@@ -509,10 +511,16 @@ export default {
     // user
     accountName: '账号名称',
     accountType: '账号类型',
-    accountStatus: '账号状态'
+    accountStatus: '账号状态',
+    passwordSetting: '密码设置',
+    newPassword: '新密码',
+    confirmPassword: '确认密码',
+    notEqual: '两次密码不一致'
   },
   //
   test: {
-    title: '测试-模板'
+    title: '测试-模板',
+    demo1: '模板1',
+    demo2: '模板2'
   }
 }

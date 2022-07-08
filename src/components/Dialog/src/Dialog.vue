@@ -10,11 +10,12 @@ const props = defineProps({
   modelValue: propTypes.bool.def(false),
   title: propTypes.string.def('Dialog'),
   fullscreen: propTypes.bool.def(true),
-  maxHeight: propTypes.oneOfType([String, Number]).def('500px')
+  maxHeight: propTypes.oneOfType([String, Number]).def('500px'),
+  minHeight: propTypes.oneOfType([String, Number]).def('500px')
 })
 
 const getBindValue = computed(() => {
-  const delArr: string[] = ['fullscreen', 'title', 'maxHeight']
+  const delArr: string[] = ['fullscreen', 'title', 'maxHeight', 'minHeight']
   const attrs = useAttrs()
   const obj = { ...attrs, ...props }
   for (const key in obj) {
@@ -51,7 +52,8 @@ watch(
 
 const dialogStyle = computed(() => {
   return {
-    height: unref(dialogHeight)
+    height: unref(dialogHeight),
+    minHeight: props.minHeight
   }
 })
 </script>

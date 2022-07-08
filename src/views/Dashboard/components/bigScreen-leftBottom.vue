@@ -18,6 +18,9 @@ import { Echart } from '@/components/Echart' //引入图表
 .leftBottom {
   position: relative;
   height: 100%;
+  font-weight: bold;
+  background-image: url('@/assets/imgs-bigScreen/bigScreen25.png');
+  background-size: 100% 100%;
 
   .leftBottomTitle {
     height: 50px;

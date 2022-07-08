@@ -3,19 +3,32 @@ import { ContentWrap } from '@/components/ContentWrap'
 import { Search } from '@/components/Search'
 import { Dialog } from '@/components/Dialog'
 import { useI18n } from '@/hooks/web/useI18n'
-import { ElButton, ElLink, ElTag } from 'element-plus'
+import { ElButton, ElLink, ElTag, ElMessage } from 'element-plus'
 import { Table } from '@/components/Table'
 import { useTable } from '@/hooks/web/useTable'
-import { TableData } from '@/api/table/types'
 import { h, ref, unref, reactive } from 'vue'
 import Write from './components/Write.vue'
 import { CrudSchema, useCrudSchemas } from '@/hooks/web/useCrudSchemas'
-import { getTableListApi, delTableListApi, saveTableApi } from '@/api/systemManager/user'
+import {
+  getUserListApi,
+  deleteUserApi,
+  postUserApi,
+  putUserApi,
+  putUserEnableApi,
+  putUserDisableApi,
+  putPasswordApi
+} from '@/api/systemManager/user'
+import { UserListData, PasswordData, putListData } from '@/api/systemManager/user/types'
+import { getRoleListApi } from '@/api/systemManager/role'
 import { dateNumFormat } from '@/utils'
+import { useAppStore } from '@/store/modules/app'
+import { useCache } from '@/hooks/web/useCache'
 
-const { register, tableObject, methods } = useTable<TableData>({
-  getListApi: getTableListApi,
-  delListApi: delTableListApi,
+const { register, tableObject, methods } = useTable<UserListData>({
+  getListApi: getUserListApi,
+  delListApi: deleteUserApi,
+  enableApi: putUserEnableApi,
+  disableApi: putUserDisableApi,
   response: { rows: 'rows', total: 'total' }
 })
 
@@ -24,6 +37,12 @@ const { getList, setSearchParams } = methods
 getList()
 
 const { t } = useI18n()
+
+const appStore = useAppStore()
+
+const { wsCache } = useCache()
+
+const userInfo = wsCache.get(appStore.getUserInfo)
 
 const crudSchemas = reactive<CrudSchema[]>([
   {
@@ -53,23 +72,40 @@ const crudSchemas = reactive<CrudSchema[]>([
     }
   },
   {
+    field: 'newPassword',
+    label: t('systemManager.newPassword'),
+    table: { show: false },
+    form: {
+      component: 'InputPassword',
+      componentProps: {
+        style: { width: '100%' }
+      },
+      colProps: { span: 24 }
+    }
+  },
+  {
+    field: 'confirmPassword',
+    label: t('systemManager.confirmPassword'),
+    table: { show: false },
+    form: {
+      component: 'InputPassword',
+      componentProps: {
+        style: { width: '100%' }
+      },
+      colProps: { span: 24 }
+    }
+  },
+  {
     field: 'roleList',
     label: t('common.roleType'),
     table: { show: false },
     form: {
+      value: [],
       component: 'Select',
       componentProps: {
+        multiple: true,
         style: { width: '100%' },
-        options: [
-          {
-            label: t('common.superAdmin'),
-            value: 0
-          },
-          {
-            label: t('common.staff'),
-            value: 1
-          }
-        ]
+        options: []
       },
       colProps: { span: 24 }
     }
@@ -107,7 +143,9 @@ const crudSchemas = reactive<CrudSchema[]>([
     field: 'status',
     label: t('systemManager.accountStatus'),
     formatter: (_: Recordable, __: TableColumn, cellValue: number) => {
-      return h(ElTag, {}, () => t(cellValue === 1 ? 'common.enable' : 'common.disable'))
+      return h(ElTag, { type: cellValue === 1 ? '' : 'danger' }, () =>
+        t(cellValue === 1 ? 'common.enable' : 'common.disable')
+      )
     },
     search: {
       show: true,
@@ -127,6 +165,7 @@ const crudSchemas = reactive<CrudSchema[]>([
     },
     form: {
       component: 'Radio',
+      value: 1,
       componentProps: {
         options: [
           {
@@ -162,38 +201,28 @@ const crudSchemas = reactive<CrudSchema[]>([
 
 const { allSchemas } = useCrudSchemas(crudSchemas)
 
+const actionType = ref('')
+
 const dialogVisible = ref(false)
 
 const dialogTitle = ref('')
 
-const AddAction = () => {
+const AddAction = async () => {
+  tableObject.currentRow = null
+  await updateSchemas()
   dialogTitle.value = t('common.add')
   actionType.value = ''
-  tableObject.currentRow = null
   dialogVisible.value = true
 }
 
-const delLoading = ref(false)
-
-const delData = async (row: TableData | null, multiple: boolean) => {
+const action = async (row: UserListData, type: string) => {
+  if (type === 'password' && row.id !== userInfo.id) {
+    return ElMessage.warning(t('common.canNotOperation'))
+  }
   tableObject.currentRow = row
-  const { delList, getSelections } = methods
-  const selections = await getSelections()
-  delLoading.value = true
-  await delList(
-    multiple ? selections.map((v) => v.id) : [tableObject.currentRow?.id as string],
-    multiple
-  ).finally(() => {
-    delLoading.value = false
-  })
-}
-
-const actionType = ref('')
-
-const action = (row: TableData, type: string) => {
-  dialogTitle.value = t(type === 'edit' ? 'common.edit' : 'common.detail')
+  await updateSchemas(row, type)
+  dialogTitle.value = t(type === 'edit' ? 'common.edit' : 'systemManager.passwordSetting')
   actionType.value = type
-  tableObject.currentRow = row
   dialogVisible.value = true
 }
 
@@ -206,19 +235,91 @@ const save = async () => {
   await write?.elFormRef?.validate(async (isValid) => {
     if (isValid) {
       loading.value = true
-      const data = (await write?.getFormData()) as TableData
-      const res = await saveTableApi(data)
+      const data = (await write?.getFormData()) as UserListData
+      let putData = {} as PasswordData | putListData
+      let api = postUserApi
+      if (data.id) {
+        if (actionType.value === 'password') {
+          api = putPasswordApi
+          putData = {
+            userId: data.id,
+            newPassword: data.newPassword
+          }
+        } else {
+          api = putUserApi
+          putData = {
+            id: data.id,
+            dataVersion: data.dataVersion,
+            roleList: data.roleList,
+            status: data.status,
+            username: data.username
+          }
+        }
+      }
+      console.log(data)
+      const res = await api(data.id ? putData : data)
         .catch(() => {})
         .finally(() => {
           loading.value = false
         })
       if (res) {
+        ElMessage.success(t('common.saveSuccess'))
         dialogVisible.value = false
         tableObject.currentPage = 1
-        getList()
+        await getList()
       }
     }
   })
+}
+
+const delData = async (row: UserListData | null, multiple: boolean) => {
+  tableObject.currentRow = row
+  const { delList, getSelections } = methods
+  const selections = await getSelections()
+  await delList(
+    multiple ? selections.map((v) => v.id) : [tableObject.currentRow?.id as string],
+    multiple
+  )
+}
+
+const enableData = async (row: UserListData) => {
+  const { enableItem } = methods
+  await enableItem(row.id)
+}
+
+const disableData = async (row: UserListData) => {
+  const { disableItem } = methods
+  await disableItem(row.id)
+}
+
+const updateSchemas = async (row: UserListData | undefined = undefined, type = 'edit') => {
+  if (type === 'password') {
+    allSchemas.formSchema.filter((schema) => schema.field === 'newPassword')[0].hidden = false
+    allSchemas.formSchema.filter((schema) => schema.field === 'confirmPassword')[0].hidden = false
+    allSchemas.formSchema
+      .filter((schema) => schema.field !== 'newPassword' && schema.field !== 'confirmPassword')
+      .forEach((schema) => (schema.hidden = true))
+  } else {
+    allSchemas.formSchema.filter((schema) => schema.field === 'newPassword')[0].hidden = true
+    allSchemas.formSchema.filter((schema) => schema.field === 'confirmPassword')[0].hidden = true
+    allSchemas.formSchema
+      .filter((schema) => schema.field !== 'newPassword' && schema.field !== 'confirmPassword')
+      .forEach((schema) => (schema.hidden = false))
+    allSchemas.formSchema.filter((schema) => schema.field === 'password')[0].hidden = row
+      ? true
+      : false
+    const res = await getRoleListApi({ page: 1, size: 99 })
+    if (res) {
+      allSchemas.formSchema.filter(
+        (schema) => schema.field === 'roleList'
+      )[0].componentProps!.options = res.data.rows.map((item) => {
+        return { label: item.name, value: item.id }
+      })
+      allSchemas.formSchema.filter((schema) => schema.field === 'roleList')[0].value = row
+        ? row.roleList || []
+        : []
+    }
+  }
 }
 </script>
 
@@ -230,10 +331,6 @@ const save = async () => {
       <ElButton type="primary" @click="AddAction">
         <Icon icon="akar-icons:circle-plus" class="mr-5px" />
         {{ t('common.add') }}
-      </ElButton>
-      <ElButton :loading="delLoading" type="danger" @click="delData(null, true)">
-        <Icon icon="ep:delete" class="mr-5px" />
-        {{ t('common.del') }}
       </ElButton>
     </div>
 
@@ -255,7 +352,7 @@ const save = async () => {
           :underline="false"
           type="primary"
           class="ml-10px cursor-pointer"
-          @click="action(row, 'edit')"
+          @click="enableData(row)"
         >
           {{ t('common.enable') }}
         </ElLink>
@@ -265,11 +362,12 @@ const save = async () => {
           :underline="false"
           type="danger"
           class="ml-10px cursor-pointer"
-          @click="action(row, 'edit')"
+          @click="disableData(row)"
         >
           {{ t('common.disable') }}
         </ElLink>
         <ElLink
+          :disabled="row.root === 0"
           :underline="false"
           type="primary"
           class="ml-10px cursor-pointer"
@@ -289,9 +387,9 @@ const save = async () => {
         <ElLink
           :disabled="row.root === 0"
           :underline="false"
-          type="danger"
+          type="primary"
           class="ml-10px cursor-pointer"
-          @click="action(row, 'edit')"
+          @click="action(row, 'password')"
         >
           {{ t('common.passwordSetting') }}
         </ElLink>

@@ -68,8 +68,10 @@ export default {
     del: 'Delete',
     edit: 'Edit',
     save: 'Save',
+    saveSuccess: 'Saved successfully',
     detail: 'Detail',
-    action: 'Action'
+    action: 'Action',
+    canNotOperation: `Can not operation`
   },
   error: {
     noPermission: `Sorry, you don't have permission to access this page.`,
@@ -513,10 +515,16 @@ export default {
     // user
     accountName: 'Account name',
     accountType: 'Account type',
-    accountStatus: 'Account status'
+    accountStatus: 'Account status',
+    passwordSetting: 'Password setting',
+    newPassword: 'New password',
+    confirmPassword: 'Confirm password',
+    notEqual: `Password don't match`
   },
   // 用于
   test: {
-    title: 'TestDemo'
+    title: 'TestDemo',
+    demo1: 'demo1',
+    demo2: 'demo2'
   }
 }

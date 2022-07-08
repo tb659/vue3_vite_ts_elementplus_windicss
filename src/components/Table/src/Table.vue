@@ -13,7 +13,7 @@ export default defineComponent({
     pageSize: propTypes.number.def(10),
     currentPage: propTypes.number.def(1),
     // 是否多选
-    selection: propTypes.bool.def(true),
+    selection: propTypes.bool.def(false),
     // 是否所有的超出隐藏，优先级低于schema中的showOverflowTooltip,
     showOverflowTooltip: propTypes.bool.def(true),
     // 表头
@@ -33,7 +33,7 @@ export default defineComponent({
     // 加载状态
     loading: propTypes.bool.def(false),
     // 是否叠加索引
-    reserveIndex: propTypes.bool.def(false),
+    reserveIndex: propTypes.bool.def(true),
     // 对齐方式
     align: propTypes.string
       .validate((v: string) => ['left', 'center', 'right'].includes(v))
@@ -269,6 +269,7 @@ export default defineComponent({
     return () => (
       <div v-loading={unref(getProps).loading}>
         <ElTable
+          border
           // @ts-ignore
           ref={elTableRef}
           data={unref(getProps).data}

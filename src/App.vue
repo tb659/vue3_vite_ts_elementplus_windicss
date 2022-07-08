@@ -5,6 +5,7 @@ import { ConfigGlobal } from '@/components/ConfigGlobal'
 import { isDark } from '@/utils/is'
 import { useDesign } from '@/hooks/web/useDesign'
 import { useCache } from '@/hooks/web/useCache'
+import { prefix } from './config/app'
 
 const { getPrefixCls } = useDesign()
 
@@ -20,8 +21,8 @@ const { wsCache } = useCache()
 
 // 根据浏览器当前主题设置系统主题色
 const setDefaultTheme = () => {
-  if (wsCache.get('isDark')) {
-    appStore.setIsDark(wsCache.get('isDark'))
+  if (wsCache.get(`${prefix}_isDark`)) {
+    appStore.setIsDark(wsCache.get(`${prefix}_isDark`))
     return
   }
   const isDarkTheme = isDark()

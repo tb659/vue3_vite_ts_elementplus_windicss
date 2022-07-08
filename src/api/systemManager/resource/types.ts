@@ -1,4 +1,4 @@
-export type TableData = {
+export type ResourceListData = {
   id: string
   code: string
   domain: string
@@ -6,7 +6,8 @@ export type TableData = {
   name: string
   permissions: string
   defaultAssign: number
-  parengId: number
+  parentId: number
   status: number
   type: number
+  children: ResourceListData[]
 }

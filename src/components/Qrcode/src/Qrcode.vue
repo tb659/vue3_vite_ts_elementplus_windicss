@@ -94,10 +94,7 @@ watch(
     if (!val) return
     initQrcode()
   },
-  {
-    deep: true,
-    immediate: true
-  }
+  { deep: true, immediate: true }
 )
 
 const createLogoCode = (canvasRef: HTMLCanvasElement) => {

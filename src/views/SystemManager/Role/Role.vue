@@ -3,28 +3,28 @@ import { ContentWrap } from '@/components/ContentWrap'
 import { Search } from '@/components/Search'
 import { Dialog } from '@/components/Dialog'
 import { useI18n } from '@/hooks/web/useI18n'
-import { ElButton, ElLink, ElTag } from 'element-plus'
+import { ElButton, ElLink, ElTag, ElMessage } from 'element-plus'
 import { Table } from '@/components/Table'
 import { useTable } from '@/hooks/web/useTable'
 import { h, ref, unref, reactive } from 'vue'
 import Write from './components/Write.vue'
 import { CrudSchema, useCrudSchemas } from '@/hooks/web/useCrudSchemas'
 import {
-  getTableListApi,
-  postTableApi,
-  putTableApi,
-  deleteTableApi,
-  putDisableApi,
-  putEnableApi
+  getRoleListApi,
+  postRoleApi,
+  putRoleApi,
+  deleteRoleApi,
+  putRoleEnableApi,
+  putRoleDisableApi
 } from '@/api/systemManager/role'
-import { TableData } from '@/api/systemManager/role/types'
+import { RoleListData } from '@/api/systemManager/role/types'
 import { dateNumFormat } from '@/utils'
 
-const { register, tableObject, methods } = useTable<TableData>({
-  getListApi: getTableListApi,
-  delListApi: deleteTableApi,
-  enableApi: putEnableApi,
-  disableApi: putDisableApi,
+const { register, tableObject, methods } = useTable<RoleListData>({
+  getListApi: getRoleListApi,
+  delListApi: deleteRoleApi,
+  enableApi: putRoleEnableApi,
+  disableApi: putRoleDisableApi,
   response: { rows: 'rows', total: 'total' }
 })
 
@@ -54,20 +54,6 @@ const crudSchemas = reactive<CrudSchema[]>([
     label: t('systemManager.roleCode'),
     search: { show: true },
     form: {
-      component: 'Select',
-      componentProps: {
-        style: { width: '100%' },
-        options: [
-          {
-            label: t('common.superAdmin'),
-            value: 0
-          },
-          {
-            label: t('common.staff'),
-            value: 1
-          }
-        ]
-      },
       colProps: { span: 24 }
     }
   },
@@ -90,32 +76,36 @@ const crudSchemas = reactive<CrudSchema[]>([
     field: 'status',
     label: t('systemManager.roleStatus'),
     formatter: (_: Recordable, __: TableColumn, cellValue: number) => {
-      return h(ElTag, {}, () => t(cellValue === 1 ? 'common.enable' : 'common.disable'))
+      return h(ElTag, { type: cellValue === 1 ? '' : 'danger' }, () =>
+        t(cellValue === 1 ? 'common.enable' : 'common.disable')
+      )
     },
     search: {
       show: true,
       component: 'Select',
       componentProps: {
         options: [
-          {
-            label: t('common.enable'),
-            value: 1
-          },
-          {
-            label: t('common.disable'),
-            value: 0
-          }
+          { label: t('common.enable'), value: 1 },
+          { label: t('common.disable'), value: 0 }
+        ]
+      }
+    },
+    form: {
+      value: 1,
+      component: 'Radio',
+      componentProps: {
+        options: [
+          { label: t('common.enable'), value: 1 },
+          { label: t('common.disable'), value: 0 }
         ]
       }
     }
   },
   {
     field: 'action',
-    width: '220px',
+    width: '160px',
     label: t('common.action'),
-    form: {
-      show: false
-    }
+    form: { show: false }
   }
 ])
 
@@ -134,7 +124,7 @@ const AddAction = () => {
   dialogVisible.value = true
 }
 
-const action = (row: TableData, type: string) => {
+const action = (row: RoleListData, type: string) => {
   dialogTitle.value = t(type === 'edit' ? 'common.edit' : 'common.detail')
   actionType.value = type
   tableObject.currentRow = row
@@ -150,12 +140,12 @@ const save = async () => {
   await write?.elFormRef?.validate(async (isValid) => {
     if (isValid) {
       loading.value = true
-      const data = (await write?.getFormData()) as TableData
-      let api = putTableApi
+      const data = (await write?.getFormData()) as RoleListData
+      const keys = write?.treeRef?.getCheckedKeys().concat(write?.treeRef?.getHalfCheckedKeys())
+      data.resourceList = keys?.map((key) => ({ id: key as number, permissions: 'Q' }))
+      let api = putRoleApi
       if (!data.id) {
-        data.domain = ''
-        data.defaultAssign = 1
-        api = postTableApi
+        api = postRoleApi
       }
       const res = await api(data)
         .catch(() => {})
@@ -163,6 +153,7 @@ const save = async () => {
           loading.value = false
         })
       if (res) {
+        ElMessage.success(t('common.saveSuccess'))
         dialogVisible.value = false
         tableObject.currentPage = 1
         await getList()
@@ -171,7 +162,7 @@ const save = async () => {
   })
 }
 
-const delData = async (row: TableData | null, multiple: boolean) => {
+const delData = async (row: RoleListData | null, multiple: boolean) => {
   tableObject.currentRow = row
   const { delList, getSelections } = methods
   const selections = await getSelections()
@@ -181,12 +172,12 @@ const delData = async (row: TableData | null, multiple: boolean) => {
   )
 }
 
-const enableData = async (row: TableData) => {
+const enableData = async (row: RoleListData) => {
   const { enableItem } = methods
   await enableItem(row.id)
 }
 
-const disableData = async (row: TableData) => {
+const disableData = async (row: RoleListData) => {
   const { disableItem } = methods
   await disableItem(row.id)
 }
@@ -204,9 +195,6 @@ const disableData = async (row: TableData) => {
     </div>
 
     <Table
-      border
-      :reserveIndex="true"
-      :selection="false"
       v-model:pageSize="tableObject.pageSize"
       v-model:currentPage="tableObject.currentPage"
       :columns="allSchemas.tableColumns"
@@ -220,7 +208,7 @@ const disableData = async (row: TableData) => {
       <template #action="{ row }">
         <ElLink
           v-show="row.status === 0"
-          :disabled="row.root === 0"
+          :disabled="row.id === 4"
           :underline="false"
           type="primary"
           class="ml-10px cursor-pointer"
@@ -230,7 +218,7 @@ const disableData = async (row: TableData) => {
         </ElLink>
         <ElLink
           v-show="row.status === 1"
-          :disabled="row.root === 0"
+          :disabled="row.id === 4"
           :underline="false"
           type="danger"
           class="ml-10px cursor-pointer"
@@ -239,7 +227,7 @@ const disableData = async (row: TableData) => {
           {{ t('common.disable') }}
         </ElLink>
         <ElLink
-          :disabled="row.root === 0"
+          :disabled="row.id === 4"
           :underline="false"
           type="primary"
           class="ml-10px cursor-pointer"
@@ -248,7 +236,7 @@ const disableData = async (row: TableData) => {
           {{ t('common.edit') }}
         </ElLink>
         <ElLink
-          :disabled="row.root === 0"
+          :disabled="row.id === 4"
           :underline="false"
           type="primary"
           class="ml-10px cursor-pointer"
@@ -260,7 +248,7 @@ const disableData = async (row: TableData) => {
     </Table>
   </ContentWrap>
 
-  <Dialog v-model="dialogVisible" :title="dialogTitle">
+  <Dialog v-model="dialogVisible" :title="dialogTitle" maxHeight="auto">
     <Write
       ref="writeRef"
       :form-schema="allSchemas.formSchema"

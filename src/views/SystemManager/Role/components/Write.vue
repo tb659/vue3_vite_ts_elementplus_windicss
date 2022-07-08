@@ -1,17 +1,19 @@
 <script setup lang="ts">
+import { ElRow, ElCol, ElTree } from 'element-plus'
 import { Form } from '@/components/Form'
-import { Tree } from '@/components/Tree'
-import { ElRow, ElCol } from 'element-plus'
 import { useForm } from '@/hooks/web/useForm'
-import { PropType, reactive, watch } from 'vue'
-import { TableData } from '@/api/systemManager/role/types'
+import { PropType, reactive, ref, watch } from 'vue'
 import { useValidator } from '@/hooks/web/useValidator'
+import { getResourceListApi } from '@/api/systemManager/resource'
+import { ResourceListData } from '@/api/systemManager/resource/types'
+import { RoleListData } from '@/api/systemManager/role/types'
+import { listToTree } from '@/utils/tree'
 
 const { required } = useValidator()
 
 const props = defineProps({
   currentRow: {
-    type: Object as PropType<Nullable<TableData>>,
+    type: Object as PropType<Nullable<RoleListData>>,
     default: () => null
   },
   formSchema: {
@@ -29,6 +31,11 @@ const { register, methods, elFormRef } = useForm({
   schema: props.formSchema
 })
 
+const treeRef = ref<ComponentRef<typeof ElTree>>()
+
+const defaultProps = reactive({ children: 'children', label: 'name' })
+
+const defaultExpandedKeys = ref<number[]>([])
 watch(
   () => props.currentRow,
   (currentRow) => {
@@ -36,25 +43,67 @@ watch(
     const { setValues } = methods
     setValues(currentRow)
   },
-  {
-    deep: true,
-    immediate: true
-  }
+  { deep: true, immediate: true }
 )
+
+const resourceList = ref<ResourceListData[]>([])
+
+const menuList = ref<ResourceListData[]>([])
+
+const getResourceList = async () => {
+  const res = await getResourceListApi({ page: 1, size: 99 })
+  if (res) {
+    menuList.value = res.data.rows
+    resourceList.value = listToTree(res.data.rows)
+  }
+}
+
+getResourceList()
+
+const hasSetDefaultKeys = ref(false)
+
+watch(
+  () => resourceList,
+  (curr) => {
+    if (!props.currentRow?.resourceList) return
+    if (curr.value.length && treeRef.value && !hasSetDefaultKeys.value) {
+      console.log(hasSetDefaultKeys.value)
+      hasSetDefaultKeys.value = true
+      setCheckedkeys(menuList.value, props.currentRow)
+    }
+  },
+  { deep: true, immediate: true }
+)
+
+const setCheckedkeys = (menuList, currentRow) => {
+  let keys = currentRow.resourceList
+    .filter((item) => menuList.filter((menu) => menu.id === item.id && menu.parentId !== 0).length)
+    .map((item) => item.id)
+  defaultExpandedKeys.value = keys
+  treeRef.value!.setCheckedKeys(keys)
+}
 
 defineExpose({
   elFormRef,
-  getFormData: methods.getFormData
+  getFormData: methods.getFormData,
+  treeRef
 })
 </script>
 
 <template>
   <ElRow>
-    <ElCol :span="12">
+    <ElCol :span="14">
       <Form :rules="rules" @register="register" />
     </ElCol>
-    <ElCol :span="12">
-      <Tree />
+    <ElCol :span="9" :offset="1" style="min-height: 500px">
+      <ElTree
+        ref="treeRef"
+        :data="resourceList"
+        show-checkbox
+        node-key="id"
+        :props="defaultProps"
+        :default-expanded-keys="defaultExpandedKeys"
+      />
     </ElCol>
   </ElRow>
 </template>

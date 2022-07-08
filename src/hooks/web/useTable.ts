@@ -128,7 +128,7 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
   const enableData = async (id: string) => {
     const res = await (config?.enableApi && config?.enableApi(id))
     if (res) {
-      ElMessage.success(t('common.enable'))
+      ElMessage.success(t('common.enableSuccess'))
       methods.getList()
     }
   }
@@ -136,7 +136,7 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
   const disableData = async (id: string) => {
     const res = await (config?.disableApi && config?.disableApi(id))
     if (res) {
-      ElMessage.success(t('common.disable'))
+      ElMessage.success(t('common.disableSuccess'))
       methods.getList()
     }
   }

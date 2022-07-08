@@ -3,29 +3,28 @@ import { ContentWrap } from '@/components/ContentWrap'
 import { Search } from '@/components/Search'
 import { Dialog } from '@/components/Dialog'
 import { useI18n } from '@/hooks/web/useI18n'
-import { ElButton, ElLink, ElTag } from 'element-plus'
+import { ElButton, ElLink, ElTag, ElMessage } from 'element-plus'
 import { Table } from '@/components/Table'
 import { useTable } from '@/hooks/web/useTable'
 import { h, ref, unref, reactive, onMounted } from 'vue'
 import Write from './components/Write.vue'
 import { CrudSchema, useCrudSchemas } from '@/hooks/web/useCrudSchemas'
 import {
-  getTableListApi,
-  postTableApi,
-  putTableApi,
-  deleteTableApi,
-  putDisableApi,
-  putEnableApi
+  getResourceListApi,
+  postResourceApi,
+  putResourceApi,
+  deleteResourceApi,
+  putResourceDisableApi,
+  putResourceEnableApi
 } from '@/api/systemManager/resource'
-import { TableData } from '@/api/systemManager/resource/types'
+import { ResourceListData } from '@/api/systemManager/resource/types'
 import { dateNumFormat } from '@/utils'
-import { cloneDeep } from 'lodash'
 
-const { register, tableObject, methods } = useTable<TableData>({
-  getListApi: getTableListApi,
-  delListApi: deleteTableApi,
-  enableApi: putEnableApi,
-  disableApi: putDisableApi,
+const { register, tableObject, methods } = useTable<ResourceListData>({
+  getListApi: getResourceListApi,
+  delListApi: deleteResourceApi,
+  enableApi: putResourceEnableApi,
+  disableApi: putResourceDisableApi,
   response: { rows: 'rows', total: 'total' }
 })
 
@@ -33,8 +32,7 @@ const { getList, setSearchParams } = methods
 
 const { t } = useI18n()
 
-const parentResourceInit = ref([{ label: '顶级资源', value: 0 }])
-const parentResourceList = ref(cloneDeep(parentResourceInit.value))
+const parentResourceList = ref([{ label: '顶级资源', value: 0 }])
 
 const resourceTypeList = ref([{ label: t('systemManager.menu'), value: 1 }])
 
@@ -168,7 +166,7 @@ const AddAction = () => {
   dialogVisible.value = true
 }
 
-const action = (row: TableData, type: string) => {
+const action = (row: ResourceListData, type: string) => {
   dialogTitle.value = t(type === 'edit' ? 'common.edit' : 'common.detail')
   actionType.value = type
   tableObject.currentRow = row
@@ -184,14 +182,14 @@ const save = async () => {
   await write?.elFormRef?.validate(async (isValid) => {
     if (isValid) {
       loading.value = true
-      const data = (await write?.getFormData()) as TableData
+      const data = (await write?.getFormData()) as ResourceListData
       // 权限控制到菜单
       data.permissions = 'Q'
-      let api = putTableApi
+      let api = putResourceApi
       if (!data.id) {
         data.domain = ''
         data.defaultAssign = 1
-        api = postTableApi
+        api = postResourceApi
       }
       const res = await api(data)
         .catch(() => {})
@@ -199,21 +197,17 @@ const save = async () => {
           loading.value = false
         })
       if (res) {
+        ElMessage.success(t('common.saveSuccess'))
         dialogVisible.value = false
         tableObject.currentPage = 1
         await getList()
-        if (!data.id) {
-          console.log(parentResourceList.value)
-          // 解决新增顶级资源列表重复
-          parentResourceList.value = cloneDeep(cloneDeep(parentResourceInit.value))
-          updateParentResourceList()
-        }
+        !data.id && updateSchemas()
       }
     }
   })
 }
 
-const delData = async (row: TableData | null, multiple: boolean) => {
+const delData = async (row: ResourceListData | null, multiple: boolean) => {
   tableObject.currentRow = row
   const { delList, getSelections } = methods
   const selections = await getSelections()
@@ -223,32 +217,29 @@ const delData = async (row: TableData | null, multiple: boolean) => {
   )
 }
 
-const enableData = async (row: TableData) => {
+const enableData = async (row: ResourceListData) => {
   const { enableItem } = methods
   await enableItem(row.id)
 }
 
-const disableData = async (row: TableData) => {
+const disableData = async (row: ResourceListData) => {
   const { disableItem } = methods
   await disableItem(row.id)
 }
 
-const updateParentResourceList = () => {
-  console.log(parentResourceList.value, tableObject.tableList)
-  tableObject.tableList.forEach((data) => {
-    parentResourceList.value.push({
-      label: data.name,
-      value: data.id as unknown as number
-    })
-  })
-  // 新增的顶级资源没有更新 需要手动赋值
-  allSchemas.formSchema[3].componentProps!.options = parentResourceList.value
+const updateSchemas = () => {
+  allSchemas.formSchema.filter((schema) => schema.field === 'parentId')[0].componentProps!.options =
+    parentResourceList.value.concat(
+      tableObject.tableList.map((data) => {
+        return { label: data.name, value: data.id as unknown as number }
+      })
+    )
 }
 
 onMounted(async () => {
   tableObject.isTreeList = true
   await getList()
-  updateParentResourceList()
+  updateSchemas()
 })
 </script>
 
@@ -265,9 +256,6 @@ onMounted(async () => {
 
     <Table
       row-key="id"
-      border
-      :reserveIndex="true"
-      :selection="false"
       v-model:pageSize="tableObject.pageSize"
       v-model:currentPage="tableObject.currentPage"
       :columns="allSchemas.tableColumns"

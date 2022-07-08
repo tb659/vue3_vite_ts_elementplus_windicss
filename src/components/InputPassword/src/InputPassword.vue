@@ -39,7 +39,7 @@ const changeTextType = () => {
 
 // 输入框的值
 const valueRef = ref(props.modelValue)
-console.log(props)
+// console.log(props)
 // 监听
 watch(
   () => valueRef.value,

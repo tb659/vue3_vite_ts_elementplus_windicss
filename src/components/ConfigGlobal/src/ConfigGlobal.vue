@@ -54,7 +54,7 @@ const currentLocale = computed(() => localeStore.currentLocale)
   <ElConfigProvider
     :namespace="variables.elNamespace"
     :locale="currentLocale.elLocale"
-    :message="{ max: 1 }"
+    :message="{ max: 3 }"
     :size="size"
   >
     <slot></slot>

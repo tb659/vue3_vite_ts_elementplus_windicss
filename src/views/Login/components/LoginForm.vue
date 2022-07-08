@@ -13,7 +13,6 @@ import type { RouteLocationNormalizedLoaded, RouteRecordRaw } from 'vue-router'
 import { UserType } from '@/api/login/types'
 import { useValidator } from '@/hooks/web/useValidator'
 import Cookies from 'js-cookie'
-// import { listToTree, handleMenuList } from '@/utils/tree'
 import { menuList } from '@/router'
 
 const { required } = useValidator()
@@ -56,15 +55,10 @@ const signIn = async () => {
 // 获取角色信息
 const getRole = async () => {
   const res = {
-    data: menuList
+    data: wsCache.get(appStore.getUserInfo).resourceList.map((menu) => menu.href)
   }
   if (res) {
-    // const menuList = handleMenuList(res.data)
-    // console.log(menuList)
-    // const routers = listToTree(res.data) || []
-
-    const routers = res.data || []
-    // console.log(routers)
+    const routers = menuList.concat(res.data) || []
     wsCache.set('roleRouters', routers)
 
     await permissionStore.generateRoutes('test', routers).catch(() => {})

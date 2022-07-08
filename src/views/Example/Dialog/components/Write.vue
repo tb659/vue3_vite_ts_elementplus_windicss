@@ -38,10 +38,7 @@ watch(
     const { setValues } = methods
     setValues(currentRow)
   },
-  {
-    deep: true,
-    immediate: true
-  }
+  { deep: true, immediate: true }
 )
 
 defineExpose({

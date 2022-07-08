@@ -65,7 +65,7 @@
                 prefix=""
                 suffix=""
                 :autoplay="autoplay"
-                class="text-18px font-bold text-[var(--scrollNum-01A283)]"
+                class="text-18px font-bold text-[var(--scrollNum-00FFBC)]"
               />
             </div>
           </div>
@@ -148,9 +148,10 @@ setChart2Data()
 </script>
 <style lang="less" scoped>
 .leftTopBox {
-  width: 100%;
   height: 100%;
   font-weight: bold;
+  background-image: url('@/assets/imgs-bigScreen/bigScreen25.png');
+  background-size: 100% 100%;
 
   .title {
     height: 50px;
@@ -163,8 +164,8 @@ setChart2Data()
   .chartBox {
     display: flex;
     width: calc(100% - 20px);
-    height: calc((100% - 50px) / 2 - 5px);
-    margin: 0 auto;
+    height: calc((100% - 50px) / 2 - 25px);
+    margin: 10px auto;
     justify-content: space-between;
 
     .chartItem {

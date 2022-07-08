@@ -1,12 +1,17 @@
-export type TableData = {
+export type RoleListData = {
   id: string
   code: string
-  domain: string
-  href: string
+  corpId: number
+  crtTime: number
+  crtUser: number
+  dataState: number
+  dataVersion: number
+  embed: number
+  modTime: number
+  modUser: number
   name: string
-  permissions: string
-  defaultAssign: number
-  parengId: number
+  note: string
+  resourceList: { id: number; permissions: string }[] | undefined
+  sequence: null
   status: number
-  type: number
 }

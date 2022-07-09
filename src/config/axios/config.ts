@@ -1,3 +1,5 @@
+export const requestUrl = 'http://120.55.167.167:9202'
+
 const config: {
   base_url: {
     base: string

@@ -71,7 +71,10 @@ export default {
     saveSuccess: '保存成功',
     detail: '详情',
     action: '操作',
-    canNotOperation: '禁止操作'
+    putaway: '上架',
+    soldOut: '下架',
+    canNotOperation: '禁止操作',
+    noUpload: '文件大小为0，禁止上传'
   },
   error: {
     noPermission: `抱歉，您无权访问此页面。`,
@@ -516,6 +519,26 @@ export default {
     newPassword: '新密码',
     confirmPassword: '确认密码',
     notEqual: '两次密码不一致'
+  },
+  shopManager: {
+    // shopInfo
+    shopName: '商户名称',
+    richTextInfo: '富文本简介',
+    shopType: '商户类型',
+    shopGroup: '商户类型',
+    mapPosition: '地图位置',
+    payQrCode: '支付二维码',
+    insertTime: '插入时间',
+    tipInfoForBuy: '购买提示',
+    // goodInfo
+    goodName: '商品名称',
+    goodCategory: '商品分类',
+    packingUnit: '包装单位',
+    manufacturer: '生产厂家',
+    putawawyTime: '上架时间',
+    standardPrice: '标准价格',
+    purchasingBase: '采购基数',
+    inventory: '库存'
   },
   //
   test: {

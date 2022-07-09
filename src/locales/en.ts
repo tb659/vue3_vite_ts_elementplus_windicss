@@ -71,7 +71,10 @@ export default {
     saveSuccess: 'Saved successfully',
     detail: 'Detail',
     action: 'Action',
-    canNotOperation: `Can not operation`
+    putaway: 'putaway',
+    soldOut: 'Sold out',
+    canNotOperation: `Can not operation`,
+    noUpload: 'The file size is 0 and cannot be uploaded'
   },
   error: {
     noPermission: `Sorry, you don't have permission to access this page.`,
@@ -520,6 +523,26 @@ export default {
     newPassword: 'New password',
     confirmPassword: 'Confirm password',
     notEqual: `Password don't match`
+  },
+  shopManager: {
+    // shopInfo
+    shopName: 'Shop name',
+    richTextInfo: 'Rich text info',
+    shopType: 'Shop type',
+    shopGroup: 'Shop group',
+    mapPosition: 'Map position',
+    payQrCode: 'Pay qr code',
+    insertTime: 'Insert time',
+    tipInfoForBuy: 'Tip info for buy',
+    // goodInfo
+    goodName: 'Good name',
+    goodCategory: 'Good category',
+    packingUnit: 'Packing unit',
+    manufacturer: 'Manufacturer',
+    putawawyTime: 'Putawawy time',
+    standardPrice: 'Standard price',
+    purchasingBase: 'Purchasing base',
+    inventory: 'Inventory'
   },
   // 用于
   test: {

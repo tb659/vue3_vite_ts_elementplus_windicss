@@ -20,6 +20,7 @@ import {
 } from 'element-plus'
 import { InputPassword } from '@/components/InputPassword'
 import { Editor } from '@/components/Editor'
+import { Uploader } from '@/components/Uploader'
 
 const componentMap: Recordable<Component, ComponentName> = {
   Radio: ElRadioGroup,
@@ -42,7 +43,8 @@ const componentMap: Recordable<Component, ComponentName> = {
   SelectV2: ElSelectV2,
   RadioButton: ElRadioGroup,
   InputPassword: InputPassword,
-  Editor: Editor
+  Editor: Editor,
+  Uploader: Uploader
 }
 
 export { componentMap }

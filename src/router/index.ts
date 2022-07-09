@@ -110,7 +110,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     children: [
       {
         path: 'shop-info',
-        component: () => import('@/views/ShopManager/ShopInfo/ShopInfo.vue'),
+        component: () => import('@/views/adminShopManager/ShopInfo/ShopInfo.vue'),
         name: 'ShopInfo',
         meta: {
           title: t('router.shopInfo'),
@@ -119,7 +119,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       },
       {
         path: 'good-info',
-        component: () => import('@/views/ShopManager/GoodInfo/GoodInfo.vue'),
+        component: () => import('@/views/adminShopManager/GoodInfo/GoodInfo.vue'),
         name: 'GoodInfo',
         meta: {
           title: t('router.goodInfo'),
@@ -128,7 +128,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       },
       {
         path: 'good-category',
-        component: () => import('@/views/ShopManager/GoodCategory/GoodCategory.vue'),
+        component: () => import('@/views/adminShopManager/GoodCategory/GoodCategory.vue'),
         name: 'GoodCategory',
         meta: {
           title: t('router.goodCategory'),
@@ -137,7 +137,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       },
       {
         path: 'good-order',
-        component: () => import('@/views/ShopManager/GoodOrder/GoodOrder.vue'),
+        component: () => import('@/views/adminShopManager/GoodOrder/GoodOrder.vue'),
         name: 'GoodOrder',
         meta: {
           title: t('router.goodOrder'),
@@ -159,7 +159,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     children: [
       {
         path: 'venue-info',
-        component: () => import('@/views/VenueManager/VenueInfo/VenueInfo.vue'),
+        component: () => import('@/views/adminVenueManager/VenueInfo/VenueInfo.vue'),
         name: 'VenueInfo',
         meta: {
           title: t('router.venueInfo'),
@@ -168,7 +168,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       },
       {
         path: 'lease-good',
-        component: () => import('@/views/VenueManager/LeaseGood/LeaseGood.vue'),
+        component: () => import('@/views/adminVenueManager/LeaseGood/LeaseGood.vue'),
         name: 'LeaseGood',
         meta: {
           title: t('router.leaseGood'),
@@ -190,7 +190,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     children: [
       {
         path: 'tourist-info',
-        component: () => import('@/views/TouristManager/TouristInfo/TouristInfo.vue'),
+        component: () => import('@/views/adminTouristManager/TouristInfo/TouristInfo.vue'),
         name: 'TouristInfo',
         meta: {
           title: t('router.touristInfo'),
@@ -199,7 +199,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       },
       {
         path: 'epidemic-manager',
-        component: () => import('@/views/TouristManager/EpidemicManager/EpidemicManager.vue'),
+        component: () => import('@/views/adminTouristManager/EpidemicManager/EpidemicManager.vue'),
         name: 'EpidemicManager',
         meta: {
           title: t('router.epidemicManager'),
@@ -208,7 +208,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       },
       {
         path: 'tickets-manager',
-        component: () => import('@/views/TouristManager/TicketsManager/TicketsManager.vue'),
+        component: () => import('@/views/adminTouristManager/TicketsManager/TicketsManager.vue'),
         name: 'TicketsManager',
         meta: {
           title: t('router.ticketsManager'),
@@ -217,7 +217,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       },
       {
         path: 'tickets-order',
-        component: () => import('@/views/TouristManager/TicketsOrder/TicketsOrder.vue'),
+        component: () => import('@/views/adminTouristManager/TicketsOrder/TicketsOrder.vue'),
         name: 'TicketsOrder',
         meta: {
           title: t('router.ticketsOrder'),
@@ -239,7 +239,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     children: [
       {
         path: 'staff-info',
-        component: () => import('@/views/StaffManager/StaffInfo/StaffInfo.vue'),
+        component: () => import('@/views/adminStaffManager/StaffInfo/StaffInfo.vue'),
         name: 'StaffInfo',
         meta: {
           title: t('router.staffInfo'),
@@ -248,7 +248,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       },
       {
         path: 'epartment',
-        component: () => import('@/views/StaffManager/Epartment/Epartment.vue'),
+        component: () => import('@/views/adminStaffManager/Epartment/Epartment.vue'),
         name: 'Epartment',
         meta: {
           title: t('router.epartment'),
@@ -270,7 +270,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     children: [
       {
         path: 'energy-sensor',
-        component: () => import('@/views/GardenDevice/EnergySensor/EnergySensor.vue'),
+        component: () => import('@/views/adminGardenDevice/EnergySensor/EnergySensor.vue'),
         name: 'EnergySensor',
         meta: {
           title: t('router.energySensor'),
@@ -279,7 +279,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       },
       {
         path: 'energy-statistic',
-        component: () => import('@/views/GardenDevice/EnergyStatistic/EnergyStatistic.vue'),
+        component: () => import('@/views/adminGardenDevice/EnergyStatistic/EnergyStatistic.vue'),
         name: 'EnergyStatistic',
         meta: {
           title: t('router.energyStatistic'),
@@ -301,7 +301,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     children: [
       {
         path: 'queue-terminal',
-        component: () => import('@/views/QueueManager/QueueTerminal/QueueTerminal.vue'),
+        component: () => import('@/views/adminQueueManager/QueueTerminal/QueueTerminal.vue'),
         name: 'QueueTerminal',
         meta: {
           title: t('router.queueTerminal'),
@@ -310,7 +310,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       },
       {
         path: 'queue-info',
-        component: () => import('@/views/QueueManager/QueueInfo/QueueInfo.vue'),
+        component: () => import('@/views/adminQueueManager/QueueInfo/QueueInfo.vue'),
         name: 'QueueInfo',
         meta: {
           title: t('router.queueInfo'),
@@ -332,7 +332,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     children: [
       {
         path: 'work-process',
-        component: () => import('@/views/WorkOrder/WorkProcess/WorkProcess.vue'),
+        component: () => import('@/views/adminWorkOrder/WorkProcess/WorkProcess.vue'),
         name: 'WorkProcess',
         meta: {
           title: t('router.workProcess'),
@@ -354,7 +354,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     children: [
       {
         path: 'user',
-        component: () => import('@/views/SystemManager/User/User.vue'),
+        component: () => import('@/views/adminSystemManager/User/User.vue'),
         name: 'User',
         meta: {
           title: t('router.user'),
@@ -363,7 +363,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       },
       {
         path: 'role',
-        component: () => import('@/views/SystemManager/Role/Role.vue'),
+        component: () => import('@/views/adminSystemManager/Role/Role.vue'),
         name: 'Role',
         meta: {
           title: t('router.role'),
@@ -372,7 +372,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       },
       {
         path: 'resource',
-        component: () => import('@/views/SystemManager/Resource/Resource.vue'),
+        component: () => import('@/views/adminSystemManager/Resource/Resource.vue'),
         name: 'Resource',
         meta: {
           title: t('router.resource'),
@@ -381,7 +381,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       },
       {
         path: 'function',
-        component: () => import('@/views/SystemManager/Function/Function.vue'),
+        component: () => import('@/views/adminSystemManager/Function/Function.vue'),
         name: 'Function',
         meta: {
           title: t('router.function'),
@@ -390,7 +390,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       },
       {
         path: 'params',
-        component: () => import('@/views/SystemManager/Params/Params.vue'),
+        component: () => import('@/views/adminSystemManager/Params/Params.vue'),
         name: 'Params',
         meta: {
           title: t('router.params'),
@@ -879,60 +879,60 @@ export const menuList: string[] = [
   '/dashboard',
   '/dashboard/analysis',
   '/dashboard/workplace',
-  '/dashboard/big-screen',
+  '/dashboard/big-screen'
 
-  'external-link',
-  'https://element-plus-admin-doc.cn/',
+  // 'external-link',
+  // 'https://element-plus-admin-doc.cn/',
 
-  '/guide',
-  '/guide/index',
+  // '/guide',
+  // '/guide/index',
 
-  '/components',
-  '/components/form',
-  '/components/form/default-form',
-  '/components/form/use-form',
-  '/components/form/ref-form',
-  '/components/table',
-  '/components/table/default-table',
-  '/components/table/use-table',
-  '/components/table/ref-table',
-  '/components/editor-demo',
-  '/components/editor-demo/editor',
-  '/components/search',
-  '/components/descriptions',
-  '/components/image-viewer',
-  '/components/dialog',
-  '/components/icon',
-  '/components/echart',
-  '/components/count-to',
-  '/components/qrcode',
-  '/components/highlight',
-  '/components/infotip',
+  // '/components',
+  // '/components/form',
+  // '/components/form/default-form',
+  // '/components/form/use-form',
+  // '/components/form/ref-form',
+  // '/components/table',
+  // '/components/table/default-table',
+  // '/components/table/use-table',
+  // '/components/table/ref-table',
+  // '/components/editor-demo',
+  // '/components/editor-demo/editor',
+  // '/components/search',
+  // '/components/descriptions',
+  // '/components/image-viewer',
+  // '/components/dialog',
+  // '/components/icon',
+  // '/components/echart',
+  // '/components/count-to',
+  // '/components/qrcode',
+  // '/components/highlight',
+  // '/components/infotip',
 
-  '/Components/InputPassword',
-  '/Components/Sticky',
+  // '/Components/InputPassword',
+  // '/Components/Sticky',
 
-  '/hooks',
-  '/hooks/useWatermark',
+  // '/hooks',
+  // '/hooks/useWatermark',
 
-  '/level',
-  '/level/menu1',
-  '/level/menu1/menu1-1',
-  '/level/menu1/menu1-1/menu1-1-1',
-  '/level/menu1/menu1-2',
-  '/level/menu2',
+  // '/level',
+  // '/level/menu1',
+  // '/level/menu1/menu1-1',
+  // '/level/menu1/menu1-1/menu1-1-1',
+  // '/level/menu1/menu1-2',
+  // '/level/menu2',
 
-  '/example',
-  '/example/example-dialog',
-  '/example/example-page',
-  '/example/example-add',
-  '/example/example-edit',
-  '/example/example-detail',
+  // '/example',
+  // '/example/example-dialog',
+  // '/example/example-page',
+  // '/example/example-add',
+  // '/example/example-edit',
+  // '/example/example-detail',
 
-  '/error',
-  '/error/404-demo',
-  '/error/403-demo',
-  '/error/500-demo',
+  // '/error',
+  // '/error/404-demo',
+  // '/error/403-demo',
+  // '/error/500-demo',
 
   // '/shop-manager',
   // '/shop-manager/shop-info',
@@ -973,9 +973,9 @@ export const menuList: string[] = [
   // '/system-manager/params',
 
   // 测试使用
-  '/test-demo',
-  '/test-demo/demo1',
-  '/test-demo/demo2'
+  // '/test-demo',
+  // '/test-demo/demo1',
+  // '/test-demo/demo2'
 ]
 
 const router = createRouter({

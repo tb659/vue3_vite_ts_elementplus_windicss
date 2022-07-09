@@ -12,7 +12,7 @@ import PurgeIcons from 'vite-plugin-purge-icons'
 import { viteMockServe } from 'vite-plugin-mock'
 import DefineOptions from 'unplugin-vue-define-options/vite'
 import { createHtmlPlugin } from 'vite-plugin-html'
-
+import { requestUrl } from './src/config/axios/config'
 // https://vitejs.dev/config/
 const root = process.cwd()
 
@@ -149,7 +149,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       proxy: {
         // 选项写法
         '/api': {
-          target: 'http://120.55.167.167:9202',
+          target: requestUrl,
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, '')
         }

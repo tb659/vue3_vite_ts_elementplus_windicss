@@ -9,10 +9,10 @@ import { listToTree } from '@/utils/tree'
 const { t } = useI18n()
 
 interface TableResponse<T = any> {
+  page: number
+  rows: T[]
+  size: number
   total: number
-  list: T[]
-  pageNumber: number
-  pageSize: number
 }
 
 interface UseTableConfig<T = any> {
@@ -125,7 +125,7 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
     }
   }
   // TODO 声明的methods对象
-  const enableData = async (id: string) => {
+  const enableData = async (id: number) => {
     const res = await (config?.enableApi && config?.enableApi(id))
     if (res) {
       ElMessage.success(t('common.enableSuccess'))
@@ -133,7 +133,7 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
     }
   }
 
-  const disableData = async (id: string) => {
+  const disableData = async (id: number) => {
     const res = await (config?.disableApi && config?.disableApi(id))
     if (res) {
       ElMessage.success(t('common.disableSuccess'))
@@ -204,7 +204,7 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
       }
     },
     // 启用
-    enableItem: async (id: string, message = true) => {
+    enableItem: async (id: number, message = true) => {
       if (message) {
         ElMessageBox.confirm(t('common.enableMessage'), t('common.enableWarning'), {
           confirmButtonText: t('common.enableOk'),
@@ -218,7 +218,7 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
       }
     },
     // 启用
-    disableItem: async (id: string, message = true) => {
+    disableItem: async (id: number, message = true) => {
       if (message) {
         ElMessageBox.confirm(t('common.disableMessage'), t('common.disableWarning'), {
           confirmButtonText: t('common.disableOk'),

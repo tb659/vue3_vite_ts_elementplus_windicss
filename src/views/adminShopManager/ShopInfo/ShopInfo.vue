@@ -3,19 +3,24 @@ import { ContentWrap } from '@/components/ContentWrap'
 import { Search } from '@/components/Search'
 import { Dialog } from '@/components/Dialog'
 import { useI18n } from '@/hooks/web/useI18n'
-import { ElButton, ElTag } from 'element-plus'
+import { ElButton, ElMessage } from 'element-plus'
 import { Table } from '@/components/Table'
-import { getTableListApi, saveTableApi, delTableListApi } from '@/api/table'
 import { useTable } from '@/hooks/web/useTable'
-import { TableData } from '@/api/table/types'
-import { h, ref, unref, reactive } from 'vue'
+import { ref, unref, reactive } from 'vue'
 import Write from './components/Write.vue'
-import Detail from './components/Detail.vue'
 import { CrudSchema, useCrudSchemas } from '@/hooks/web/useCrudSchemas'
+import {
+  getShopInfoApi,
+  postShopInfoApi,
+  putShopInfoApi,
+  deleteShopInfoApi
+} from '@/api/adminShopManager/shopInfo'
+import { ShopInfoData } from '@/api/adminShopManager/shopInfo/types'
+import { requestUrl } from '@/config/axios/config'
 
-const { register, tableObject, methods } = useTable<TableData>({
-  getListApi: getTableListApi,
-  delListApi: delTableListApi,
+const { register, tableObject, methods } = useTable<ShopInfoData>({
+  getListApi: getShopInfoApi,
+  delListApi: deleteShopInfoApi,
   response: { rows: 'rows', total: 'total' }
 })
 
@@ -30,118 +35,100 @@ const crudSchemas = reactive<CrudSchema[]>([
     field: 'index',
     label: t('tableDemo.index'),
     type: 'index',
+    form: { show: false },
+    detail: { show: false }
+  },
+  {
+    field: 'name',
+    label: t('shopManager.shopName'),
+    search: { show: true },
     form: {
-      show: false
+      colProps: { span: 24 }
     },
-    detail: {
-      show: false
+    detail: { span: 24 }
+  },
+  {
+    field: 'introduction',
+    label: t('shopManager.richTextInfo'),
+    form: {
+      colProps: { span: 24 },
+      componentProps: { type: 'textarea' }
     }
   },
   {
-    field: 'title',
-    label: t('tableDemo.title'),
-    search: {
-      show: true
-    },
+    field: 'mchType',
+    label: t('shopManager.shopType'),
     form: {
-      colProps: {
-        span: 24
-      }
-    },
-    detail: {
-      span: 24
-    }
-  },
-  {
-    field: 'author',
-    label: t('tableDemo.author')
-  },
-  {
-    field: 'display_time',
-    label: t('tableDemo.displayTime'),
-    form: {
-      component: 'DatePicker',
-      componentProps: {
-        type: 'datetime',
-        valueFormat: 'YYYY-MM-DD HH:mm'
-      }
-    }
-  },
-  {
-    field: 'importance',
-    label: t('tableDemo.importance'),
-    formatter: (_: Recordable, __: TableColumn, cellValue: number) => {
-      return h(
-        ElTag,
-        {
-          type: cellValue === 1 ? 'success' : cellValue === 2 ? 'warning' : 'danger'
-        },
-        () =>
-          cellValue === 1
-            ? t('tableDemo.important')
-            : cellValue === 2
-            ? t('tableDemo.good')
-            : t('tableDemo.commonly')
-      )
-    },
-    form: {
+      colProps: { span: 24 },
       component: 'Select',
       componentProps: {
+        style: { width: '100%' },
         options: [
-          {
-            label: '重要',
-            value: 3
-          },
-          {
-            label: '良好',
-            value: 2
-          },
-          {
-            label: '一般',
-            value: 1
-          }
+          { label: '商铺', value: 'shop' },
+          { label: '场馆', value: 'venue' }
         ]
       }
     }
   },
   {
-    field: 'pageviews',
-    label: t('tableDemo.pageviews'),
+    field: 'mchType',
+    label: t('shopManager.shopGroup'),
     form: {
-      component: 'InputNumber',
-      value: 0
+      colProps: { span: 24 },
+      component: 'Select',
+      componentProps: {
+        style: { width: '100%' },
+        options: [
+          { label: '商铺', value: 'shop' },
+          { label: '场馆', value: 'venue' }
+        ]
+      }
     }
   },
   {
-    field: 'content',
-    label: t('exampleDemo.content'),
-    table: {
-      show: false
-    },
+    field: 'gis',
+    label: t('shopManager.mapPosition'),
     form: {
-      component: 'Editor',
-      colProps: {
-        span: 24
+      colProps: { span: 24 }
+    }
+  },
+  {
+    field: 'payQrCode',
+    label: t('shopManager.payQrCode'),
+    form: {
+      colProps: { span: 24 },
+      component: 'Uploader',
+      componentProps: {
+        action: `${requestUrl}/api/file/upload`,
+        accessLevel: 'PUBLIC'
       }
-    },
-    detail: {
-      span: 24
+    }
+  },
+  {
+    field: 'crtTime',
+    label: t('shopManager.insertTime'),
+    form: { show: false }
+  },
+  {
+    field: 'tipTemplate',
+    label: t('shopManager.tipInfoForBuy'),
+    form: {
+      colProps: { span: 24 },
+      componentProps: { type: 'textarea' }
     }
   },
   {
     field: 'action',
     width: '260px',
     label: t('tableDemo.action'),
-    form: {
-      show: false
-    },
-    detail: {
-      show: false
-    }
+    form: { show: false },
+    detail: { show: false }
   }
 ])
 
 const { allSchemas } = useCrudSchemas(crudSchemas)
+
+const actionType = ref('')
 
 const dialogVisible = ref(false)
 
@@ -154,25 +141,8 @@ const AddAction = () => {
   dialogVisible.value = true
 }
 
-const delLoading = ref(false)
-
-const delData = async (row: TableData | null, multiple: boolean) => {
-  tableObject.currentRow = row
-  const { delList, getSelections } = methods
-  const selections = await getSelections()
-  delLoading.value = true
-  await delList(
-    multiple ? selections.map((v) => v.id) : [tableObject.currentRow?.id as string],
-    multiple
-  ).finally(() => {
-    delLoading.value = false
-  })
-}
-
-const actionType = ref('')
-
-const action = (row: TableData, type: string) => {
-  dialogTitle.value = t(type === 'edit' ? 'exampleDemo.edit' : 'exampleDemo.detail')
+const action = (row: ShopInfoData, type: string) => {
+  dialogTitle.value = t(type === 'edit' ? 'common.edit' : 'common.detail')
   actionType.value = type
   tableObject.currentRow = row
   dialogVisible.value = true
@@ -187,19 +157,31 @@ const save = async () => {
   await write?.elFormRef?.validate(async (isValid) => {
     if (isValid) {
       loading.value = true
-      const data = (await write?.getFormData()) as TableData
-      const res = await saveTableApi(data)
+      const data = (await write?.getFormData()) as ShopInfoData
+      let api = putShopInfoApi
+      if (!data.id) {
+        api = postShopInfoApi
+      }
+      const res = await api(data)
         .catch(() => {})
         .finally(() => {
           loading.value = false
         })
       if (res) {
+        ElMessage.success(t('common.saveSuccess'))
         dialogVisible.value = false
         tableObject.currentPage = 1
-        getList()
+        await getList()
       }
     }
   })
+}
+
+const delData = async (row: ShopInfoData | null, multiple: boolean) => {
+  tableObject.currentRow = row
+  const { delList, getSelections } = methods
+  const selections = await getSelections()
+  await delList(multiple ? selections.map((v) => v.id) : [tableObject.currentRow!.id], multiple)
 }
 </script>
 
@@ -208,9 +190,9 @@ const save = async () => {
     <Search :schema="allSchemas.searchSchema" @search="setSearchParams" @reset="setSearchParams" />
 
     <div class="mb-10px">
-      <ElButton type="primary" @click="AddAction">{{ t('exampleDemo.add') }}</ElButton>
-      <ElButton :loading="delLoading" type="danger" @click="delData(null, true)">
-        {{ t('exampleDemo.del') }}
+      <ElButton type="primary" @click="AddAction">
+        <Icon icon="akar-icons:circle-plus" class="mr-5px" />
+        {{ t('common.add') }}
       </ElButton>
     </div>
 
@@ -239,17 +221,11 @@ const save = async () => {
     </Table>
   </ContentWrap>
 
-  <Dialog v-model="dialogVisible" :title="dialogTitle">
+  <Dialog v-model="dialogVisible" :title="dialogTitle" maxHeight="550px">
     <Write
       v-if="actionType !== 'detail'"
       ref="writeRef"
       :form-schema="allSchemas.formSchema"
-      :current-row="tableObject.currentRow"
-    />
-
-    <Detail
-      v-if="actionType === 'detail'"
-      :detail-schema="allSchemas.detailSchema"
       :current-row="tableObject.currentRow"
     />
 

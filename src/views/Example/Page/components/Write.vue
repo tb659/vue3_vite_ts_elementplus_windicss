@@ -44,7 +44,7 @@ const schema = reactive<FormSchema[]>([
     component: 'DatePicker',
     componentProps: {
       type: 'datetime',
-      valueFormat: 'YYYY-MM-DD HH:mm:ss'
+      valueFormat: 'YYYY-MM-DD HH:mm'
     },
     formItemProps: {
       rules: [required()]

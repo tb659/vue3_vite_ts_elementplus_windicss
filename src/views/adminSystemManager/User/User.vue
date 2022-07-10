@@ -47,7 +47,7 @@ const userInfo = wsCache.get(appStore.getUserInfo)
 const crudSchemas = reactive<CrudSchema[]>([
   {
     field: 'index',
-    label: t('tableDemo.index'),
+    label: t('common.index'),
     type: 'index',
     form: { show: false }
   },

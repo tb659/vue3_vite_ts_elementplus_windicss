@@ -9,5 +9,6 @@ export type GoodCategoryData = {
   id: number
   imgPath: string
   mch: ShopInfoData
+  mchId: number
   name: string
 }

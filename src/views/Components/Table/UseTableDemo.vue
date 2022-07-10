@@ -22,7 +22,7 @@ const { t } = useI18n()
 const columns = reactive<TableColumn[]>([
   {
     field: 'index',
-    label: t('tableDemo.index'),
+    label: t('common.index'),
     type: 'index'
   },
   {

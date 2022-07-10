@@ -39,7 +39,7 @@ const resourceTypeList = ref([{ label: t('systemManager.menu'), value: 1 }])
 const crudSchemas = reactive<CrudSchema[]>([
   {
     field: 'index',
-    label: t('tableDemo.index'),
+    label: t('common.index'),
     type: 'index',
     form: { show: false }
   },

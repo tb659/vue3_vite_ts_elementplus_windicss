@@ -3,36 +3,38 @@ import { ContentWrap } from '@/components/ContentWrap'
 import { Search } from '@/components/Search'
 import { Dialog } from '@/components/Dialog'
 import { useI18n } from '@/hooks/web/useI18n'
-import { ElButton, ElMessage } from 'element-plus'
+import { ElLink, ElButton, ElMessage } from 'element-plus'
 import { Table } from '@/components/Table'
 import { useTable } from '@/hooks/web/useTable'
-import { ref, unref, reactive } from 'vue'
+import { ref, unref, reactive, onMounted } from 'vue'
 import Write from './components/Write.vue'
 import { CrudSchema, useCrudSchemas } from '@/hooks/web/useCrudSchemas'
 import {
-  getShopInfoApi,
-  postShopInfoApi,
-  putShopInfoApi,
-  deleteShopInfoApi
-} from '@/api/adminShopManager/shopInfo'
+  getGoodInfoApi,
+  postGoodInfoApi,
+  putGoodInfoApi,
+  deleteGoodInfoApi
+} from '@/api/adminShopManager/goodInfo'
+import { GoodInfoData } from '@/api/adminShopManager/goodInfo/types'
+import { getShopInfoApi } from '@/api/adminShopManager/shopInfo'
 import { ShopInfoData } from '@/api/adminShopManager/shopInfo/types'
 
-const { register, tableObject, methods } = useTable<ShopInfoData>({
-  getListApi: getShopInfoApi,
-  delListApi: deleteShopInfoApi,
+const { register, tableObject, methods } = useTable<GoodInfoData>({
+  getListApi: getGoodInfoApi,
+  delListApi: deleteGoodInfoApi,
   response: { rows: 'rows', total: 'total' }
 })
 
 const { getList, setSearchParams } = methods
 
-getList()
+setSearchParams({ productCategory: 'lease' })
 
 const { t } = useI18n()
 
 const crudSchemas = reactive<CrudSchema[]>([
   {
     field: 'index',
-    label: t('tableDemo.index'),
+    label: t('common.index'),
     type: 'index',
     form: { show: false },
     detail: { show: false }
@@ -46,35 +48,52 @@ const crudSchemas = reactive<CrudSchema[]>([
     }
   },
   {
-    field: 'introduction',
-    label: t('shopManager.richTextInfo'),
+    field: 'mchId',
+    label: t('shopManager.shopName'),
+    search: {
+      show: true,
+      component: 'Select',
+      componentProps: { options: [] }
+    },
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 24 },
+      component: 'Select',
+      componentProps: {
+        style: { width: '100%' },
+        options: []
+      }
+    },
+    formatter: (_: Recordable, __: TableColumn, cellValue: ShopInfoData) => {
+      return cellValue.name
     }
   },
   {
-    field: 'mchType',
-    label: t('shopManager.shopType')
+    field: 'productType',
+    label: t('shopManager.goodCategory')
   },
   {
-    field: 'gis',
-    label: t('shopManager.mapPosition')
+    field: 'packingUnit',
+    label: t('shopManager.packingUnit')
   },
   {
-    field: 'payQrCode',
-    label: t('shopManager.payQrCode')
+    field: 'manufacturer',
+    label: t('shopManager.manufacturer')
   },
   {
-    field: 'crtTime',
-    label: t('shopManager.insertTime')
+    field: 'onShelfTime',
+    label: t('shopManager.putawawyTime')
   },
   {
-    field: 'tipTemplate',
-    label: t('shopManager.tipInfoForBuy')
+    field: 'price',
+    label: t('shopManager.standardPrice')
+  },
+  {
+    field: 'inventoryNumber',
+    label: t('shopManager.inventory')
   },
   {
     field: 'action',
-    width: '260px',
+    width: '160px',
     label: t('tableDemo.action'),
     form: { show: false },
     detail: { show: false }
@@ -90,13 +109,13 @@ const dialogVisible = ref(false)
 const dialogTitle = ref('')
 
 const AddAction = () => {
-  dialogTitle.value = t('exampleDemo.add')
+  dialogTitle.value = t('common.add')
   actionType.value = ''
   tableObject.currentRow = null
   dialogVisible.value = true
 }
 
-const action = (row: ShopInfoData, type: string) => {
+const action = (row: GoodInfoData, type: string) => {
   dialogTitle.value = t(type === 'edit' ? 'common.edit' : 'common.detail')
   actionType.value = type
   tableObject.currentRow = row
@@ -112,10 +131,11 @@ const save = async () => {
   await write?.elFormRef?.validate(async (isValid) => {
     if (isValid) {
       loading.value = true
-      const data = (await write?.getFormData()) as ShopInfoData
-      let api = putShopInfoApi
+      const data = (await write?.getFormData()) as GoodInfoData
+      data.productCategory = 'lease'
+      let api = putGoodInfoApi
       if (!data.id) {
-        api = postShopInfoApi
+        api = postGoodInfoApi
       }
       const res = await api(data)
         .catch(() => {})
@@ -132,12 +152,36 @@ const save = async () => {
   })
 }
 
-const delData = async (row: ShopInfoData | null, multiple: boolean) => {
+const delData = async (row: GoodInfoData | null, multiple: boolean) => {
   tableObject.currentRow = row
   const { delList, getSelections } = methods
   const selections = await getSelections()
   await delList(multiple ? selections.map((v) => v.id) : [tableObject.currentRow!.id], multiple)
 }
+
+const shopInfoListData = ref<ShopInfoData[]>([])
+
+const updateSchemas = () => {
+  const keys = ['searchSchema', 'formSchema']
+  keys.forEach((key) => {
+    allSchemas[key].filter((schema) => schema.field === 'mchId')[0].componentProps!.options =
+      shopInfoListData.value.map((item) => {
+        return { label: item.name, value: item.id }
+      })
+    if (key === 'searchSchema') {
+      allSchemas[key].filter((schema) => schema.field === 'mchId')[0].value =
+        shopInfoListData.value[0].id
+    }
+  })
+}
+
+onMounted(async () => {
+  const res = await getShopInfoApi({ page: 1, size: 999 })
+  if (res) {
+    shopInfoListData.value = res.data.rows
+  }
+  updateSchemas()
+})
 </script>
 
 <template>
@@ -163,15 +207,15 @@ const delData = async (row: ShopInfoData | null, multiple: boolean) => {
       @register="register"
     >
       <template #action="{ row }">
-        <ElButton type="primary" @click="action(row, 'edit')">
-          {{ t('exampleDemo.edit') }}
-        </ElButton>
-        <ElButton type="success" @click="action(row, 'detail')">
-          {{ t('exampleDemo.detail') }}
-        </ElButton>
-        <ElButton type="danger" @click="delData(row, false)">
-          {{ t('exampleDemo.del') }}
-        </ElButton>
+        <ElLink :underline="false" type="primary" @click="action(row, 'edit')">
+          {{ t('common.edit') }}
+        </ElLink>
+        <ElLink :underline="false" type="success" @click="action(row, 'detail')">
+          {{ t('common.detail') }}
+        </ElLink>
+        <ElLink :underline="false" type="danger" @click="delData(row, false)">
+          {{ t('common.del') }}
+        </ElLink>
       </template>
     </Table>
   </ContentWrap>
@@ -185,10 +229,10 @@ const delData = async (row: ShopInfoData | null, multiple: boolean) => {
     />
 
     <template #footer>
-      <ElButton v-if="actionType !== 'detail'" type="primary" :loading="loading" @click="save">
-        {{ t('exampleDemo.save') }}
-      </ElButton>
       <ElButton @click="dialogVisible = false">{{ t('dialogDemo.close') }}</ElButton>
+      <ElButton v-if="actionType !== 'detail'" type="primary" :loading="loading" @click="save">
+        {{ t('common.save') }}
+      </ElButton>
     </template>
   </Dialog>
 </template>

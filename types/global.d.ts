@@ -25,6 +25,8 @@ declare type AxiosMethod = 'get' | 'post' | 'delete' | 'put'
 
 declare type AxiosResponseType = 'arraybuffer' | 'blob' | 'document' | 'json' | 'text' | 'stream'
 
+declare type UploadAccessLevel = 'PUBLIC' | 'PRIVATE'
+
 declare interface AxiosConfig {
   params?: any
   data?: any
@@ -46,4 +48,7 @@ declare interface IResponse<T = any> {
   message: string
   sign: null
   success: boolean
+}
+declare interface Window {
+  BMap: any
 }

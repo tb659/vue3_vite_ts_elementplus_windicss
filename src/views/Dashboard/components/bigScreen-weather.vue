@@ -17,13 +17,13 @@
     <div class="mainBottom">
       <div class="bottomTitle">近日天气变化</div>
       <div class="weatherBox">
-        <dov class="weatherItem" v-for="(item, index) in weatherArr" :key="index">
+        <div class="weatherItem" v-for="(item, index) in weatherArr" :key="index">
           <div class="dateBox">{{ item.date }}</div>
           <div class="weatherType">
             {{ item.type }}
             <img :src="item.imgUrl" alt="" />
           </div>
-        </dov>
+        </div>
       </div>
     </div>
   </div>

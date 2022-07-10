@@ -13,3 +13,9 @@ export const getDictOneApi = async (): Promise<IResponse> => {
   const res = await request.get({ url: '/dict/one' })
   return res && res.data
 }
+
+// 文件上传
+export const postUploadApi = async (accessLevel: string, data): Promise<IResponse> => {
+  const res = await request.post({ url: `/api/file/upload?accessLevel=${accessLevel}`, data })
+  return res && res.data
+}

@@ -3,10 +3,10 @@ import { ContentWrap } from '@/components/ContentWrap'
 import { Search } from '@/components/Search'
 import { Dialog } from '@/components/Dialog'
 import { useI18n } from '@/hooks/web/useI18n'
-import { ElButton, ElMessage } from 'element-plus'
+import { ElButton, ElLink, ElTag, ElMessage } from 'element-plus'
 import { Table } from '@/components/Table'
 import { useTable } from '@/hooks/web/useTable'
-import { ref, unref, reactive } from 'vue'
+import { ref, unref, reactive, h } from 'vue'
 import Write from './components/Write.vue'
 import { CrudSchema, useCrudSchemas } from '@/hooks/web/useCrudSchemas'
 import {
@@ -17,6 +17,7 @@ import {
 } from '@/api/adminShopManager/shopInfo'
 import { ShopInfoData } from '@/api/adminShopManager/shopInfo/types'
 import { requestUrl } from '@/config/axios/config'
+import { dateNumFormat } from '@/utils'
 
 const { register, tableObject, methods } = useTable<ShopInfoData>({
   getListApi: getShopInfoApi,
@@ -26,14 +27,16 @@ const { register, tableObject, methods } = useTable<ShopInfoData>({
 
 const { getList, setSearchParams } = methods
 
-getList()
+setSearchParams({ mchCategory: 'shop' })
+
+// getList()
 
 const { t } = useI18n()
 
 const crudSchemas = reactive<CrudSchema[]>([
   {
     field: 'index',
-    label: t('tableDemo.index'),
+    label: t('common.index'),
     type: 'index',
     form: { show: false },
     detail: { show: false }
@@ -52,11 +55,13 @@ const crudSchemas = reactive<CrudSchema[]>([
     label: t('shopManager.richTextInfo'),
     form: {
       colProps: { span: 24 },
-      componentProps: { type: 'textarea' }
+      component: 'Editor',
+      componentProps: { style: { width: '100%' } }
     }
   },
   {
     field: 'mchType',
+    width: '120px',
     label: t('shopManager.shopType'),
     form: {
       colProps: { span: 24 },
@@ -64,26 +69,23 @@ const crudSchemas = reactive<CrudSchema[]>([
       componentProps: {
         style: { width: '100%' },
         options: [
-          { label: '商铺', value: 'shop' },
+          { label: '商户', value: 'shop' },
           { label: '场馆', value: 'venue' }
         ]
       }
+    },
+    formatter: (_: Recordable, __: TableColumn, cellValue: string) => {
+      return h(ElTag, {}, () => t(cellValue === 'shop' ? '商户' : '场馆'))
     }
   },
   {
-    field: 'mchType',
-    label: t('shopManager.shopGroup'),
+    field: 'tips',
+    label: t('common.tips'),
     form: {
-      colProps: { span: 24 },
-      component: 'Select',
-      componentProps: {
-        style: { width: '100%' },
-        options: [
-          { label: '商铺', value: 'shop' },
-          { label: '场馆', value: 'venue' }
-        ]
-      }
-    }
+      value: 'tips',
+      colProps: { span: 24 }
+    },
+    table: { show: false }
   },
   {
     field: 'gis',
@@ -94,20 +96,23 @@ const crudSchemas = reactive<CrudSchema[]>([
   },
   {
     field: 'payQrCode',
+    width: '120px',
     label: t('shopManager.payQrCode'),
     form: {
       colProps: { span: 24 },
       component: 'Uploader',
       componentProps: {
-        action: `${requestUrl}/api/file/upload`,
         accessLevel: 'PUBLIC'
       }
     }
   },
   {
     field: 'crtTime',
-    label: t('shopManager.insertTime'),
-    form: { show: false }
+    label: t('common.createTime'),
+    form: { show: false },
+    formatter: (_: Recordable, __: TableColumn, cellValue: number) => {
+      return dateNumFormat(cellValue)
+    }
   },
   {
     field: 'tipTemplate',
@@ -119,7 +124,7 @@ const crudSchemas = reactive<CrudSchema[]>([
   },
   {
     field: 'action',
-    width: '260px',
+    width: '160px',
     label: t('tableDemo.action'),
     form: { show: false },
     detail: { show: false }
@@ -135,7 +140,7 @@ const dialogVisible = ref(false)
 const dialogTitle = ref('')
 
 const AddAction = () => {
-  dialogTitle.value = t('exampleDemo.add')
+  dialogTitle.value = t('common.add')
   actionType.value = ''
   tableObject.currentRow = null
   dialogVisible.value = true
@@ -158,6 +163,7 @@ const save = async () => {
     if (isValid) {
       loading.value = true
       const data = (await write?.getFormData()) as ShopInfoData
+      data.mchCategory = 'shop'
       let api = putShopInfoApi
       if (!data.id) {
         api = postShopInfoApi
@@ -207,33 +213,46 @@ const delData = async (row: ShopInfoData | null, multiple: boolean) => {
       }"
       @register="register"
     >
+      <template #payQrCode="{ row }">
+        <img
+          class="w-80px"
+          :src="`${requestUrl}${row.payQrCode}`"
+          :alt="`${requestUrl}${row.payQrCode}`"
+        />
+      </template>
       <template #action="{ row }">
-        <ElButton type="primary" @click="action(row, 'edit')">
-          {{ t('exampleDemo.edit') }}
-        </ElButton>
-        <ElButton type="success" @click="action(row, 'detail')">
-          {{ t('exampleDemo.detail') }}
-        </ElButton>
-        <ElButton type="danger" @click="delData(row, false)">
-          {{ t('exampleDemo.del') }}
-        </ElButton>
+        <ElLink
+          :underline="false"
+          type="primary"
+          class="ml-10px cursor-pointer"
+          @click="action(row, 'edit')"
+        >
+          {{ t('common.edit') }}
+        </ElLink>
+        <ElLink
+          :underline="false"
+          type="primary"
+          class="ml-10px cursor-pointer"
+          @click="delData(row, false)"
+        >
+          {{ t('common.del') }}
+        </ElLink>
       </template>
     </Table>
   </ContentWrap>
 
-  <Dialog v-model="dialogVisible" :title="dialogTitle" maxHeight="550px">
+  <Dialog v-model="dialogVisible" :title="dialogTitle" maxHeight="1000px" width="1600px">
     <Write
-      v-if="actionType !== 'detail'"
       ref="writeRef"
       :form-schema="allSchemas.formSchema"
       :current-row="tableObject.currentRow"
     />
 
     <template #footer>
-      <ElButton v-if="actionType !== 'detail'" type="primary" :loading="loading" @click="save">
-        {{ t('exampleDemo.save') }}
-      </ElButton>
       <ElButton @click="dialogVisible = false">{{ t('dialogDemo.close') }}</ElButton>
+      <ElButton v-if="actionType !== 'detail'" type="primary" :loading="loading" @click="save">
+        {{ t('common.save') }}
+      </ElButton>
     </template>
   </Dialog>
 </template>

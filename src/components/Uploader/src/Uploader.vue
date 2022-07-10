@@ -1,51 +1,52 @@
 <script setup lang="ts">
 import { ElUpload, ElMessage } from 'element-plus'
 import type { UploadProps, UploadInstance } from 'element-plus'
-import { PropType, ref, watch } from 'vue'
+import { propTypes } from '@/utils/propTypes'
+import { ref, unref, watch } from 'vue'
 import { useI18n } from '@/hooks/web/useI18n'
-
-const uploadRef = ref<UploadInstance>()
+import { requestUrl } from '@/config/axios/config'
+import { postUploadApi } from '@/api/common'
 
 const { t } = useI18n()
 
+const emit = defineEmits(['change', 'update:modelValue'])
+
+const uploadRef = ref<UploadInstance>()
+
 const imageUrl = ref('')
 
-const emit = defineEmits(['handle-upload'])
-
 const props = defineProps({
-  accessLevel: {
-    type: String as PropType<'PUBLIC' | 'PRIVATE'>,
-    default: () => 'PUBLIC'
-  },
-  formSchema: {
-    type: Array as PropType<FormSchema[]>,
-    default: () => []
-  }
+  accessLevel: propTypes.oneOf<UploadAccessLevel[]>(['PUBLIC', 'PRIVATE']).def('PUBLIC'),
+  modelValue: propTypes.string.def('')
 })
+
+watch(
+  () => props.modelValue,
+  (val: string) => {
+    if (val === unref(imageUrl)) return
+    imageUrl.value = requestUrl + val
+  },
+  { immediate: true }
+)
 
 const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
   const { size } = rawFile
-
   if (size === 0) {
     ElMessage.warning(t('common.noUpload'))
     return false
   }
-
   return true
 }
 
-watch(
-  () => uploadRef,
-  (curr) => {
-    const data = props.accessLevel
-    console.log(data, curr.value)
-  },
-  { deep: true, immediate: true }
-)
-const handleSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
-  console.log('response, uploadFile', response, uploadFile)
+const handleSuccess: UploadProps['onSuccess'] = async (_, uploadFile) => {
   imageUrl.value = URL.createObjectURL(uploadFile.raw!)
-  emit('handle-upload')
+  const formData = new FormData()
+  formData.append('file', uploadFile.raw!)
+  const res = await postUploadApi(props.accessLevel, formData)
+  if (res) {
+    ElMessage.success(t('common.uploadSuccess'))
+    emit('update:modelValue', res.data)
+  }
 }
 </script>
 
@@ -54,6 +55,7 @@ const handleSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
     ref="uploadRef"
     class="avatar-uploader"
     v-bind="$attrs"
+    :action="requestUrl"
     :show-file-list="false"
     :on-success="handleSuccess"
     :before-upload="beforeUpload"
@@ -64,7 +66,7 @@ const handleSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
       class="cursor-pointer is-hover"
       :icon="'ant-design:upload-outlined'"
       color="var(--el-color-info)"
-      size="26"
+      :size="26"
     />
   </ElUpload>
 </template>

@@ -18,6 +18,7 @@ const appStore = useAppStore()
 const tagsView = computed(() => appStore.getTagsView)
 
 const style = ref({ height: 'calc(100vh - 85px)' })
+
 watch(
   () => tagsView,
   (curr) => {

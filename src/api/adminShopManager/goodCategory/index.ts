@@ -3,22 +3,22 @@ import type { GoodCategoryData } from './types'
 
 const request = useAxios()
 
-export const getShopInfoApi = async (params: any): Promise<IResponse> => {
-  const res = await request.get({ url: '/api/merchant/', params })
+export const getGoodCategoryApi = async (params: any): Promise<IResponse> => {
+  const res = await request.get({ url: '/api/product_category/', params })
   return res && res.data
 }
 
-export const postShopInfoApi = async (data: Partial<GoodCategoryData>): Promise<IResponse> => {
-  const res = await request.post({ url: '/api/merchant/', data })
+export const postGoodCategoryApi = async (data: Partial<GoodCategoryData>): Promise<IResponse> => {
+  const res = await request.post({ url: '/api/product_category/', data })
   return res && res.data
 }
 
-export const putShopInfoApi = async (data: Partial<GoodCategoryData>): Promise<IResponse> => {
-  const res = await request.put({ url: '/api/merchant/', data })
+export const putGoodCategoryApi = async (data: Partial<GoodCategoryData>): Promise<IResponse> => {
+  const res = await request.put({ url: '/api/product_category/', data })
   return res && res.data
 }
 
-export const deleteShopInfoApi = async (id: Partial<GoodCategoryData>): Promise<IResponse> => {
-  const res = await request.delete({ url: `/api/merchant/${id}` })
+export const deleteGoodCategoryApi = async (id: Partial<GoodCategoryData>): Promise<IResponse> => {
+  const res = await request.delete({ url: `/api/product_category/${id}` })
   return res && res.data
 }

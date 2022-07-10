@@ -64,17 +64,43 @@ export default {
     disable: '禁用',
     roleType: '角色类型',
     passwordSetting: '密码设置',
+    index: '序号',
     add: '新增',
     del: '删除',
     edit: '编辑',
     save: '保存',
+    status: '状态',
     saveSuccess: '保存成功',
     detail: '详情',
+    price: '价格',
     action: '操作',
     putaway: '上架',
     soldOut: '下架',
+    lease: '租赁',
+    tips: '提示',
+    epidemic: '疫情',
+    ticket: '门票',
+    print: '打印',
+    export: '导出',
+    important: '重要',
+    good: '良好',
+    commonly: '一般',
+    aduit: '审核',
+    expired: '已过期',
+    toAudit: '待审核',
+    fail: '未通过',
+    passed: '已通过',
+    dimission: '离职',
+    onTheJob: '在职',
+    offLine: '在线',
+    onLine: '离线',
     canNotOperation: '禁止操作',
-    noUpload: '文件大小为0，禁止上传'
+    noUpload: '文件大小为0，禁止上传',
+    uploadSuccess: '上传成功',
+    lastVisitTime: '最近访问时间',
+    untreated: '未处理',
+    processed: '已处理',
+    canNotDispose: '无法处理'
   },
   error: {
     noPermission: `抱歉，您无权访问此页面。`,
@@ -524,11 +550,10 @@ export default {
     // shopInfo
     shopName: '商户名称',
     richTextInfo: '富文本简介',
+    shopGroup: '商户分组',
     shopType: '商户类型',
-    shopGroup: '商户类型',
     mapPosition: '地图位置',
     payQrCode: '支付二维码',
-    insertTime: '插入时间',
     tipInfoForBuy: '购买提示',
     // goodInfo
     goodName: '商品名称',
@@ -538,7 +563,75 @@ export default {
     putawawyTime: '上架时间',
     standardPrice: '标准价格',
     purchasingBase: '采购基数',
-    inventory: '库存'
+    inventory: '库存',
+    goodDetail: '商品详情',
+    // goodCategory
+    categoryImage: '分类图片',
+    categoryName: '分类名称',
+    codeNumber: '分类编号',
+    ceategoryDescription: '分类描述',
+    // goodOrder
+    orderCode: '订单编号',
+    orderStatus: '订单状态',
+    orderPrice: '订单金额'
+  },
+  venueManager: {
+    // venueInfo
+    venueName: '场馆名称',
+    // lease-good
+    leaseGood: '租赁商品',
+    leaseDecription: '租赁介绍',
+    hasLeaseDeposit: '有押金',
+    leaseDepositMoney: '押金',
+    leaseUnit: '租赁单位',
+    leaseMaxCount: '最大租赁数量',
+    price: '价格',
+    buyingTips: '购买提示'
+  },
+  touristManager: {
+    // touristInfo
+    touristNickName: '游客昵称',
+    touristName: '游客姓名',
+    idType: '证件类型',
+    idNo: '证件号码',
+    // epidemicManager
+    nameOrNickName: '昵称或者姓名',
+    dateTime: '防疫时间',
+    beginTime: '防疫开始时间',
+    endTime: '防疫结束时间',
+    submitTime: '防疫提交时间',
+    auditStatus: '审核状态',
+    auditTime: '审核时间',
+    // ticketManager
+    ticketName: '门票名称',
+    ticketType: '门票类型',
+    ticketPrice: '门票价格',
+    putawayTime: '上架时间',
+    standardPrice: '标准价格'
+  },
+  staffManager: {
+    // epartmentManager
+    epartmentName: '部门班组名称',
+    workNo: '工号',
+    code: '编号',
+    name: '姓名',
+    phoneNumber: '手机号码',
+    shopOrVenue: '商户/场馆'
+  },
+  queueManager: {
+    // queueTerminal
+    terminalId: '终端ID',
+    terminalName: '终端名称',
+    secret: '秘钥'
+  },
+  workOrder: {
+    initiator: '发起人',
+    type: '工单类型',
+    content: '工单内容',
+    principal: '负责人',
+    estimatedTimeOfCompletion: '预计完成时间',
+    workorderexecutioninstructions: '工单执行说明',
+    workOrderExecutionImage: '工单执行图片'
   },
   //
   test: {

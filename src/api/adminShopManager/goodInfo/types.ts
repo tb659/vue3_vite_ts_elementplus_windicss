@@ -1,12 +1,6 @@
 import { ShopInfoData } from '@/api/adminShopManager/shopInfo/types'
 import { GoodCategoryData } from '@/api/adminShopManager/goodCategory/types'
 
-enum productCategory {
-  goods,
-  lease,
-  ticket
-}
-
 export type GoodInfoData = {
   buyingTips: string
   dataVersion: number
@@ -25,7 +19,7 @@ export type GoodInfoData = {
   onShelfTime: string
   packingUnit: string
   price: number
-  produceCategory: productCategory
+  productCategory: 'goods' | 'lease' | 'ticket'
   productImage: string
   productType: GoodCategoryData
   purchasePrice: number

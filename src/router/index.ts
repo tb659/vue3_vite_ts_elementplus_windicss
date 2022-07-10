@@ -10,7 +10,7 @@ export const constantRouterMap: AppRouteRecordRaw[] = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard/analysis',
+    redirect: '/dashboard/big-screen',
     name: 'Root',
     meta: {
       hidden: true
@@ -59,7 +59,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
   {
     path: '/dashboard',
     component: Layout,
-    redirect: '/dashboard/analysis',
+    redirect: '/dashboard/big-screen',
     name: 'Dashboard',
     meta: {
       title: t('router.dashboard'),
@@ -67,6 +67,15 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       alwaysShow: true
     },
     children: [
+      {
+        path: 'big-screen',
+        component: () => import('@/views/Dashboard/bigScreen.vue'),
+        name: 'BigScreen',
+        meta: {
+          title: t('router.bigScreen'),
+          noCache: true
+        }
+      },
       {
         path: 'analysis',
         component: () => import('@/views/Dashboard/Analysis.vue'),
@@ -83,15 +92,6 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'Workplace',
         meta: {
           title: t('router.workplace'),
-          noCache: true
-        }
-      },
-      {
-        path: 'big-screen',
-        component: () => import('@/views/Dashboard/bigScreen.vue'),
-        name: 'BigScreen',
-        meta: {
-          title: t('router.bigScreen'),
           noCache: true
         }
       }
@@ -877,9 +877,9 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
 // 当前展示的导航栏
 export const menuList: string[] = [
   '/dashboard',
+  '/dashboard/big-screen',
   '/dashboard/analysis',
-  '/dashboard/workplace',
-  '/dashboard/big-screen'
+  '/dashboard/workplace'
 
   // 'external-link',
   // 'https://element-plus-admin-doc.cn/',

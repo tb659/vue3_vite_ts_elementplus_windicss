@@ -64,17 +64,43 @@ export default {
     disable: 'Disable',
     roleType: 'Role type',
     passwordSetting: 'Password setting',
+    index: 'Index',
     add: 'Add',
     del: 'Delete',
+    price: '价格',
     edit: 'Edit',
     save: 'Save',
+    status: 'Status',
     saveSuccess: 'Saved successfully',
     detail: 'Detail',
     action: 'Action',
     putaway: 'putaway',
     soldOut: 'Sold out',
+    lease: 'Lease',
+    tips: 'Tips',
+    epidemic: 'Epidemic',
+    ticket: 'Ticket',
+    print: 'Print',
+    export: 'Export',
+    important: 'Important',
+    good: 'Good',
+    commonly: 'Commonly',
+    aduit: 'Aduit',
+    expired: 'Expired',
+    toAudit: 'To audit',
+    fail: 'Fail',
+    passed: 'Passed',
+    dimission: 'Dimission',
+    onTheJob: 'On the job',
+    offLine: 'Off line',
+    onLine: 'On line',
     canNotOperation: `Can not operation`,
-    noUpload: 'The file size is 0 and cannot be uploaded'
+    noUpload: 'The file size is 0 and cannot be uploaded',
+    uploadSuccess: 'Upload successfully',
+    lastVisitTime: 'Last visit time',
+    untreated: 'Untreated',
+    processed: 'Processed',
+    canNotDispose: 'Can not dispose'
   },
   error: {
     noPermission: `Sorry, you don't have permission to access this page.`,
@@ -528,8 +554,8 @@ export default {
     // shopInfo
     shopName: 'Shop name',
     richTextInfo: 'Rich text info',
-    shopType: 'Shop type',
     shopGroup: 'Shop group',
+    shopType: 'Shop type',
     mapPosition: 'Map position',
     payQrCode: 'Pay qr code',
     insertTime: 'Insert time',
@@ -542,7 +568,76 @@ export default {
     putawawyTime: 'Putawawy time',
     standardPrice: 'Standard price',
     purchasingBase: 'Purchasing base',
-    inventory: 'Inventory'
+    inventory: 'Inventory',
+    goodDetail: 'Good detail',
+    // goodCategory
+    categoryImage: 'Category image',
+    categoryName: 'Category name',
+    codeNumber: 'Code number',
+    ceategoryDescription: 'Ceategory description',
+    // goodOrder
+    orderCode: 'Order code',
+    orderStatus: 'Order status',
+    orderPrice: 'Order price'
+  },
+  venueManager: {
+    // venueInfo
+    venueName: 'Venue name',
+    // lease-good
+    leaseGood: 'Lease good',
+    leaseDecription: 'Lease decription',
+    hasLeaseDeposit: 'Has lease deposit',
+    leaseDepositMoney: 'Lease deposit money',
+    leaseUnit: 'Lease unit',
+    leaseMaxCount: 'Lease max count',
+    price: 'Price',
+    buyingTips: 'Buying tips'
+  },
+  touristManager: {
+    // touristInfo
+    touristNickName: 'Tourist nickname',
+    touristName: 'Tourist name',
+    idType: 'IdType',
+    idNo: 'IdNo',
+    lastVisitTime: 'Last visit time',
+    // epidemicManager
+    nameOrNickName: 'Name or nickname',
+    dateTime: 'Date time',
+    beginTime: 'Begin time',
+    endTime: 'End time',
+    submitTime: 'Submit time',
+    auditStatus: 'Audit status',
+    auditTime: 'Audit time',
+    // ticketManager
+    ticketName: 'Ticket name',
+    ticketType: 'Ticket type',
+    ticketPrice: 'Ticket price',
+    putawayTime: 'Putaway time',
+    standardPrice: 'Standard price'
+  },
+  staffManager: {
+    // epartmentManager
+    epartmentName: 'Epartment name',
+    workNo: 'workNo',
+    code: 'Code',
+    name: 'Name',
+    phoneNumber: 'Phone number',
+    shopOrVenue: 'Shop or venue'
+  },
+  queueManager: {
+    // queueTerminal
+    terminalId: 'TerminalID',
+    terminalName: 'Terminal name',
+    secret: 'Secret'
+  },
+  workOrder: {
+    initiator: 'Initiator',
+    type: 'Type',
+    content: 'Content',
+    principal: 'Principal',
+    estimatedTimeOfCompletion: 'Estimated time of completion',
+    workOrderExecutionInstructions: 'Workorder execution instructions',
+    workOrderExecutionImage: 'Workorder execution image'
   },
   // 用于
   test: {

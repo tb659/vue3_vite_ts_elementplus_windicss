@@ -13,7 +13,7 @@ module.exports = {
     'at-rule-no-unknown': [
       true,
       {
-        ignoreAtRules: ['function', 'if', 'each', 'include', 'mixin', 'apply']
+        ignoreAtRules: ['function', 'if', 'each', 'include', 'mixin']
       }
     ],
     'no-empty-source': null,

@@ -13,6 +13,7 @@ const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('login')
 
 const appStore = useAppStore()
+console.log(appStore)
 
 const { t } = useI18n()
 
@@ -30,54 +31,54 @@ const toLogin = () => {
 <template>
   <div
     :class="prefixCls"
-    class="h-[100%] relative <sm:px-10px <md:px-10px <xl:bg-v-dark <xl:px-10px"
+    class="h-[100%] relative <xl:bg-v-dark <sm:px-10px <xl:px-10px <md:px-10px"
   >
-    <div class="flex h-full mx-auto relative">
+    <div class="relative h-full flex mx-auto">
       <div
         :class="`${prefixCls}__left flex-1 bg-gray-500 bg-opacity-20 relative p-30px <xl:hidden`"
       >
-        <div class="flex text-white items-center relative">
-          <img src="@/assets/imgs/logo.png" alt="" class="h-48px mr-10px w-48px" />
-          <span class="font-bold text-20px">{{ underlineToHump(appStore.getTitle) }}</span>
+        <div class="flex items-center relative text-white">
+          <img src="@/assets/imgs/logo.png" alt="" class="w-48px h-48px mr-10px" />
+          <span class="text-20px font-bold">{{ underlineToHump(appStore.getTitle) }}</span>
         </div>
-        <div class="flex h-[calc(100%-60px)] justify-center items-center">
+        <div class="flex justify-center items-center h-[calc(100%-60px)]">
           <TransitionGroup
             appear
             tag="div"
             enter-active-class="animate__animated animate__bounceInLeft"
           >
             <img src="@/assets/svgs/login-box-bg.svg" key="1" alt="" class="w-350px" />
-            <div class="text-white text-3xl" key="2">{{ t('login.welcome') }}</div>
-            <div class="font-normal mt-5 text-white text-14px" key="3">
-              <!-- {{ t('login.message') }} -->
+            <div class="text-3xl text-white" key="2">{{ t('login.welcome') }}</div>
+            <div class="mt-5 font-normal text-white text-14px" key="3">
+              {{ t('login.message') }}
             </div>
           </TransitionGroup>
         </div>
       </div>
-      <div class="flex-1 p-30px relative <sm:p-10px dark:bg-v-dark">
-        <div class="flex text-white justify-between items-center @xl:justify-end @2xl:justify-end">
-          <div class="flex items-center @xl:hidden @2xl:hidden">
-            <img src="@/assets/imgs/logo.png" alt="" class="h-48px mr-10px w-48px" />
-            <span class="font-bold text-20px">{{ underlineToHump(appStore.getTitle) }}</span>
+      <div class="flex-1 p-30px <sm:p-10px dark:bg-v-dark relative">
+        <div class="flex justify-between items-center text-white @2xl:justify-end @xl:justify-end">
+          <div class="flex items-center @2xl:hidden @xl:hidden">
+            <img src="@/assets/imgs/logo.png" alt="" class="w-48px h-48px mr-10px" />
+            <span class="text-20px font-bold">{{ underlineToHump(appStore.getTitle) }}</span>
           </div>
 
-          <div class="flex space-x-10px justify-end items-center">
+          <div class="flex justify-end items-center space-x-10px">
             <ThemeSwitch />
             <LocaleDropdown class="<xl:text-white dark:text-white" />
           </div>
         </div>
         <Transition appear enter-active-class="animate__animated animate__bounceInRight">
           <div
-            class="flex h-full m-auto w-[100%] items-center @md:max-w-500px @lg:max-w-500px @xl:max-w-500px @2xl:max-w-500px"
+            class="h-full flex items-center m-auto w-[100%] @2xl:max-w-500px @xl:max-w-500px @md:max-w-500px @lg:max-w-500px"
           >
             <LoginForm
               v-if="isLogin"
-              class="h-auto m-auto p-20px <xl:(rounded-3xl light:bg-white)"
+              class="p-20px h-auto m-auto <xl:(rounded-3xl light:bg-white)"
               @to-register="toRegister"
             />
             <RegisterForm
               v-else
-              class="h-auto m-auto p-20px <xl:(rounded-3xl light:bg-white)"
+              class="p-20px h-auto m-auto <xl:(rounded-3xl light:bg-white)"
               @to-login="toLogin"
             />
           </div>

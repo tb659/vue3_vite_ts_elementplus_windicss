@@ -20,7 +20,6 @@ function pathResolve(dir: string) {
   return resolve(root, '.', dir)
 }
 
-// https://vitejs.dev/config/
 export default ({ command, mode }: ConfigEnv): UserConfig => {
   let env = {} as any
   const isBuild = command === 'build'
@@ -60,20 +59,14 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         svgoOptions: true
       }),
       PurgeIcons(),
-      // 开启mock
       viteMockServe({
         ignore: /^\_/,
-        // 解析根目录下的mock文件夹
-        mockPath: 'mock', 
-        // 开发打包开关
-        localEnabled: !isBuild, 
-        // 生产打包开关
-        prodEnabled: isBuild, 
-        // 打开后，可以读取 ts 文件模块。 请注意，打开后将无法监视.js 文件。
-        supportTs: false, 
-        // 这样可以控制关闭mock的时候不让mock打包到最终代码内
+        mockPath: 'mock',
+        localEnabled: !isBuild,
+        prodEnabled: isBuild,
         injectCode: `
           import { setupProdMockServer } from '../mock/_createProductionServer'
+
           setupProdMockServer()
           `
       }),
@@ -113,7 +106,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       minify: 'terser',
       outDir: env.VITE_OUT_DIR || 'dist',
       sourcemap: env.VITE_SOURCEMAP === 'true' ? 'inline' : false,
-      brotliSize: false,
+      // brotliSize: false,
       terserOptions: {
         compress: {
           drop_debugger: env.VITE_DROP_DEBUGGER === 'true',
@@ -152,8 +145,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         'intro.js',
         'qrcode',
         '@wangeditor/editor',
-        '@wangeditor/editor-for-vue',
-        'js-md5'
+        '@wangeditor/editor-for-vue'
       ]
     }
   }

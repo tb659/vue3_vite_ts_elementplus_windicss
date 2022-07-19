@@ -51,7 +51,7 @@ export default defineComponent({
 
     const activeMenu = computed(() => {
       const { meta, path } = unref(currentRoute)
-      // 如果设置了path，侧边栏将突出显示您设置的路径
+      // if set path, the sidebar will highlight the path you set
       if (meta.activeMenu) {
         return meta.activeMenu as string
       }

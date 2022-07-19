@@ -2,165 +2,190 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [1.5.0](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.4.5...v1.5.0) (2022-06-25)
-
-
-### Features
-
-* refactoring API ([37b7583](https://github.com/kailong321200875/vue-element-plus-admin/commit/37b75839a591648b145065432efb1dc8c7a3b917))
-
-
-### Bug Fixes
-
-* 修复axios已知问题 ([537af57](https://github.com/kailong321200875/vue-element-plus-admin/commit/537af57a0aaa24c88ebe75acf52dc0403a58b04b))
-
-
-### Performance Improvements
-
-* perf axios config ([39edd84](https://github.com/kailong321200875/vue-element-plus-admin/commit/39edd84023109a84683c21ea33e41bd024756520))
-
-## [1.4.5](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.4.4...v1.4.5) (2022-06-09)
-
-
-### Bug Fixes
-
-* fix tagsview not work ([d88e051](https://github.com/kailong321200875/vue-element-plus-admin/commit/d88e0514349e877f1c5280a48f9b1bd2bfd622bf))
-* fix tagsview not work ([1bf2d4c](https://github.com/kailong321200875/vue-element-plus-admin/commit/1bf2d4c77287fdca7ed1cb8c9998a53f1375dc6f))
-
-
-### Types
-
-* fix types error ([586486a](https://github.com/kailong321200875/vue-element-plus-admin/commit/586486a68d4bf2a024e50a79945b4007324f642d))
-
-## [1.4.4](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.4.3...v1.4.4) (2022-06-06)
-
-
-### Types
-
-* fix type error ([d66f12e](https://github.com/kailong321200875/vue-element-plus-admin/commit/d66f12e0e77f6acf485bae06509d9ea4abcd1eaa))
-
-### [1.4.3](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.4.2...v1.4.3) (2022-06-01)
-
-
-### Bug Fixes
-
-* multiple requests when pageSize change and currentPage isn't 1 ([f71a250](https://github.com/kailong321200875/vue-element-plus-admin/commit/f71a2503bc521c01e7102feecf4ec39a5224a6bb))
-
-### [1.4.2](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.4.1...v1.4.2) (2022-05-15)
-
-
-### Styling
-
-* fix dark mode bug ([2f9fd5d](https://github.com/kailong321200875/vue-element-plus-admin/commit/2f9fd5d21550d771ec12ae3540b975e2eebcd25b))
-
-### [1.4.1](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.4.0...v1.4.1) (2022-05-12)
-
-
-### Bug Fixes
-
-* the warning of VSCode extensions ([a368c21](https://github.com/kailong321200875/vue-element-plus-admin/commit/a368c21fb9c41f98f31f51586a2023076a8a9132))
-
-## [1.4.0](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.3.2...v1.4.0) (2022-05-10)
-
+## [1.6.0](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.5.4...v1.6.0) (2022-07-18)
 
 ### Features
 
-* add dark mode ([0758a6a](https://github.com/kailong321200875/vue-element-plus-admin/commit/0758a6a9d83170e53d45d39c3313e52ff5885746))
-
-### [1.3.2](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.3.1...v1.3.2) (2022-05-07)
-
-
-### Bug Fixes
-
-* fix the problem that the page is stuck in top mode ([8d01f48](https://github.com/kailong321200875/vue-element-plus-admin/commit/8d01f48d5098195b10c03b3cb3a0f485ebc9e018))
-
-### [1.3.1](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.3.0...v1.3.1) (2022-05-06)
-
-
-### Bug Fixes
-
-* spelling 'useRenderChcekbox' ([ee92f03](https://github.com/kailong321200875/vue-element-plus-admin/commit/ee92f039bea4307ccfb819728d3e2ed04fa00e03))
-
-## [1.3.0](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.2.13...v1.3.0) (2022-04-26)
-
-
-### Features
-
-* add useCrudSchemas hook ([00d947e](https://github.com/kailong321200875/vue-element-plus-admin/commit/00d947e2f81105194b0622d33768f999e37ad28a))
-
-
-### Bug Fixes
-
-* fix Table slot warning ([0eac05d](https://github.com/kailong321200875/vue-element-plus-admin/commit/0eac05d4f973ff7b15e00973f6e96595a3cd6d43))
-
-
-### Code Refactoring
-
-* refactor useAxios ([185f1e6](https://github.com/kailong321200875/vue-element-plus-admin/commit/185f1e6e210ecaac28ebfdee4198b7ca2eaa0933))
-
-
-### Build System
-
-* add url ([ab0f59a](https://github.com/kailong321200875/vue-element-plus-admin/commit/ab0f59ac91a077cf060923fa76e6d57e05d0b21b))
-* update plugins ([c475a61](https://github.com/kailong321200875/vue-element-plus-admin/commit/c475a610c19094034306f2dc665e240c7c117f87))
-* update plugins ([dfedbc7](https://github.com/kailong321200875/vue-element-plus-admin/commit/dfedbc74fdb2c819a96b6263849bdaab59b9e337))
-
-### [1.2.13](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.2.12...v1.2.13) (2022-04-18)
-
+- 添加按钮权限 ([7bef662](https://github.com/kailong321200875/vue-element-plus-admin/commit/7bef662db1e91aa8164e9f7a92de3fe4480a3c3b))
 
 ### Performance Improvements
 
-* Editor component support v-model ([d77f8e3](https://github.com/kailong321200875/vue-element-plus-admin/commit/d77f8e334d77ee43c9ee0f411733f7397b278bc0))
-
-### [1.2.12](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.2.11...v1.2.12) (2022-04-17)
-
-
-### Bug Fixes
-
-* fixed spelling 'ElememtPlusSzie' ([5dbbc60](https://github.com/kailong321200875/vue-element-plus-admin/commit/5dbbc608640d93fe68fec6f58fdb30a43e02aada))
-
-### [1.2.11](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.2.10...v1.2.11) (2022-04-14)
-
-
-### Bug Fixes
-
-* fix the error reported by the Editor component ([7dc6d8a](https://github.com/kailong321200875/vue-element-plus-admin/commit/7dc6d8a9d7289bfaf27f972e9ca1773c0a1ddd7d))
-* fix the error reported by the Editor component ([90ef985](https://github.com/kailong321200875/vue-element-plus-admin/commit/90ef9856a0885fa812339cb7047ecc98b86c7b73))
-
-
-### Performance Improvements
-
-* add tagsViewIcon setting ([d395f03](https://github.com/kailong321200875/vue-element-plus-admin/commit/d395f03a57a9265f1d39b3220fc7c9b983efee30))
-* add uniqueopened setting ([b060319](https://github.com/kailong321200875/vue-element-plus-admin/commit/b0603199a5ae0ee923483dad449f49220d36f444))
-
-
-### Build System
-
-* update plugins ([2ee4954](https://github.com/kailong321200875/vue-element-plus-admin/commit/2ee49549e7b601af26ef5204f7648d271f3348f2))
-
+- 移除 md5 依赖 ([a123097](https://github.com/kailong321200875/vue-element-plus-admin/commit/a123097f1f38eac45e945c7d3fdccafc16ea9b69))
 
 ### Styling
 
-* add layout background color ([9b614fe](https://github.com/kailong321200875/vue-element-plus-admin/commit/9b614fe89288538197c50f164586aeed7836b7a8))
-
-### [1.2.10](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.2.9...v1.2.10) (2022-04-12)
-
-
-### Bug Fixes
-
-* fix bug ([327522f](https://github.com/kailong321200875/vue-element-plus-admin/commit/327522f2b73ae0e11f8ebbc39394b06029ce0b65))
-
-
-### Styling
-
-* modify the commitlint package manager ([ba7e722](https://github.com/kailong321200875/vue-element-plus-admin/commit/ba7e7224ab58612548519415f5429c32827a61de))
-
-### [1.2.9](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.2.8...v1.2.9) (2022-04-12)
-
+- 压缩图片尺寸 ([ae3c565](https://github.com/kailong321200875/vue-element-plus-admin/commit/ae3c5657b604ffbdae5ce3ce3603626ad4acc5e5))
 
 ### Docs
 
-* update changlog ([e37273d](https://github.com/kailong321200875/vue-element-plus-admin/commit/e37273d95d29a3bb752604658d550264aacdc979))
+- vite2 to vite3 ([b3918b9](https://github.com/kailong321200875/vue-element-plus-admin/commit/b3918b9c3c5de4b48811ec95967851cfb3c231e1))
+- vite2 to vite3 ([aaf07de](https://github.com/kailong321200875/vue-element-plus-admin/commit/aaf07de77aa600332880a894faa35757f787c012))
+
+## [1.5.4](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.5.3...v1.5.4) (2022-07-16)
+
+### Bug Fixes
+
+- fix build:test error ([14530cf](https://github.com/kailong321200875/vue-element-plus-admin/commit/14530cf790bfbbe37c72fa831f0376bbb4209e9d))
+
+## [1.5.3](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.5.2...v1.5.3) (2022-07-01)
+
+### Bug Fixes
+
+- fix useCrudSchemas not work ([0a855b9](https://github.com/kailong321200875/vue-element-plus-admin/commit/0a855b93e282dfe7863b3fce31dde5d7e0d3e2b6))
+
+## [1.5.2](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.5.1...v1.5.2) (2022-07-01)
+
+### Performance Improvements
+
+- add useCrudSchemas demo ([ca3ce54](https://github.com/kailong321200875/vue-element-plus-admin/commit/ca3ce54630b723d87415b14c642440d6734876ff))
+
+## [1.5.1](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.5.0...v1.5.1) (2022-07-01)
+
+### Bug Fixes
+
+- change showMainRoute to canTo ([5e292f8](https://github.com/kailong321200875/vue-element-plus-admin/commit/5e292f8a2b2ded7297a2a76893e113ac81517d23))
+
+### Performance Improvements
+
+- dialog combine with form ([34aefb6](https://github.com/kailong321200875/vue-element-plus-admin/commit/34aefb64ab9237521a1225925264818eebff9ad3))
+- dynamic options demo ([1acb4d7](https://github.com/kailong321200875/vue-element-plus-admin/commit/1acb4d7e8f449ba342699f1b4387ac2404a4c1fb))
+- dynamic options demo ([9a3b617](https://github.com/kailong321200875/vue-element-plus-admin/commit/9a3b6177aa0fbc99c86c5073a1c6c696e1eaf890))
+- useCrudSchemas cutom label ([7864d83](https://github.com/kailong321200875/vue-element-plus-admin/commit/7864d830e2134d814609e722b7bad1754ea9460e))
+
+## [1.5.0](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.4.5...v1.5.0) (2022-06-25)
+
+### Features
+
+- refactoring API ([37b7583](https://github.com/kailong321200875/vue-element-plus-admin/commit/37b75839a591648b145065432efb1dc8c7a3b917))
+
+### Bug Fixes
+
+- 修复 axios 已知问题 ([537af57](https://github.com/kailong321200875/vue-element-plus-admin/commit/537af57a0aaa24c88ebe75acf52dc0403a58b04b))
+
+### Performance Improvements
+
+- perf axios config ([39edd84](https://github.com/kailong321200875/vue-element-plus-admin/commit/39edd84023109a84683c21ea33e41bd024756520))
+
+## [1.4.5](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.4.4...v1.4.5) (2022-06-09)
+
+### Bug Fixes
+
+- fix tagsview not work ([d88e051](https://github.com/kailong321200875/vue-element-plus-admin/commit/d88e0514349e877f1c5280a48f9b1bd2bfd622bf))
+- fix tagsview not work ([1bf2d4c](https://github.com/kailong321200875/vue-element-plus-admin/commit/1bf2d4c77287fdca7ed1cb8c9998a53f1375dc6f))
+
+### Types
+
+- fix types error ([586486a](https://github.com/kailong321200875/vue-element-plus-admin/commit/586486a68d4bf2a024e50a79945b4007324f642d))
+
+## [1.4.4](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.4.3...v1.4.4) (2022-06-06)
+
+### Types
+
+- fix type error ([d66f12e](https://github.com/kailong321200875/vue-element-plus-admin/commit/d66f12e0e77f6acf485bae06509d9ea4abcd1eaa))
+
+### [1.4.3](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.4.2...v1.4.3) (2022-06-01)
+
+### Bug Fixes
+
+- multiple requests when pageSize change and currentPage isn't 1 ([f71a250](https://github.com/kailong321200875/vue-element-plus-admin/commit/f71a2503bc521c01e7102feecf4ec39a5224a6bb))
+
+### [1.4.2](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.4.1...v1.4.2) (2022-05-15)
+
+### Styling
+
+- fix dark mode bug ([2f9fd5d](https://github.com/kailong321200875/vue-element-plus-admin/commit/2f9fd5d21550d771ec12ae3540b975e2eebcd25b))
+
+### [1.4.1](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.4.0...v1.4.1) (2022-05-12)
+
+### Bug Fixes
+
+- the warning of VSCode extensions ([a368c21](https://github.com/kailong321200875/vue-element-plus-admin/commit/a368c21fb9c41f98f31f51586a2023076a8a9132))
+
+## [1.4.0](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.3.2...v1.4.0) (2022-05-10)
+
+### Features
+
+- add dark mode ([0758a6a](https://github.com/kailong321200875/vue-element-plus-admin/commit/0758a6a9d83170e53d45d39c3313e52ff5885746))
+
+### [1.3.2](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.3.1...v1.3.2) (2022-05-07)
+
+### Bug Fixes
+
+- fix the problem that the page is stuck in top mode ([8d01f48](https://github.com/kailong321200875/vue-element-plus-admin/commit/8d01f48d5098195b10c03b3cb3a0f485ebc9e018))
+
+### [1.3.1](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.3.0...v1.3.1) (2022-05-06)
+
+### Bug Fixes
+
+- spelling 'useRenderChcekbox' ([ee92f03](https://github.com/kailong321200875/vue-element-plus-admin/commit/ee92f039bea4307ccfb819728d3e2ed04fa00e03))
+
+## [1.3.0](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.2.13...v1.3.0) (2022-04-26)
+
+### Features
+
+- add useCrudSchemas hook ([00d947e](https://github.com/kailong321200875/vue-element-plus-admin/commit/00d947e2f81105194b0622d33768f999e37ad28a))
+
+### Bug Fixes
+
+- fix Table slot warning ([0eac05d](https://github.com/kailong321200875/vue-element-plus-admin/commit/0eac05d4f973ff7b15e00973f6e96595a3cd6d43))
+
+### Code Refactoring
+
+- refactor useAxios ([185f1e6](https://github.com/kailong321200875/vue-element-plus-admin/commit/185f1e6e210ecaac28ebfdee4198b7ca2eaa0933))
+
+### Build System
+
+- add url ([ab0f59a](https://github.com/kailong321200875/vue-element-plus-admin/commit/ab0f59ac91a077cf060923fa76e6d57e05d0b21b))
+- update plugins ([c475a61](https://github.com/kailong321200875/vue-element-plus-admin/commit/c475a610c19094034306f2dc665e240c7c117f87))
+- update plugins ([dfedbc7](https://github.com/kailong321200875/vue-element-plus-admin/commit/dfedbc74fdb2c819a96b6263849bdaab59b9e337))
+
+### [1.2.13](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.2.12...v1.2.13) (2022-04-18)
+
+### Performance Improvements
+
+- Editor component support v-model ([d77f8e3](https://github.com/kailong321200875/vue-element-plus-admin/commit/d77f8e334d77ee43c9ee0f411733f7397b278bc0))
+
+### [1.2.12](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.2.11...v1.2.12) (2022-04-17)
+
+### Bug Fixes
+
+- fixed spelling 'ElememtPlusSzie' ([5dbbc60](https://github.com/kailong321200875/vue-element-plus-admin/commit/5dbbc608640d93fe68fec6f58fdb30a43e02aada))
+
+### [1.2.11](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.2.10...v1.2.11) (2022-04-14)
+
+### Bug Fixes
+
+- fix the error reported by the Editor component ([7dc6d8a](https://github.com/kailong321200875/vue-element-plus-admin/commit/7dc6d8a9d7289bfaf27f972e9ca1773c0a1ddd7d))
+- fix the error reported by the Editor component ([90ef985](https://github.com/kailong321200875/vue-element-plus-admin/commit/90ef9856a0885fa812339cb7047ecc98b86c7b73))
+
+### Performance Improvements
+
+- add tagsViewIcon setting ([d395f03](https://github.com/kailong321200875/vue-element-plus-admin/commit/d395f03a57a9265f1d39b3220fc7c9b983efee30))
+- add uniqueopened setting ([b060319](https://github.com/kailong321200875/vue-element-plus-admin/commit/b0603199a5ae0ee923483dad449f49220d36f444))
+
+### Build System
+
+- update plugins ([2ee4954](https://github.com/kailong321200875/vue-element-plus-admin/commit/2ee49549e7b601af26ef5204f7648d271f3348f2))
+
+### Styling
+
+- add layout background color ([9b614fe](https://github.com/kailong321200875/vue-element-plus-admin/commit/9b614fe89288538197c50f164586aeed7836b7a8))
+
+### [1.2.10](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.2.9...v1.2.10) (2022-04-12)
+
+### Bug Fixes
+
+- fix bug ([327522f](https://github.com/kailong321200875/vue-element-plus-admin/commit/327522f2b73ae0e11f8ebbc39394b06029ce0b65))
+
+### Styling
+
+- modify the commitlint package manager ([ba7e722](https://github.com/kailong321200875/vue-element-plus-admin/commit/ba7e7224ab58612548519415f5429c32827a61de))
+
+### [1.2.9](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.2.8...v1.2.9) (2022-04-12)
+
+### Docs
+
+- update changlog ([e37273d](https://github.com/kailong321200875/vue-element-plus-admin/commit/e37273d95d29a3bb752604658d550264aacdc979))
 
 ### [1.2.8](https://github.com/kailong321200875/vue-element-plus-admin/compare/v1.2.7...v1.2.8) (2022-04-11)
 

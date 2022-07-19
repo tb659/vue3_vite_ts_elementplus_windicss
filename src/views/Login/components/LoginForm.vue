@@ -2,7 +2,7 @@
 import { reactive, ref, unref, watch } from 'vue'
 import { Form } from '@/components/Form'
 import { useI18n } from '@/hooks/web/useI18n'
-import { ElButton, ElCheckbox /* ElLink */ } from 'element-plus'
+import { ElButton, ElCheckbox, ElLink } from 'element-plus'
 import { useForm } from '@/hooks/web/useForm'
 import { loginApi, getTestRoleApi, getAdminRoleApi } from '@/api/login'
 import { useCache } from '@/hooks/web/useCache'
@@ -12,11 +12,10 @@ import { useRouter } from 'vue-router'
 import type { RouteLocationNormalizedLoaded, RouteRecordRaw } from 'vue-router'
 import { UserType } from '@/api/login/types'
 import { useValidator } from '@/hooks/web/useValidator'
-import Cookies from 'js-cookie'
 
 const { required } = useValidator()
 
-// const emit = defineEmits(['to-register'])
+const emit = defineEmits(['to-register'])
 
 const appStore = useAppStore()
 
@@ -33,11 +32,6 @@ const rules = {
   password: [required()]
 }
 
-const loginInfo = reactive({
-  username: Cookies.get(appStore.getUsername),
-  password: Cookies.get(appStore.getPassword),
-  remember: Cookies.get(appStore.getRemember)
-})
 const schema = reactive<FormSchema[]>([
   {
     field: 'title',
@@ -48,7 +42,7 @@ const schema = reactive<FormSchema[]>([
   {
     field: 'username',
     label: t('login.username'),
-    value: loginInfo.username || '',
+    value: 'admin',
     component: 'Input',
     colProps: {
       span: 24
@@ -60,7 +54,7 @@ const schema = reactive<FormSchema[]>([
   {
     field: 'password',
     label: t('login.password'),
-    value: loginInfo.password || '',
+    value: 'admin',
     component: 'InputPassword',
     colProps: {
       span: 24
@@ -83,26 +77,26 @@ const schema = reactive<FormSchema[]>([
     colProps: {
       span: 24
     }
-    // },
-    // {
-    //   field: 'other',
-    //   component: 'Divider',
-    //   label: t('login.otherLogin'),
-    //   componentProps: {
-    //     contentPosition: 'center'
-    //   }
-    // },
-    // {
-    //   field: 'otherIcon',
-    //   colProps: {
-    //     span: 24
-    // }
+  },
+  {
+    field: 'other',
+    component: 'Divider',
+    label: t('login.otherLogin'),
+    componentProps: {
+      contentPosition: 'center'
+    }
+  },
+  {
+    field: 'otherIcon',
+    colProps: {
+      span: 24
+    }
   }
 ])
 
 const iconSize = 30
 
-const remember = ref(!!loginInfo.remember)
+const remember = ref(false)
 
 const { register, elFormRef, methods } = useForm()
 
@@ -135,7 +129,6 @@ const signIn = async () => {
         const res = await loginApi(formData)
 
         if (res) {
-          setLoginInfoCookie(formData)
           wsCache.set(appStore.getUserInfo, res.data)
           getRole()
         }
@@ -174,28 +167,10 @@ const getRole = async () => {
   }
 }
 
-const setLoginInfoCookie = (formData) => {
-  if (remember.value) {
-    Cookies.set(appStore.getUsername, formData.username, {
-      expires: appStore.getIParkRememberTime
-    })
-    Cookies.set(appStore.getPassword, formData.password, {
-      expires: appStore.getIParkRememberTime
-    })
-    Cookies.set(appStore.getRemember, remember.value.toString(), {
-      expires: appStore.getIParkRememberTime
-    })
-  } else {
-    Cookies.remove(appStore.getUsername)
-    Cookies.remove(appStore.getPassword)
-    Cookies.remove(appStore.getRemember)
-  }
-}
-
 // 去注册页面
-// const toRegister = () => {
-//   emit('to-register')
-// }
+const toRegister = () => {
+  emit('to-register')
+}
 </script>
 
 <template>
@@ -209,13 +184,13 @@ const setLoginInfoCookie = (formData) => {
     @register="register"
   >
     <template #title>
-      <h1 class="text-2xl font-bold text-center w-[100%]">{{ t('login.login') }}</h1>
+      <h2 class="text-2xl font-bold text-center w-[100%]">{{ t('login.login') }}</h2>
     </template>
 
     <template #tool>
       <div class="flex justify-between items-center w-[100%]">
         <ElCheckbox v-model="remember" :label="t('login.remember')" size="small" />
-        <!-- <ElLink type="primary" :underline="false">{{ t('login.forgetPassword') }}</ElLink> -->
+        <ElLink type="primary" :underline="false">{{ t('login.forgetPassword') }}</ElLink>
       </div>
     </template>
 
@@ -225,11 +200,11 @@ const setLoginInfoCookie = (formData) => {
           {{ t('login.login') }}
         </ElButton>
       </div>
-      <!-- <div class="w-[100%] mt-15px">
+      <div class="w-[100%] mt-15px">
         <ElButton class="w-[100%]" @click="toRegister">
           {{ t('login.register') }}
         </ElButton>
-      </div> -->
+      </div>
     </template>
 
     <template #otherIcon>

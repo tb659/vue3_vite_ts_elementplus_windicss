@@ -143,6 +143,9 @@ export default {
     inputPassword: '密码输入框',
     sticky: '黏性'
   },
+  permission: {
+    hasPermission: '请设置操作权限值'
+  },
   analysis: {
     newUser: '新增用户',
     unreadInformation: '未读消息',
@@ -338,7 +341,8 @@ export default {
     position: '位置',
     left: '左',
     center: '中',
-    right: '右'
+    right: '右',
+    dynamicOptions: '动态选项'
   },
   stickyDemo: {
     sticky: '黏性'
@@ -378,7 +382,9 @@ export default {
     dialog: '弹窗',
     dialogDes: '基于 ElementPlus 的 Dialog 组件二次封装',
     open: '打开',
-    close: '关闭'
+    close: '关闭',
+    combineWithForm: '与表单结合',
+    submit: '提交'
   },
   imageViewerDemo: {
     open: '打开',

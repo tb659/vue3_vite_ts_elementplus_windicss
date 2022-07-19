@@ -39,7 +39,7 @@ const tagsViewIcon = computed(() => appStore.getTagsViewIcon)
 const initTags = () => {
   affixTagArr.value = filterAffixTags(unref(routers))
   for (const tag of unref(affixTagArr)) {
-    // 必须有标签名称
+    // Must have tag name
     if (tag.name) {
       tagsViewStore.addVisitedView(tag)
     }
@@ -114,7 +114,7 @@ const toLastView = () => {
       addTags()
       return
     }
-    // 可以设置其他路由
+    // You can set another route
     push(permissionStore.getAddRouters[0].path)
   }
 }
@@ -142,7 +142,7 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
   let lastTag: Nullable<RouterLinkProps> = null
 
   const tagList = unref(tagLinksRefs)
-  // 找到第一个tag和最后一个tag
+  // find first tag and last tag
   if (tagList.length > 0) {
     firstTag = tagList[0]
     lastTag = tagList[tagList.length - 1]
@@ -166,7 +166,7 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
     })
     start()
   } else {
-    // 找到上一个tag和下一个tag
+    // find preTag and nextTag
     const currentIndex: number = tagList.findIndex(
       (item) => (item?.to as RouteLocationNormalizedLoaded).fullPath === currentTag.fullPath
     )
@@ -175,10 +175,10 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
     const prevTag = tgsRefs[currentIndex - 1] as HTMLElement
     const nextTag = tgsRefs[currentIndex + 1] as HTMLElement
 
-    // tag的offsetLeft在下一个tag之后
+    // the tag's offsetLeft after of nextTag
     const afterNextTagOffsetLeft = nextTag.offsetLeft + nextTag.offsetWidth + 4
 
-    // tag的offsetLeft在上一个tag之前
+    // the tag's offsetLeft before of prevTag
     const beforePrevTagOffsetLeft = prevTag.offsetLeft - 4
 
     if (afterNextTagOffsetLeft > unref(scrollLeftNumber) + wrap$!.offsetWidth) {

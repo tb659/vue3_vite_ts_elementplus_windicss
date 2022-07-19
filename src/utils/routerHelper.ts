@@ -1,5 +1,11 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import type { Router, RouteLocationNormalized, RouteRecordNormalized, RouteMeta } from 'vue-router'
+import type {
+  Router,
+  RouteLocationNormalized,
+  RouteRecordNormalized,
+  RouteMeta,
+  RouteRecordRaw
+} from 'vue-router'
 import { isUrl } from '@/utils/is'
 import { omit, cloneDeep } from 'lodash-es'
 
@@ -42,8 +48,8 @@ export const generateRoutesFn1 = (
 
   for (const route of routes) {
     const meta = route.meta as RouteMeta
-    // 跳过一些路由
-    if (meta.hidden && !meta.showMainRoute) {
+    // skip some route
+    if (meta.hidden && !meta.canTo) {
       continue
     }
 
@@ -71,7 +77,7 @@ export const generateRoutesFn1 = (
       }
     }
 
-    // 递归子路由
+    // recursive child routes
     if (route.children && data) {
       data.children = generateRoutesFn1(route.children, keys, pathResolve(basePath, data.path))
     }
@@ -116,7 +122,7 @@ export const generateRoutesFn2 = (routes: AppCustomRouteRecordRaw[]): AppRouteRe
 export const pathResolve = (parentPath: string, path: string) => {
   if (isUrl(path)) return path
   const childPath = path.startsWith('/') || !path ? path : `/${path}`
-  return `${parentPath}${childPath}`.replace(/\/\//g, '/') // 双斜杠转换单斜杠
+  return `${parentPath}${childPath}`.replace(/\/\//g, '/')
 }
 
 // 路由降级
@@ -154,7 +160,7 @@ const isMultipleRoute = (route: AppRouteRecordRaw) => {
 // 生成二级路由
 const promoteRouteLevel = (route: AppRouteRecordRaw) => {
   let router: Router | null = createRouter({
-    routes: [route as unknown as RouteRecordNormalized],
+    routes: [route as RouteRecordRaw],
     history: createWebHashHistory()
   })
 

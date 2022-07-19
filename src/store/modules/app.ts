@@ -66,18 +66,6 @@ export const useAppStore = defineStore({
     getUserInfo(): string {
       return this.userInfo
     },
-    getUsername(): string {
-      return this.username
-    },
-    getPassword(): string {
-      return this.password
-    },
-    getRemember(): string {
-      return this.remember
-    },
-    getIParkRememberTime(): number {
-      return this.iParkRememberTime
-    },
     getIsDark(): boolean {
       return this.isDark
     },

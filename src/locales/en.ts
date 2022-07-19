@@ -143,6 +143,9 @@ export default {
     inputPassword: 'InputPassword',
     sticky: 'Sticky'
   },
+  permission: {
+    hasPermission: 'Please set the operation permission value'
+  },
   analysis: {
     newUser: 'New user',
     unreadInformation: 'Unread information',
@@ -341,7 +344,8 @@ export default {
     position: 'position',
     left: 'left',
     center: 'center',
-    right: 'right'
+    right: 'right',
+    dynamicOptions: 'Dynamic options'
   },
   stickyDemo: {
     sticky: 'Sticky'
@@ -381,7 +385,9 @@ export default {
     dialog: 'Dialog',
     dialogDes: 'Secondary packaging of Dialog components based on ElementPlus',
     open: 'Open',
-    close: 'Close'
+    close: 'Close',
+    combineWithForm: 'Combine with form',
+    submit: 'Submit'
   },
   imageViewerDemo: {
     open: 'Open',

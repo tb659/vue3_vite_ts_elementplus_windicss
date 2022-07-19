@@ -37,25 +37,17 @@ export interface AppState {
   pageLoading: boolean
   layout: LayoutType
   title: string
+  userInfo: string
   isDark: boolean
   currentSize: ElememtPlusSize
   sizeMap: ElememtPlusSize[]
   mobile: boolean
   footer: boolean
   theme: ThemeTypes
-  userInfo: string
-  username: string
-  password: string
-  remember: string
-  iParkRememberTime: number
 }
 
 export const appModules: AppState = {
-  userInfo: 'ipark_userInfo', // 登录信息存储字段-建议每个项目换一个字段，避免与其他项目冲突
-  username: 'ipark_username', // 登录状态存储字段-建议每个项目换一个字段，避免与其他项目冲突
-  password: 'ipark_password', // 登录状态存储字段-建议每个项目换一个字段，避免与其他项目冲突
-  remember: 'ipark_remember', // 登录状态存储字段-建议每个项目换一个字段，避免与其他项目冲突
-  iParkRememberTime: 30, // 登录状态存储30天
+  userInfo: 'userInfo', // 登录信息存储字段-建议每个项目换一个字段，避免与其他项目冲突
   sizeMap: ['default', 'large', 'small'],
   mobile: false, // 是否是移动端
   title: import.meta.env.VITE_APP_TITLE, // 标题

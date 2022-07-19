@@ -337,6 +337,14 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         meta: {
           title: 'useWatermark'
         }
+      },
+      {
+        path: 'useCrudSchemas',
+        component: () => import('@/views/hooks/useCrudSchemas.vue'),
+        name: 'UseCrudSchemas',
+        meta: {
+          title: 'useCrudSchemas'
+        }
       }
     ]
   },
@@ -435,7 +443,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
           noTagsView: true,
           noCache: true,
           hidden: true,
-          showMainRoute: true,
+          canTo: true,
           activeMenu: '/example/example-page'
         }
       },
@@ -448,7 +456,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
           noTagsView: true,
           noCache: true,
           hidden: true,
-          showMainRoute: true,
+          canTo: true,
           activeMenu: '/example/example-page'
         }
       },
@@ -461,7 +469,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
           noTagsView: true,
           noCache: true,
           hidden: true,
-          showMainRoute: true,
+          canTo: true,
           activeMenu: '/example/example-page'
         }
       }

@@ -1,6 +1,5 @@
-import { PATH_URL } from './index'
-
-export const requestUrl = PATH_URL
+// export const requestUrl = 'http://120.55.167.167:9202'
+export const requestUrl = ''
 
 export const REQUEST_TOKEN_KEY = 'authorization'
 

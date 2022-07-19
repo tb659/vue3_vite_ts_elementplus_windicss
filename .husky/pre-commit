@@ -5,6 +5,4 @@
 
 # Format and submit code according to lintstagedrc.js configuration
 npm run ts:check
-npm run lint:format
-npm run lint:style
 npm run lint:lint-staged

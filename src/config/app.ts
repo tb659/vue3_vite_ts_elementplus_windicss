@@ -138,3 +138,61 @@ export const dictRes = {
   code: result_code,
   data: dictObj
 }
+
+export const printObj = {
+  //打印区域 Dom ID
+  id: 'printMe',
+  popTitle: '打印页面标题文字',
+  extraCss: 'https://www.google.com,https://www.google.com',
+  // 可以传进去  style tag 标签；注意要逗号分隔   解决特定区域不显示问题；
+  extraHead:
+    '<meta http-equiv="Content-Language"content="zh-cn"/>,<style> #printMe { height: auto !important; } <style>'
+}
+
+export const printContent = `
+  <header class="leading-loose">
+    <h1 class="text-center text-2xl mb-10px">订单小票</h1>
+    <p>
+      <span>订单编号：</span>
+      <span>{{ printData.order.id }}</span>
+    </p>
+    <p>
+      <span>下单时间：</span>
+      <span>{{ printData.order.crtTime }}</span>
+    </p>
+  </header>
+  <div class="w-full whitespace-nowrap overflow-hidden my-10px">
+    --------------------------------------
+  </div>
+  <div>
+    <div class="flex mb-10px">
+      <span class="flex-1">名称</span>
+      <span class="w-40px text-right">单价</span>
+      <span class="w-40px text-right">数量</span>
+      <span class="w-50px text-right">小计</span>
+    </div>
+    <div class="w-full whitespace-nowrap overflow-hidden my-10px">
+      --------------------------------------
+    </div>
+    <div class="flex leading-loose" v-for="item in printData.items" :key="item.id">
+      <span class="flex-1 truncate">{{ item.productName }}</span>
+      <span class="w-40px text-right">{{ item.productPrice }}</span>
+      <span class="w-40px text-right">{{ item.productCount }}</span>
+      <span class="w-50px text-right">{{ item['totalPrice'] }}</span>
+    </div>
+  </div>
+  <div class="w-full whitespace-nowrap overflow-hidden my-10px">
+    --------------------------------------
+  </div>
+  <!-- 总计 -->
+  <div class="text-right">
+    <span>总计：</span>
+    <span>{{ printData['total'] }}</span>
+  </div>
+  <div class="w-full whitespace-nowrap overflow-hidden my-10px">
+    --------------------------------------
+  </div>
+  <div class="text-2xl">
+    {{ printData.order.mchName }}
+  </div>
+`

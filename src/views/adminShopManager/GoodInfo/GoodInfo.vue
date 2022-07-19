@@ -3,31 +3,56 @@ import { ContentWrap } from '@/components/ContentWrap'
 import { Search } from '@/components/Search'
 import { Dialog } from '@/components/Dialog'
 import { useI18n } from '@/hooks/web/useI18n'
-import { ElLink, ElButton, ElMessage } from 'element-plus'
+import { ElLink, ElButton, ElTag, ElMessage } from 'element-plus'
 import { Table } from '@/components/Table'
 import { useTable } from '@/hooks/web/useTable'
-import { ref, unref, reactive, onMounted } from 'vue'
+import { h, ref, unref, reactive } from 'vue'
 import Write from './components/Write.vue'
 import { CrudSchema, useCrudSchemas } from '@/hooks/web/useCrudSchemas'
 import {
   getGoodInfoApi,
   postGoodInfoApi,
   putGoodInfoApi,
-  deleteGoodInfoApi
+  deleteGoodInfoApi,
+  putGoodInfoOnApi,
+  putGoodInfoOffApi
 } from '@/api/adminShopManager/goodInfo'
 import { GoodInfoData } from '@/api/adminShopManager/goodInfo/types'
 import { getShopInfoApi } from '@/api/adminShopManager/shopInfo'
 import { ShopInfoData } from '@/api/adminShopManager/shopInfo/types'
+import { getGoodCategoryApi } from '@/api/adminShopManager/goodCategory'
+import { GoodCategoryData } from '@/api/adminShopManager/goodCategory/types'
+import { requestUrl } from '@/config/axios/config'
 
 const { register, tableObject, methods } = useTable<GoodInfoData>({
   getListApi: getGoodInfoApi,
   delListApi: deleteGoodInfoApi,
+  onShelfApi: putGoodInfoOnApi,
+  offShelfApi: putGoodInfoOffApi,
   response: { rows: 'rows', total: 'total' }
 })
 
 const { getList, setSearchParams } = methods
 
-setSearchParams({ productCategory: 'lease' })
+const shopInfoListData = ref<ShopInfoData[]>([])
+
+const goodCategoryData = ref<GoodCategoryData[]>([])
+
+const getData = async () => {
+  const ShopRes = await getShopInfoApi({ page: 1, size: 999, mchCategory: 'shop' })
+  const CateRes = await getGoodCategoryApi({ page: 1, size: 999 })
+  if (ShopRes) {
+    shopInfoListData.value = ShopRes.data.rows
+  }
+  if (CateRes) {
+    goodCategoryData.value = CateRes.data.rows
+  }
+  updateSchemas()
+}
+
+getData()
+
+setSearchParams({ productCategory: 'goods' })
 
 const { t } = useI18n()
 
@@ -44,7 +69,15 @@ const crudSchemas = reactive<CrudSchema[]>([
     label: t('shopManager.goodName'),
     search: { show: true },
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 }
+    }
+  },
+  {
+    field: 'productImage',
+    label: t('shopManager.goodImage'),
+    form: {
+      colProps: { span: 22 },
+      component: 'Uploader'
     }
   },
   {
@@ -56,44 +89,79 @@ const crudSchemas = reactive<CrudSchema[]>([
       componentProps: { options: [] }
     },
     form: {
-      colProps: { span: 24 },
+      colProps: { span: 22 },
       component: 'Select',
       componentProps: {
         style: { width: '100%' },
         options: []
       }
-    },
-    formatter: (_: Recordable, __: TableColumn, cellValue: ShopInfoData) => {
-      return cellValue.name
     }
   },
   {
-    field: 'productType',
-    label: t('shopManager.goodCategory')
-  },
-  {
-    field: 'packingUnit',
-    label: t('shopManager.packingUnit')
+    field: 'productTypeId',
+    label: t('shopManager.goodCategory'),
+    form: {
+      colProps: { span: 22 },
+      component: 'Select',
+      componentProps: {
+        style: { width: '100%' },
+        options: []
+      }
+    }
   },
   {
     field: 'manufacturer',
-    label: t('shopManager.manufacturer')
+    label: t('shopManager.manufacturer'),
+    form: {
+      colProps: { span: 22 }
+    }
   },
   {
-    field: 'onShelfTime',
-    label: t('shopManager.putawawyTime')
+    field: 'packingUnit',
+    label: t('shopManager.packingUnit'),
+    form: {
+      colProps: { span: 11 }
+    }
   },
   {
     field: 'price',
-    label: t('shopManager.standardPrice')
+    label: t('shopManager.standardPrice'),
+    form: {
+      component: 'InputNumber',
+      colProps: { span: 11 }
+    }
   },
   {
     field: 'inventoryNumber',
-    label: t('shopManager.inventory')
+    label: t('shopManager.inventory'),
+    form: {
+      component: 'InputNumber',
+      colProps: { span: 11 }
+    }
+  },
+  {
+    field: 'onShelf',
+    label: t('shopManager.hasPutawaw'),
+    form: {
+      value: true,
+      component: 'Switch',
+      colProps: { span: 11 }
+    },
+    formatter: (_: Recordable, __: TableColumn, cellValue: number) => {
+      return h(ElTag, { type: cellValue ? '' : 'danger' }, () =>
+        t(cellValue ? 'common.yes' : 'common.no')
+      )
+    }
+  },
+  {
+    field: 'onShelfTime',
+    width: '160px',
+    label: t('shopManager.putawawyTime'),
+    form: { show: false }
   },
   {
     field: 'action',
-    width: '160px',
+    width: '200px',
     label: t('tableDemo.action'),
     form: { show: false },
     detail: { show: false }
@@ -132,10 +200,10 @@ const save = async () => {
     if (isValid) {
       loading.value = true
       const data = (await write?.getFormData()) as GoodInfoData
-      data.productCategory = 'lease'
-      let api = putGoodInfoApi
-      if (!data.id) {
-        api = postGoodInfoApi
+      data.productCategory = 'goods'
+      let api = postGoodInfoApi
+      if (data.id) {
+        api = putGoodInfoApi
       }
       const res = await api(data)
         .catch(() => {})
@@ -159,7 +227,15 @@ const delData = async (row: GoodInfoData | null, multiple: boolean) => {
   await delList(multiple ? selections.map((v) => v.id) : [tableObject.currentRow!.id], multiple)
 }
 
-const shopInfoListData = ref<ShopInfoData[]>([])
+const onShelfData = async (row: GoodInfoData) => {
+  const { onShelfItem } = methods
+  await onShelfItem(row.id)
+}
+
+const offShelfData = async (row: GoodInfoData) => {
+  const { offShelfItem } = methods
+  await offShelfItem(row.id)
+}
 
 const updateSchemas = () => {
   const keys = ['searchSchema', 'formSchema']
@@ -168,20 +244,15 @@ const updateSchemas = () => {
       shopInfoListData.value.map((item) => {
         return { label: item.name, value: item.id }
       })
-    if (key === 'searchSchema') {
-      allSchemas[key].filter((schema) => schema.field === 'mchId')[0].value =
-        shopInfoListData.value[0].id
+    if (key === 'formSchema') {
+      allSchemas[key].filter(
+        (schema) => schema.field === 'productTypeId'
+      )[0].componentProps!.options = goodCategoryData.value.map((item) => {
+        return { label: item.name, value: item.id }
+      })
     }
   })
 }
-
-onMounted(async () => {
-  const res = await getShopInfoApi({ page: 1, size: 999 })
-  if (res) {
-    shopInfoListData.value = res.data.rows
-  }
-  updateSchemas()
-})
 </script>
 
 <template>
@@ -206,14 +277,52 @@ onMounted(async () => {
       }"
       @register="register"
     >
+      <template #productImage="{ row }">
+        <img
+          class="w-80px"
+          :src="`${requestUrl}${row.productImage}`"
+          :alt="`${requestUrl}${row.productImage}`"
+        />
+      </template>
+      <template #mchId="{ row }">
+        {{ row.mch.name }}
+      </template>
+      <template #productTypeId="{ row }">
+        {{ row.productType.name }}
+      </template>
       <template #action="{ row }">
-        <ElLink :underline="false" type="primary" @click="action(row, 'edit')">
+        <ElLink
+          v-show="!row.onShelf"
+          :underline="false"
+          type="primary"
+          class="ml-10px cursor-pointer"
+          @click="onShelfData(row)"
+        >
+          {{ t('common.putaway') }}
+        </ElLink>
+        <ElLink
+          v-show="row.onShelf"
+          :underline="false"
+          type="danger"
+          class="ml-10px cursor-pointer"
+          @click="offShelfData(row)"
+        >
+          {{ t('common.soldOut') }}
+        </ElLink>
+        <ElLink
+          :underline="false"
+          type="primary"
+          class="ml-10px cursor-pointer"
+          @click="action(row, 'edit')"
+        >
           {{ t('common.edit') }}
         </ElLink>
-        <ElLink :underline="false" type="success" @click="action(row, 'detail')">
-          {{ t('common.detail') }}
-        </ElLink>
-        <ElLink :underline="false" type="danger" @click="delData(row, false)">
+        <ElLink
+          :underline="false"
+          type="primary"
+          class="ml-10px cursor-pointer"
+          @click="delData(row, false)"
+        >
           {{ t('common.del') }}
         </ElLink>
       </template>

@@ -3,13 +3,14 @@ import { Form } from '@/components/Form'
 import { useForm } from '@/hooks/web/useForm'
 import { PropType, reactive, watch } from 'vue'
 import { useValidator } from '@/hooks/web/useValidator'
-import { StaffInfoData } from '@/api/adminStaffManager/staffInfo/types'
+import { WorkOrderData } from '@/api/adminWorkOrder/workProcess/types'
+import { cloneDeep } from 'lodash-es'
 
 const { required } = useValidator()
 
 const props = defineProps({
   currentRow: {
-    type: Object as PropType<Nullable<StaffInfoData>>,
+    type: Object as PropType<Nullable<WorkOrderData>>,
     default: () => null
   },
   formSchema: {
@@ -31,7 +32,10 @@ watch(
   (currentRow) => {
     if (!currentRow) return
     const { setValues } = methods
-    setValues(currentRow)
+    let data = cloneDeep(currentRow)
+    data.submitterId = data.submitter?.id
+    data.assignerId = data.assigner?.id
+    setValues(data)
   },
   { deep: true, immediate: true }
 )

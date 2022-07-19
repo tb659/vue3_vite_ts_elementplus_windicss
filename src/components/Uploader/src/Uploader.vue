@@ -1,22 +1,24 @@
 <script setup lang="ts">
 import { ElUpload, ElMessage } from 'element-plus'
-import type { UploadProps, UploadInstance } from 'element-plus'
+import type { UploadProps } from 'element-plus'
 import { propTypes } from '@/utils/propTypes'
-import { ref, unref, watch } from 'vue'
+import { reactive, ref, unref, watch } from 'vue'
 import { useI18n } from '@/hooks/web/useI18n'
 import { requestUrl } from '@/config/axios/config'
-import { postUploadApi } from '@/api/common'
+import { REQUEST_TOKEN_KEY } from '@/config/axios/config'
+import { getToken } from '@/utils/auth'
 
 const { t } = useI18n()
 
 const emit = defineEmits(['change', 'update:modelValue'])
 
-const uploadRef = ref<UploadInstance>()
-
+const uploadHeader = reactive({})
+uploadHeader[REQUEST_TOKEN_KEY] = getToken()
 const imageUrl = ref('')
 
 const props = defineProps({
-  accessLevel: propTypes.oneOf<UploadAccessLevel[]>(['PUBLIC', 'PRIVATE']).def('PUBLIC'),
+  fileName: propTypes.string.def('file'),
+  uploadUrl: propTypes.string.def('/api/file/upload?accessLevel=PUBLIC'),
   modelValue: propTypes.string.def('')
 })
 
@@ -38,24 +40,20 @@ const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
   return true
 }
 
-const handleSuccess: UploadProps['onSuccess'] = async (_, uploadFile) => {
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+const handleSuccess: UploadProps['onSuccess'] = async (res, uploadFile) => {
   const formData = new FormData()
-  formData.append('file', uploadFile.raw!)
-  const res = await postUploadApi(props.accessLevel, formData)
-  if (res) {
-    ElMessage.success(t('common.uploadSuccess'))
-    emit('update:modelValue', res.data)
-  }
+  formData.append(props.fileName, uploadFile.raw!)
+  ElMessage.success(t('common.uploadSuccess'))
+  emit('update:modelValue', res.data)
 }
 </script>
 
 <template>
   <ElUpload
-    ref="uploadRef"
     class="avatar-uploader"
     v-bind="$attrs"
-    :action="requestUrl"
+    :action="requestUrl + $props.uploadUrl"
+    :headers="uploadHeader"
     :show-file-list="false"
     :on-success="handleSuccess"
     :before-upload="beforeUpload"

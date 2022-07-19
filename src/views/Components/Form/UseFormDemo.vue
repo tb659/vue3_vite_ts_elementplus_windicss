@@ -6,11 +6,9 @@ import { useForm } from '@/hooks/web/useForm'
 import { reactive, unref, ref } from 'vue'
 import { ElButton } from 'element-plus'
 import { useValidator } from '@/hooks/web/useValidator'
-
+import { getDictOneApi } from '@/api/common'
 const { required } = useValidator()
-
 const { t } = useI18n()
-
 const schema = reactive<FormSchema[]>([
   {
     field: 'field1',
@@ -90,32 +88,27 @@ const schema = reactive<FormSchema[]>([
     label: t('formDemo.timeSelect')
   }
 ])
-
 const { register, methods, elFormRef } = useForm({
   schema
 })
-
 const changeLabelWidth = (width: number | string) => {
   const { setProps } = methods
   setProps({
     labelWidth: width
   })
 }
-
 const changeSize = (size: string) => {
   const { setProps } = methods
   setProps({
     size
   })
 }
-
 const changeDisabled = (bool: boolean) => {
   const { setProps } = methods
   setProps({
     disabled: bool
   })
 }
-
 const changeSchema = (del: boolean) => {
   const { delSchema, addSchema } = methods
   if (del) {
@@ -143,7 +136,6 @@ const changeSchema = (del: boolean) => {
     )
   }
 }
-
 const setValue = (reset: boolean) => {
   const { setValues } = methods
   if (reset) {
@@ -159,9 +151,7 @@ const setValue = (reset: boolean) => {
     })
   }
 }
-
 const index = ref(7)
-
 const setLabel = () => {
   const { setSchema } = methods
   setSchema([
@@ -191,7 +181,6 @@ const setLabel = () => {
   ])
   index.value++
 }
-
 const addItem = () => {
   const { addSchema } = methods
   if (unref(index) % 2 === 0) {
@@ -212,15 +201,26 @@ const addItem = () => {
   }
   index.value++
 }
-
 const formValidation = () => {
   unref(elFormRef)!.validate((isValid) => {
     console.log(isValid)
   })
 }
-
 const verifyReset = () => {
   unref(elFormRef)?.resetFields()
+}
+const getDictOne = async () => {
+  const res = await getDictOneApi()
+  if (res) {
+    const { setSchema } = methods
+    setSchema([
+      {
+        field: 'field2',
+        path: 'componentProps.options',
+        value: res.data
+      }
+    ])
+  }
 }
 </script>
 
@@ -253,6 +253,10 @@ const verifyReset = () => {
 
     <ElButton @click="formValidation"> {{ t('formDemo.formValidation') }} </ElButton>
     <ElButton @click="verifyReset"> {{ t('formDemo.verifyReset') }} </ElButton>
+
+    <ElButton @click="getDictOne">
+      {{ t('searchDemo.dynamicOptions') }}
+    </ElButton>
   </ContentWrap>
   <ContentWrap :title="`UseForm ${t('formDemo.example')}`">
     <Form @register="register" />

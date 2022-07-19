@@ -3,13 +3,14 @@ import { Form } from '@/components/Form'
 import { useForm } from '@/hooks/web/useForm'
 import { PropType, reactive, watch } from 'vue'
 import { useValidator } from '@/hooks/web/useValidator'
-import { StaffInfoData } from '@/api/adminStaffManager/staffInfo/types'
+import { QueueTerminalData } from '@/api/adminQueueManager/queueTerminal/types'
+import { cloneDeep } from 'lodash-es'
 
 const { required } = useValidator()
 
 const props = defineProps({
   currentRow: {
-    type: Object as PropType<Nullable<StaffInfoData>>,
+    type: Object as PropType<Nullable<QueueTerminalData>>,
     default: () => null
   },
   formSchema: {
@@ -19,7 +20,12 @@ const props = defineProps({
 })
 
 const rules = reactive({
-  name: [required()]
+  name: [required()],
+  id: [required()],
+  currentNumber: [required()],
+  mchId: [required()],
+  queuingDeviceState: [required()],
+  queuingDeviceSecret: [required()]
 })
 
 const { register, methods, elFormRef } = useForm({
@@ -31,7 +37,9 @@ watch(
   (currentRow) => {
     if (!currentRow) return
     const { setValues } = methods
-    setValues(currentRow)
+    let data = cloneDeep(currentRow)
+    data.mchId = data.mch.id
+    setValues(data)
   },
   { deep: true, immediate: true }
 )

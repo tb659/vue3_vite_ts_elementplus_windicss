@@ -112,7 +112,7 @@ export default defineComponent({
           pageSizes: [10, 20, 30, 40, 50, 100],
           disabled: false,
           hideOnSinglePage: false,
-          total: 10
+          total: 0
         },
         unref(getProps).pagination
       )
@@ -234,8 +234,29 @@ export default defineComponent({
                 align={v.align || align}
                 headerAlign={v.headerAlign || headerAlign}
                 label={v.label}
-                width="65px"
+                width="70px"
               ></ElTableColumn>
+            )
+          } else if (v.fixed) {
+            return (
+              <ElTableColumn
+                fixed={v.fixed}
+                align={v.align || align}
+                headerAlign={v.headerAlign || headerAlign}
+                label={v.label}
+              >
+                {{
+                  default: (data: TableSlotDefault) =>
+                    v.children && v.children.length
+                      ? rnderTreeTableColumn(v.children)
+                      : // @ts-ignore
+                        getSlot(slots, v.field, data) ||
+                        v?.formatter?.(data.row, data.column, data.row[v.field], data.$index) ||
+                        data.row[v.field],
+                  // @ts-ignore
+                  header: () => getSlot(slots, `${v.field}-header`) || v.label
+                }}
+              </ElTableColumn>
             )
           } else {
             const props = { ...v }

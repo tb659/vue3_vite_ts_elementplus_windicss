@@ -4,6 +4,7 @@ import { useForm } from '@/hooks/web/useForm'
 import { PropType, reactive, watch } from 'vue'
 import { GoodCategoryData } from '@/api/adminShopManager/goodCategory/types'
 import { useValidator } from '@/hooks/web/useValidator'
+import { cloneDeep } from 'lodash-es'
 
 const { required } = useValidator()
 
@@ -20,9 +21,9 @@ const props = defineProps({
 
 const rules = reactive({
   name: [required()],
-  imgPath: [required()],
+  imagePath: [required()],
   codeNumber: [required()],
-  mch: [required()],
+  mchId: [required()],
   description: [required()]
 })
 
@@ -35,7 +36,9 @@ watch(
   (currentRow) => {
     if (!currentRow) return
     const { setValues } = methods
-    setValues(currentRow)
+    let data = cloneDeep(currentRow)
+    data.mchId = data.mch.id
+    setValues(data)
   },
   { deep: true, immediate: true }
 )

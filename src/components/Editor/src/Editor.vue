@@ -30,13 +30,14 @@ i18nChangeLanguage(unref(currentLocale).lang)
 
 const props = defineProps({
   editorId: propTypes.string.def('wangeEditor-1'),
-  height: propTypes.oneOfType([Number, String]).def('500px'),
+  height: propTypes.oneOfType([Number, String]).def('400px'),
   editorConfig: {
     type: Object as PropType<IEditorConfig>,
     default: () => undefined
   },
-  modelValue: propTypes.string.def(''),
-  accessLevel: propTypes.oneOf<UploadAccessLevel[]>(['PUBLIC', 'PRIVATE']).def('PUBLIC')
+  fileName: propTypes.string.def('file'),
+  uploadUrl: propTypes.string.def('/api/file/upload?accessLevel=PUBLIC'),
+  modelValue: propTypes.string.def('')
 })
 
 const emit = defineEmits(['change', 'update:modelValue'])
@@ -139,7 +140,7 @@ const editorConfig = computed((): IEditorConfig => {
 const customUploadFn = async (file) => {
   const formData = new FormData()
   formData.append('file', file)
-  const res = await postUploadApi(props.accessLevel, formData)
+  const res = await postUploadApi(props.uploadUrl, formData)
   return requestUrl + res.data
 }
 // 自定义校验图片

@@ -14,6 +14,7 @@ import { UserType } from '@/api/login/types'
 import { useValidator } from '@/hooks/web/useValidator'
 import Cookies from 'js-cookie'
 import { menuList } from '@/router'
+import { removeToken } from '@/utils/auth'
 
 const { required } = useValidator()
 
@@ -31,13 +32,14 @@ const { t } = useI18n()
 
 // 登录
 const signIn = async () => {
+  removeToken()
+
   const formRef = unref(elFormRef)
   await formRef?.validate(async (isValid) => {
     if (isValid) {
       loading.value = true
       const { getFormData } = methods
       const formData = await getFormData<UserType>()
-
       try {
         const res = await loginApi(formData)
         if (res) {
@@ -66,6 +68,7 @@ const getRole = async () => {
       addRoute(route as RouteRecordRaw) // 动态添加可访问路由表
     })
     permissionStore.setIsAddRouters(true)
+    // push({ path: redirect.value || routers[0] })
     push({ path: redirect.value || permissionStore.addRouters[0].path })
   }
 }

@@ -1,14 +1,24 @@
-import { ShopInfoData } from '@/api/adminShopManager/shopInfo/types'
-import { GoodInfoData } from '@/api/adminShopManager/goodInfo/types'
-
 export type GoodOrderData = {
   id: number
-  orderCode: number
+  amount: number
   crtTime: number
   dataState: number
   dataVersion: number
-  mch: ShopInfoData
-  product: GoodInfoData
-  status: number
-  price: number
+  mchId: number
+  mchName: string
+  orderNumber: string
+  orderStatus: 1 | 2 | 3 | 4 // 订单状态 1: 待支付,2:支付成功,3:支付失败,4:已核销
+  touristId: number
+  wxOpenId: string
+}
+
+export type GoodsDetailData = {
+  id: number
+  amount: number
+  crtTime: number
+  productCount: number
+  productId: number
+  productName: string
+  productPrice: number
+  touristOrderId: number
 }

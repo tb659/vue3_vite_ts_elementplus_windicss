@@ -1,4 +1,4 @@
-import { REQUEST_TOKEN_KEY } from './index'
+import { REQUEST_TOKEN_KEY } from './config'
 import { getToken } from '@/utils/auth'
 
 function getError(option, xhr) {

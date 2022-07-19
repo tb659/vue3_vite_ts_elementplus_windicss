@@ -31,7 +31,8 @@ const props = defineProps({
   // 是否显示伸缩
   expand: propTypes.bool.def(false),
   // 伸缩的界限字段
-  expandField: propTypes.string.def('')
+  expandField: propTypes.string.def(''),
+  inline: propTypes.bool.def(true)
 })
 
 const emit = defineEmits(['search', 'reset'])
@@ -89,6 +90,10 @@ const setVisible = () => {
   unref(elFormRef)?.resetFields()
   visible.value = !unref(visible)
 }
+
+defineExpose({
+  getFormData: methods.getFormData
+})
 </script>
 
 <template>
@@ -96,7 +101,7 @@ const setVisible = () => {
     :is-custom="false"
     :label-width="labelWidth"
     hide-required-asterisk
-    inline
+    :inline="inline"
     :is-col="isCol"
     :schema="newSchema"
     @register="register"

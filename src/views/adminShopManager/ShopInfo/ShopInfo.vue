@@ -3,10 +3,10 @@ import { ContentWrap } from '@/components/ContentWrap'
 import { Search } from '@/components/Search'
 import { Dialog } from '@/components/Dialog'
 import { useI18n } from '@/hooks/web/useI18n'
-import { ElButton, ElLink, ElTag, ElMessage } from 'element-plus'
+import { ElButton, ElLink, ElMessage } from 'element-plus'
 import { Table } from '@/components/Table'
 import { useTable } from '@/hooks/web/useTable'
-import { ref, unref, reactive, h } from 'vue'
+import { ref, unref, reactive } from 'vue'
 import Write from './components/Write.vue'
 import { CrudSchema, useCrudSchemas } from '@/hooks/web/useCrudSchemas'
 import {
@@ -46,36 +46,25 @@ const crudSchemas = reactive<CrudSchema[]>([
     label: t('shopManager.shopName'),
     search: { show: true },
     form: {
-      colProps: { span: 24 }
-    },
-    detail: { span: 24 }
+      colProps: { span: 11 }
+    }
+  },
+  {
+    field: 'mchType',
+    label: t('shopManager.shopType'),
+    form: {
+      colProps: { span: 11 }
+    }
   },
   {
     field: 'introduction',
     label: t('shopManager.richTextInfo'),
     form: {
-      colProps: { span: 24 },
+      colProps: { span: 22 },
       component: 'Editor',
-      componentProps: { style: { width: '100%' } }
-    }
-  },
-  {
-    field: 'mchType',
-    width: '120px',
-    label: t('shopManager.shopType'),
-    form: {
-      colProps: { span: 24 },
-      component: 'Select',
       componentProps: {
-        style: { width: '100%' },
-        options: [
-          { label: '商户', value: 'shop' },
-          { label: '场馆', value: 'venue' }
-        ]
+        style: { width: '100%' }
       }
-    },
-    formatter: (_: Recordable, __: TableColumn, cellValue: string) => {
-      return h(ElTag, {}, () => t(cellValue === 'shop' ? '商户' : '场馆'))
     }
   },
   {
@@ -83,7 +72,7 @@ const crudSchemas = reactive<CrudSchema[]>([
     label: t('common.tips'),
     form: {
       value: 'tips',
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     },
     table: { show: false }
   },
@@ -91,7 +80,8 @@ const crudSchemas = reactive<CrudSchema[]>([
     field: 'gis',
     label: t('shopManager.mapPosition'),
     form: {
-      colProps: { span: 24 }
+      component: 'Map',
+      colProps: { span: 22 }
     }
   },
   {
@@ -99,11 +89,8 @@ const crudSchemas = reactive<CrudSchema[]>([
     width: '120px',
     label: t('shopManager.payQrCode'),
     form: {
-      colProps: { span: 24 },
-      component: 'Uploader',
-      componentProps: {
-        accessLevel: 'PUBLIC'
-      }
+      colProps: { span: 22 },
+      component: 'Uploader'
     }
   },
   {
@@ -118,7 +105,7 @@ const crudSchemas = reactive<CrudSchema[]>([
     field: 'tipTemplate',
     label: t('shopManager.tipInfoForBuy'),
     form: {
-      colProps: { span: 24 },
+      colProps: { span: 22 },
       componentProps: { type: 'textarea' }
     }
   },
@@ -164,9 +151,9 @@ const save = async () => {
       loading.value = true
       const data = (await write?.getFormData()) as ShopInfoData
       data.mchCategory = 'shop'
-      let api = putShopInfoApi
-      if (!data.id) {
-        api = postShopInfoApi
+      let api = postShopInfoApi
+      if (data.id) {
+        api = putShopInfoApi
       }
       const res = await api(data)
         .catch(() => {})
@@ -241,7 +228,7 @@ const delData = async (row: ShopInfoData | null, multiple: boolean) => {
     </Table>
   </ContentWrap>
 
-  <Dialog v-model="dialogVisible" :title="dialogTitle" maxHeight="1000px" width="1600px">
+  <Dialog v-model="dialogVisible" :title="dialogTitle" maxHeight="1000px" width="1650px">
     <Write
       ref="writeRef"
       :form-schema="allSchemas.formSchema"

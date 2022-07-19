@@ -21,6 +21,8 @@ import {
 import { InputPassword } from '@/components/InputPassword'
 import { Editor } from '@/components/Editor'
 import { Uploader } from '@/components/Uploader'
+import { Map } from '@/components/Map'
+import { Uploaders } from '@/components/Uploaders'
 
 const componentMap: Recordable<Component, ComponentName> = {
   Radio: ElRadioGroup,
@@ -44,7 +46,9 @@ const componentMap: Recordable<Component, ComponentName> = {
   RadioButton: ElRadioGroup,
   InputPassword: InputPassword,
   Editor: Editor,
-  Uploader: Uploader
+  Uploader: Uploader,
+  Uploaders: Uploaders,
+  Map: Map
 }
 
 export { componentMap }

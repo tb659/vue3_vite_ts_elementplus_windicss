@@ -22,3 +22,13 @@ export const deleteGoodInfoApi = async (id: Partial<GoodInfoData>): Promise<IRes
   const res = await request.delete({ url: `/api/product/${id}` })
   return res && res.data
 }
+
+export const putGoodInfoOnApi = async (id: Partial<GoodInfoData>): Promise<IResponse> => {
+  const res = await request.put({ url: `/api/product/${id}/on_shelf` })
+  return res && res.data
+}
+
+export const putGoodInfoOffApi = async (id: Partial<GoodInfoData>): Promise<IResponse> => {
+  const res = await request.put({ url: `/api/product/${id}/off_shelf` })
+  return res && res.data
+}

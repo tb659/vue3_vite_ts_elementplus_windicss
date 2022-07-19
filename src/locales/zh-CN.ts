@@ -38,24 +38,33 @@ export default {
     //
     delMessage: '是否删除所选中数据？',
     delWarning: '提示',
-    delOk: '确定',
-    delCancel: '取消',
     delNoData: '请选择需要删除的数据',
     delSuccess: '删除成功',
     //
     enableMessage: '是否启用所选中数据？',
     enableWarning: '提示',
-    enableOk: '确定',
-    enableCancel: '取消',
     enableNoData: '请选择需要启用的数据',
     enableSuccess: '启用成功',
     //
     disableMessage: '是否禁用所选中数据？',
     disableWarning: '提示',
-    disableOk: '确定',
-    disableCancel: '取消',
     disableNoData: '请选择需要禁用的数据',
     disableSuccess: '禁用成功',
+    //
+    onShelfMessage: '是否上架所选中数据？',
+    onShelfWarning: '提示',
+    onShelfNoData: '请选择需要上架的数据',
+    onShelfSuccess: '上架成功',
+    //
+    offShelfMessage: '是否下架所选中数据？',
+    offShelfWarning: '提示',
+    offShelfNoData: '请选择需要下架的数据',
+    offShelfSuccess: '下架成功',
+    //
+    auditMessage: '是否审核所选中数据？',
+    auditWarning: '提示',
+    auditNoData: '请选择需要审核的数据',
+    auditSuccess: '审核成功',
     //
     createTime: '创建时间',
     superAdmin: '超级管理员',
@@ -65,6 +74,7 @@ export default {
     roleType: '角色类型',
     passwordSetting: '密码设置',
     index: '序号',
+    error: '错误',
     add: '新增',
     del: '删除',
     edit: '编辑',
@@ -86,21 +96,37 @@ export default {
     good: '良好',
     commonly: '一般',
     aduit: '审核',
+    hasAduit: '已审核',
     expired: '已过期',
     toAudit: '待审核',
     fail: '未通过',
     passed: '已通过',
     dimission: '离职',
     onTheJob: '在职',
-    offLine: '在线',
-    onLine: '离线',
+    offline: '离线',
+    online: '在线',
     canNotOperation: '禁止操作',
     noUpload: '文件大小为0，禁止上传',
     uploadSuccess: '上传成功',
     lastVisitTime: '最近访问时间',
     untreated: '未处理',
     processed: '已处理',
-    canNotDispose: '无法处理'
+    canNotDispose: '无法处理',
+    select: '选择',
+    success: '成功',
+    failed: '失败',
+    yes: '是',
+    no: '否',
+    isMaxCount: '已经是最大个数',
+    payed: '已付款',
+    used: '已使用',
+    invalid: '已无效',
+    waittingToPay: '待支付',
+    paySuccess: '支付成功',
+    payFaild: '支付失败',
+    approved: '已核销',
+    orderInfo: '订单信息',
+    goodsInfo: '商品信息'
   },
   error: {
     noPermission: `抱歉，您无权访问此页面。`,
@@ -213,6 +239,7 @@ export default {
     venueManager: '场馆管理',
     venueInfo: '场馆信息',
     leaseGood: '租赁商品',
+    leaseOrder: '租赁订单',
     touristManager: '游客管理',
     touristInfo: '游客信息',
     epidemicManager: '防疫管理',
@@ -235,6 +262,9 @@ export default {
     resource: '资源管理',
     function: '功能管理',
     params: '系统参数'
+  },
+  permission: {
+    hasPermission: '请设置操作权限值'
   },
   analysis: {
     newUser: '新增用户',
@@ -431,7 +461,8 @@ export default {
     position: '位置',
     left: '左',
     center: '中',
-    right: '右'
+    right: '右',
+    dynamicOptions: '动态选项'
   },
   stickyDemo: {
     sticky: '黏性'
@@ -471,7 +502,9 @@ export default {
     dialog: '弹窗',
     dialogDes: '基于 ElementPlus 的 Dialog 组件二次封装',
     open: '打开',
-    close: '关闭'
+    close: '关闭',
+    combineWithForm: '与表单结合',
+    submit: '提交'
   },
   imageViewerDemo: {
     open: '打开',
@@ -544,7 +577,10 @@ export default {
     passwordSetting: '密码设置',
     newPassword: '新密码',
     confirmPassword: '确认密码',
-    notEqual: '两次密码不一致'
+    notEqual: '两次密码不一致',
+    //
+    paramsSetting: '参数设置',
+    switch: '防控开关'
   },
   shopManager: {
     // shopInfo
@@ -557,14 +593,18 @@ export default {
     tipInfoForBuy: '购买提示',
     // goodInfo
     goodName: '商品名称',
+    goodImage: '商品图片',
     goodCategory: '商品分类',
     packingUnit: '包装单位',
     manufacturer: '生产厂家',
+    hasPutawaw: '已上架',
     putawawyTime: '上架时间',
     standardPrice: '标准价格',
     purchasingBase: '采购基数',
     inventory: '库存',
     goodDetail: '商品详情',
+    goodCount: '商品数量',
+    amount: '金额',
     // goodCategory
     categoryImage: '分类图片',
     categoryName: '分类名称',
@@ -585,7 +625,7 @@ export default {
     leaseDepositMoney: '押金',
     leaseUnit: '租赁单位',
     leaseMaxCount: '最大租赁数量',
-    price: '价格',
+    price: '单位价格',
     buyingTips: '购买提示'
   },
   touristManager: {
@@ -594,6 +634,7 @@ export default {
     touristName: '游客姓名',
     idType: '证件类型',
     idNo: '证件号码',
+    phoneNumber: '手机号',
     // epidemicManager
     nameOrNickName: '昵称或者姓名',
     dateTime: '防疫时间',
@@ -602,12 +643,18 @@ export default {
     submitTime: '防疫提交时间',
     auditStatus: '审核状态',
     auditTime: '审核时间',
-    // ticketManager
+    imageUpload: '图片上传',
+    auditSuccess: '审核成功',
+    // ticketsManager
     ticketName: '门票名称',
     ticketType: '门票类型',
     ticketPrice: '门票价格',
     putawayTime: '上架时间',
-    standardPrice: '标准价格'
+    standardPrice: '标准价格',
+    // ticketsOrder
+    VisitedDate: '游玩日期',
+    BuiedDate: '购买日期',
+    ticketStatus: '门票状态'
   },
   staffManager: {
     // epartmentManager
@@ -622,7 +669,14 @@ export default {
     // queueTerminal
     terminalId: '终端ID',
     terminalName: '终端名称',
-    secret: '秘钥'
+    currentNumber: '当前号码',
+    secret: '秘钥',
+    // queueInfo
+    getNumberTime: '取号时间',
+    enterTime: '入场时间',
+    source: '来源',
+    normal: '正常',
+    overed: '过号'
   },
   workOrder: {
     initiator: '发起人',
@@ -630,6 +684,7 @@ export default {
     content: '工单内容',
     principal: '负责人',
     estimatedTimeOfCompletion: '预计完成时间',
+    finishedTimeOfCompletion: '实际完成时间',
     workorderexecutioninstructions: '工单执行说明',
     workOrderExecutionImage: '工单执行图片'
   },

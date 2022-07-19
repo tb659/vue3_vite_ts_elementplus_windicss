@@ -24,7 +24,7 @@ const rules = reactive({
   introduction: [required()],
   mchCategory: [required()],
   mchType: [required()],
-  gis: [required()],
+  gis: [required('请在地图上点击选择位置')],
   tips: [required()],
   payQrCode: [required()],
   tipTemplate: [required()]
@@ -65,12 +65,6 @@ defineExpose({
           在地图上点击选择位置，并在弹窗中复制经纬度坐标粘贴在下面的输入框
         </ElLink>
       </div>
-      <iframe
-        width="100%"
-        height="800px"
-        src="http://127.0.0.1:5500/src/views/adminShopManager/ShopInfo/components/map.html"
-        frameborder="0"
-      ></iframe>
     </template>
   </Form>
 </template>

@@ -13,49 +13,38 @@ import { viteMockServe } from 'vite-plugin-mock'
 import DefineOptions from 'unplugin-vue-define-options/vite'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import { requestUrl } from './src/config/axios/config'
-// https://vitejs.dev/config/
+
 const root = process.cwd()
 
 function pathResolve(dir: string) {
   return resolve(root, '.', dir)
 }
 
-// https://vitejs.dev/config/
 export default ({ command, mode }: ConfigEnv): UserConfig => {
   let env = {} as any
   const isBuild = command === 'build'
   if (!isBuild) {
-    env = loadEnv((process.argv[3] === '--mode' ? process.argv[4] : process.argv[3]), root)
+    env = loadEnv(process.argv[3] === '--mode' ? process.argv[4] : process.argv[3], root)
   } else {
     env = loadEnv(mode, root)
   }
   return {
     base: env.VITE_BASE_PATH,
-    build: {
-      minify: 'terser',
-      outDir: env.VITE_OUT_DIR || 'dist',
-      sourcemap: env.VITE_SOURCEMAP === 'true' ? 'inline' : false,
-      brotliSize: false,
-      terserOptions: {
-        compress: {
-          drop_debugger: env.VITE_DROP_DEBUGGER === 'true',
-          drop_console: env.VITE_DROP_CONSOLE === 'true'
-        }
-      }
-    },
     plugins: [
       Vue(),
       VueJsx(),
       WindiCSS(),
       styleImport({
         resolves: [ElementPlusResolve()],
-        libs: [{
+        libs: [
+          {
           libraryName: 'element-plus',
           esModule: true,
           resolveStyle: (name) => {
             return `element-plus/es/components/${name.substring(3)}/style/css`
           }
-        }]
+          }
+        ]
       }),
       EslintPlugin({
         cache: false,
@@ -81,11 +70,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         localEnabled: !isBuild, 
         // 生产打包开关
         prodEnabled: isBuild, 
-        // 打开后，可以读取 ts 文件模块。 请注意，打开后将无法监视.js 文件。
-        supportTs: false, 
         // 这样可以控制关闭mock的时候不让mock打包到最终代码内
         injectCode: `
           import { setupProdMockServer } from '../mock/_createProductionServer'
+
           setupProdMockServer()
           `
       }),
@@ -94,11 +82,12 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         inject: {
           data: {
             title: env.VITE_APP_TITLE,
-            injectScript: `<script src="./inject.js"></script>`,
+            injectScript: `<script src="./inject.js"></script>`
           }
         }
       })
     ],
+
     css: {
       preprocessorOptions: {
         less: {
@@ -120,6 +109,33 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         }
       ]
     },
+    build: {
+      minify: 'terser',
+      outDir: env.VITE_OUT_DIR || 'dist',
+      sourcemap: env.VITE_SOURCEMAP === 'true' ? 'inline' : false,
+      // brotliSize: false,
+      terserOptions: {
+        compress: {
+          drop_debugger: env.VITE_DROP_DEBUGGER === 'true',
+          drop_console: env.VITE_DROP_CONSOLE === 'true'
+        }
+      }
+    },
+    server: {
+      port: 4000,
+      proxy: {
+        // 选项写法
+        '/api': {
+          target: requestUrl,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, '')
+        }
+      },
+      hmr: {
+        overlay: false
+      },
+      host: '0.0.0.0'
+    },
     optimizeDeps: {
       include: [
         'vue',
@@ -136,24 +152,8 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         'intro.js',
         'qrcode',
         '@wangeditor/editor',
-        '@wangeditor/editor-for-vue',
-        'js-md5'
+        '@wangeditor/editor-for-vue'
       ]
-    },
-    server: {
-      host: '0.0.0.0',
-      port: 4000,
-      hmr: {
-        overlay: false
-      },
-      proxy: {
-        // 选项写法
-        '/api': {
-          target: requestUrl,
-          changeOrigin: true,
-          rewrite: path => path.replace(/^\/api/, '')
-        }
-      }
     }
   }
 }

@@ -41,30 +41,6 @@ export const treeToList = <T = any>(tree: any, config: Partial<TreeHelperConfig>
   return result
 }
 
-/**
- * @description: 整理菜单
- * @param {*} T
- * @return {*}
- */
-export const handleMenuList = (list) => {
-  const result: any[] = []
-  list.for((menu) => {
-    const node = {
-      path: menu.href,
-      component: '#',
-      name: 'Dashboard',
-      meta: {
-        title: menu.name,
-        icon: 'ant-design:dashboard-filled',
-        alwaysShow: true
-      }
-    }
-    result.push(node)
-  })
-
-  return result
-}
-
 export const findNode = <T = any>(
   tree: any,
   func: Fn,

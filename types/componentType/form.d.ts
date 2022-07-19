@@ -24,6 +24,8 @@ declare global {
     | 'InputPassword'
     | 'Editor'
     | 'Uploader'
+    | 'Uploaders'
+    | 'Map'
 
   declare type ColProps = {
     span?: number

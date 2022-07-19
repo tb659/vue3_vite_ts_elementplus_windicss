@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { PropType } from 'vue'
 import { Descriptions } from '@/components/Descriptions'
-import { useI18n } from '@/hooks/web/useI18n'
 import { ElTag } from 'element-plus'
-import { GoodOrderData } from '@/api/adminShopManager/goodOrder/types'
+import { TicketsOrderData } from '@/api/adminTouristManager/ticketsOrder/types'
+import { useI18n } from 'vue-i18n'
+import { moneyFormat } from '@/utils'
 
 const { t } = useI18n()
 
 defineProps({
   currentRow: {
-    type: Object as PropType<Nullable<GoodOrderData>>,
+    type: Object as PropType<Nullable<TicketsOrderData>>,
     default: () => null
   },
   detailSchema: {
@@ -21,20 +22,32 @@ defineProps({
 
 <template>
   <Descriptions :schema="detailSchema" :data="currentRow || {}">
-    <template #status="{ row }: { row: GoodOrderData }">
-      <ElTag :type="row.status === 1 ? 'success' : row.status === 2 ? 'warning' : 'danger'">
+    <template #ticketStatus="{ row }: { row: TicketsOrderData }">
+      <ElTag
+        :type="
+          row.ticketStatus === 'payed'
+            ? 'success'
+            : row.ticketStatus === 'used'
+            ? 'warning'
+            : 'danger'
+        "
+      >
         {{
-          row.status === 1
-            ? t('common.important')
-            : row.status === 2
-            ? t('common.good')
-            : t('common.commonly')
+          t(
+            row.ticketStatus === 'payed'
+              ? 'common.payed'
+              : row.ticketStatus === 'used'
+              ? 'common.used'
+              : row.ticketStatus === 'expired'
+              ? 'common.expired'
+              : 'common.invalid'
+          )
         }}
       </ElTag>
     </template>
 
-    <!-- <template #content="{ row }: { row: GoodOrderData }">
-      <div v-html="row.content"></div>
-    </template> -->
+    <template #price="{ row }: { row: TicketsOrderData }">
+      {{ moneyFormat(row.price) }}
+    </template>
   </Descriptions>
 </template>

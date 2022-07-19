@@ -2,14 +2,15 @@
 import { Form } from '@/components/Form'
 import { useForm } from '@/hooks/web/useForm'
 import { PropType, reactive, watch } from 'vue'
-import { GoodInfoData } from '@/api/adminShopManager/goodInfo/types'
+import { TicketListData } from '@/api/adminTouristManager/ticketsManager/types'
 import { useValidator } from '@/hooks/web/useValidator'
+import { cloneDeep } from 'lodash-es'
 
 const { required } = useValidator()
 
 const props = defineProps({
   currentRow: {
-    type: Object as PropType<Nullable<GoodInfoData>>,
+    type: Object as PropType<Nullable<TicketListData>>,
     default: () => null
   },
   formSchema: {
@@ -19,12 +20,11 @@ const props = defineProps({
 })
 
 const rules = reactive({
-  title: [required()],
-  author: [required()],
-  importance: [required()],
-  pageviews: [required()],
-  display_time: [required()],
-  content: [required()]
+  mchId: [required()],
+  ticketType: [required()],
+  // touristGroup: [required()],
+  price: [required()],
+  onShelf: [required()]
 })
 
 const { register, methods, elFormRef } = useForm({
@@ -36,7 +36,9 @@ watch(
   (currentRow) => {
     if (!currentRow) return
     const { setValues } = methods
-    setValues(currentRow)
+    let data = cloneDeep(currentRow)
+    data.mchId = data.mch.id
+    setValues(data)
   },
   { deep: true, immediate: true }
 )

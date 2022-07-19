@@ -3,32 +3,47 @@ import { ContentWrap } from '@/components/ContentWrap'
 import { Search } from '@/components/Search'
 import { Dialog } from '@/components/Dialog'
 import { useI18n } from '@/hooks/web/useI18n'
-import { ElLink, ElButton, ElMessage } from 'element-plus'
+import { ElLink, ElButton, ElTag, ElMessage } from 'element-plus'
 import { Table } from '@/components/Table'
 import { useTable } from '@/hooks/web/useTable'
-import { ref, unref, reactive, onMounted } from 'vue'
+import { h, ref, unref, reactive } from 'vue'
 import Write from './components/Write.vue'
 import { CrudSchema, useCrudSchemas } from '@/hooks/web/useCrudSchemas'
 import {
-  getGoodInfoApi,
-  postGoodInfoApi,
-  putGoodInfoApi,
-  deleteGoodInfoApi
-} from '@/api/adminShopManager/goodInfo'
-import { GoodInfoData } from '@/api/adminShopManager/goodInfo/types'
+  getTicketListApi,
+  postTicketListApi,
+  putTicketListApi,
+  deleteTicketListApi,
+  putTicketListOnApi,
+  putTicketListOffApi
+} from '@/api/adminTouristManager/ticketsManager'
+import { TicketListData } from '@/api/adminTouristManager/ticketsManager/types'
 import { getShopInfoApi } from '@/api/adminShopManager/shopInfo'
 import { ShopInfoData } from '@/api/adminShopManager/shopInfo/types'
-import { dateNumFormat } from '@/utils'
 
-const { register, tableObject, methods } = useTable<GoodInfoData>({
-  getListApi: getGoodInfoApi,
-  delListApi: deleteGoodInfoApi,
+const { register, tableObject, methods } = useTable<TicketListData>({
+  getListApi: getTicketListApi,
+  delListApi: deleteTicketListApi,
+  onShelfApi: putTicketListOnApi,
+  offShelfApi: putTicketListOffApi,
   response: { rows: 'rows', total: 'total' }
 })
 
 const { getList, setSearchParams } = methods
 
-setSearchParams({ productCategory: 'ticket' })
+const shopInfoListData = ref<ShopInfoData[]>([])
+
+const getData = async () => {
+  const res = await getShopInfoApi({ page: 1, size: 999 })
+  if (res) {
+    shopInfoListData.value = res.data.rows
+  }
+  updateSchemas()
+}
+
+getData()
+
+getList()
 
 const { t } = useI18n()
 
@@ -41,19 +56,11 @@ const crudSchemas = reactive<CrudSchema[]>([
     detail: { show: false }
   },
   {
-    field: 'name',
-    label: t('touristManager.ticketName'),
-    search: { show: true },
-    form: {
-      colProps: { span: 24 }
-    }
-  },
-  {
     field: 'ticketType',
     label: t('touristManager.ticketType'),
     search: { show: true },
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
@@ -65,51 +72,51 @@ const crudSchemas = reactive<CrudSchema[]>([
       componentProps: { options: [] }
     },
     form: {
-      colProps: { span: 24 },
+      colProps: { span: 22 },
       component: 'Select',
       componentProps: {
         style: { width: '100%' },
         options: []
       }
-    },
-    formatter: (_: Recordable, __: TableColumn, cellValue: ShopInfoData) => {
-      return cellValue.name
     }
   },
-  {
-    field: 'nickName',
-    label: t('touristManager.touristNickName'),
-    form: {
-      colProps: { span: 24 }
-    }
-  },
-  {
-    field: 'purchasePrice',
-    label: t('common.price'),
-    form: {
-      colProps: { span: 24 },
-      component: 'InputNumber'
-    }
-  },
+  // {
+  //   field: 'touristGroup',
+  //   label: t('touristManager.touristNickName'),
+  //   form: {
+  //     colProps: { span: 22 }
+  //   }
+  // },
   {
     field: 'price',
-    label: t('touristManager.standardPrice'),
+    label: t('common.price'),
     form: {
-      colProps: { span: 24 },
+      colProps: { span: 22 },
       component: 'InputNumber'
     }
   },
   {
-    field: 'putawayTime',
-    label: t('touristManager.putawayTime'),
-    form: { show: false },
+    field: 'onShelf',
+    label: t('shopManager.hasPutawaw'),
+    form: {
+      value: true,
+      component: 'Switch',
+      colProps: { span: 11 }
+    },
     formatter: (_: Recordable, __: TableColumn, cellValue: number) => {
-      return dateNumFormat(cellValue)
+      return h(ElTag, { type: cellValue ? '' : 'danger' }, () =>
+        t(cellValue ? 'common.yes' : 'common.no')
+      )
     }
+  },
+  {
+    field: 'onShelfTime',
+    label: t('touristManager.putawayTime'),
+    form: { show: false }
   },
   {
     field: 'action',
-    width: '160px',
+    width: '200px',
     label: t('tableDemo.action'),
     form: { show: false }
   }
@@ -130,7 +137,7 @@ const AddAction = () => {
   dialogVisible.value = true
 }
 
-const action = (row: GoodInfoData, type: string) => {
+const action = (row: TicketListData, type: string) => {
   dialogTitle.value = t(type === 'edit' ? 'common.edit' : 'common.detail')
   actionType.value = type
   tableObject.currentRow = row
@@ -146,11 +153,11 @@ const save = async () => {
   await write?.elFormRef?.validate(async (isValid) => {
     if (isValid) {
       loading.value = true
-      const data = (await write?.getFormData()) as GoodInfoData
+      const data = (await write?.getFormData()) as TicketListData
       data.productCategory = 'ticket'
-      let api = putGoodInfoApi
-      if (!data.id) {
-        api = postGoodInfoApi
+      let api = postTicketListApi
+      if (data.id) {
+        api = putTicketListApi
       }
       const res = await api(data)
         .catch(() => {})
@@ -167,14 +174,22 @@ const save = async () => {
   })
 }
 
-const delData = async (row: GoodInfoData | null, multiple: boolean) => {
+const delData = async (row: TicketListData | null, multiple: boolean) => {
   tableObject.currentRow = row
   const { delList, getSelections } = methods
   const selections = await getSelections()
   await delList(multiple ? selections.map((v) => v.id) : [tableObject.currentRow!.id], multiple)
 }
 
-const shopInfoListData = ref<ShopInfoData[]>([])
+const onShelfData = async (row: TicketListData) => {
+  const { onShelfItem } = methods
+  await onShelfItem(row.id)
+}
+
+const offShelfData = async (row: TicketListData) => {
+  const { offShelfItem } = methods
+  await offShelfItem(row.id)
+}
 
 const updateSchemas = () => {
   const keys = ['searchSchema', 'formSchema']
@@ -183,20 +198,8 @@ const updateSchemas = () => {
       shopInfoListData.value.map((item) => {
         return { label: item.name, value: item.id }
       })
-    if (key === 'searchSchema') {
-      allSchemas[key].filter((schema) => schema.field === 'mchId')[0].value =
-        shopInfoListData.value[0].id
-    }
   })
 }
-
-onMounted(async () => {
-  const res = await getShopInfoApi({ page: 1, size: 999 })
-  if (res) {
-    shopInfoListData.value = res.data.rows
-  }
-  updateSchemas()
-})
 </script>
 
 <template>
@@ -221,14 +224,42 @@ onMounted(async () => {
       }"
       @register="register"
     >
+      <template #mchId="{ row }">
+        {{ row.mch.name }}
+      </template>
       <template #action="{ row }">
-        <ElLink :underline="false" type="primary" @click="action(row, 'edit')">
+        <ElLink
+          v-show="!row.onShelf"
+          :underline="false"
+          type="primary"
+          class="ml-10px cursor-pointer"
+          @click="onShelfData(row)"
+        >
+          {{ t('common.putaway') }}
+        </ElLink>
+        <ElLink
+          v-show="row.onShelf"
+          :underline="false"
+          type="danger"
+          class="ml-10px cursor-pointer"
+          @click="offShelfData(row)"
+        >
+          {{ t('common.soldOut') }}
+        </ElLink>
+        <ElLink
+          :underline="false"
+          type="primary"
+          class="ml-10px cursor-pointer"
+          @click="action(row, 'edit')"
+        >
           {{ t('common.edit') }}
         </ElLink>
-        <ElLink :underline="false" type="success" @click="action(row, 'detail')">
-          {{ t('common.detail') }}
-        </ElLink>
-        <ElLink :underline="false" type="danger" @click="delData(row, false)">
+        <ElLink
+          :underline="false"
+          type="primary"
+          class="ml-10px cursor-pointer"
+          @click="delData(row, false)"
+        >
           {{ t('common.del') }}
         </ElLink>
       </template>

@@ -56,7 +56,7 @@ const crudSchemas = reactive<CrudSchema[]>([
     label: t('systemManager.accountName'),
     search: { show: true },
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
@@ -68,7 +68,7 @@ const crudSchemas = reactive<CrudSchema[]>([
       componentProps: {
         style: { width: '100%' }
       },
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
@@ -80,7 +80,7 @@ const crudSchemas = reactive<CrudSchema[]>([
       componentProps: {
         style: { width: '100%' }
       },
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
@@ -92,7 +92,7 @@ const crudSchemas = reactive<CrudSchema[]>([
       componentProps: {
         style: { width: '100%' }
       },
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
@@ -107,7 +107,7 @@ const crudSchemas = reactive<CrudSchema[]>([
         style: { width: '100%' },
         options: []
       },
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
@@ -178,7 +178,7 @@ const crudSchemas = reactive<CrudSchema[]>([
           }
         ]
       },
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
@@ -191,7 +191,7 @@ const crudSchemas = reactive<CrudSchema[]>([
   },
   {
     field: 'action',
-    width: '220px',
+    width: '300px',
     label: t('common.action'),
     form: {
       show: false

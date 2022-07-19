@@ -15,6 +15,7 @@ const props = defineProps({
   title: propTypes.string.def(''),
   message: propTypes.string.def(''),
   collapse: propTypes.bool.def(true),
+  isCustom: propTypes.bool.def(false),
   schema: {
     type: Array as PropType<DescriptionsSchema[]>,
     default: () => []
@@ -30,7 +31,7 @@ const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('descriptions')
 
 const getBindValue = computed(() => {
-  const delArr: string[] = ['title', 'message', 'collapse', 'schema', 'data', 'class']
+  const delArr: string[] = ['title', 'message', 'collapse', 'isCustom', 'schema', 'data', 'class']
   const obj = { ...attrs, ...props }
   for (const key in obj) {
     if (delArr.indexOf(key) !== -1) {
@@ -94,6 +95,7 @@ const toggleClick = () => {
           border
           :direction="mobile ? 'vertical' : 'horizontal'"
           v-bind="getBindValue"
+          v-if="!isCustom"
         >
           <ElDescriptionsItem
             v-for="item in schema"
@@ -109,6 +111,9 @@ const toggleClick = () => {
             </template>
           </ElDescriptionsItem>
         </ElDescriptions>
+        <div v-else>
+          <slot name="custom"></slot>
+        </div>
       </div>
     </ElCollapseTransition>
   </div>

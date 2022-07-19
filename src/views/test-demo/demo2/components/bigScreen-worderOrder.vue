@@ -61,11 +61,11 @@ function format(percentage) {
 </script>
 <style lang="less" scoped>
 // 修改进度条的颜色
-/deep/.el-progress-circle__track {
+:deep(.el-progress-circle__track) {
   stroke: #232344;
 }
 // 修改环形进度条内文字的样式
-/deep/.el-progress__text {
+:deep(.el-progress__text) {
   font-weight: bold;
   color: #fff;
 }

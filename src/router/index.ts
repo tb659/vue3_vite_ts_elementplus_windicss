@@ -73,6 +73,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         name: 'BigScreen',
         meta: {
           title: t('router.bigScreen'),
+          icon: 'el:screen',
           noCache: true
         }
       },
@@ -173,6 +174,15 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         meta: {
           title: t('router.leaseGood'),
           icon: 'icon-park-outline:commodity'
+        }
+      },
+      {
+        path: 'lease-order',
+        component: () => import('@/views/adminVenueManager/LeaseOrder/LeaseOrder.vue'),
+        name: 'LeaseOrder',
+        meta: {
+          title: t('router.leaseOrder'),
+          icon: 'clarity:form-line'
         }
       }
     ]
@@ -326,7 +336,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     meta: {
       title: t('router.workOrder'),
       icon: 'fluent:text-word-count-24-filled',
-      alwaysShow: true
+      alwaysShow: false
     },
     name: 'WorkOrder',
     children: [
@@ -377,15 +387,6 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         meta: {
           title: t('router.resource'),
           icon: 'fa6-solid:folder-tree'
-        }
-      },
-      {
-        path: 'function',
-        component: () => import('@/views/adminSystemManager/Function/Function.vue'),
-        name: 'Function',
-        meta: {
-          title: t('router.function'),
-          icon: 'carbon:function'
         }
       },
       {
@@ -648,6 +649,14 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         meta: {
           title: 'useWatermark'
         }
+      },
+      {
+        path: 'useCrudSchemas',
+        component: () => import('@/views/hooks/useCrudSchemas.vue'),
+        name: 'UseCrudSchemas',
+        meta: {
+          title: 'useCrudSchemas'
+        }
       }
     ]
   },
@@ -746,7 +755,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
           noTagsView: true,
           noCache: true,
           hidden: true,
-          showMainRoute: true,
+          canTo: true,
           activeMenu: '/example/example-page'
         }
       },
@@ -759,7 +768,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
           noTagsView: true,
           noCache: true,
           hidden: true,
-          showMainRoute: true,
+          canTo: true,
           activeMenu: '/example/example-page'
         }
       },
@@ -772,7 +781,7 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
           noTagsView: true,
           noCache: true,
           hidden: true,
-          showMainRoute: true,
+          canTo: true,
           activeMenu: '/example/example-page'
         }
       }
@@ -844,49 +853,17 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
       }
     ]
   }
-  // {
-  //   path: '/authorization',
-  //   component: Layout,
-  //   redirect: '/authorization/user',
-  //   name: 'Authorization',
-  //   meta: {
-  //     title: t('router.authorization'),
-  //     icon: 'eos-icons:role-binding',
-  //     alwaysShow: true
-  //   },
-  //   children: [
-  //     {
-  //       path: 'user',
-  //       component: () => import('@/views/Authorization/User.vue'),
-  //       name: 'User',
-  //       meta: {
-  //         title: t('router.user')
-  //       }
-  //     },
-  //     {
-  //       path: 'role',
-  //       component: () => import('@/views/Authorization/Role.vue'),
-  //       name: 'Role',
-  //       meta: {
-  //         title: t('router.role')
-  //       }
-  //     }
-  //   ]
-  // }
 ]
 // 当前展示的导航栏
 export const menuList: string[] = [
   '/dashboard',
-  '/dashboard/big-screen',
-  '/dashboard/analysis',
-  '/dashboard/workplace'
-
+  '/dashboard/big-screen'
+  // '/dashboard/analysis',
+  // '/dashboard/workplace',
   // 'external-link',
   // 'https://element-plus-admin-doc.cn/',
-
   // '/guide',
   // '/guide/index',
-
   // '/components',
   // '/components/form',
   // '/components/form/default-form',
@@ -908,70 +885,58 @@ export const menuList: string[] = [
   // '/components/qrcode',
   // '/components/highlight',
   // '/components/infotip',
-
   // '/Components/InputPassword',
   // '/Components/Sticky',
-
   // '/hooks',
   // '/hooks/useWatermark',
-
+  // '/hooks/useCrudSchemas',
   // '/level',
   // '/level/menu1',
   // '/level/menu1/menu1-1',
   // '/level/menu1/menu1-1/menu1-1-1',
   // '/level/menu1/menu1-2',
   // '/level/menu2',
-
   // '/example',
   // '/example/example-dialog',
   // '/example/example-page',
   // '/example/example-add',
   // '/example/example-edit',
   // '/example/example-detail',
-
   // '/error',
   // '/error/404-demo',
   // '/error/403-demo',
   // '/error/500-demo',
-
   // '/shop-manager',
   // '/shop-manager/shop-info',
   // '/shop-manager/good-info',
   // '/shop-manager/good-category',
   // '/shop-manager/good-order',
-
   // '/venue-manager',
   // '/venue-manager/venue-info',
   // '/venue-manager/lease-good',
-
+  // '/venue-manager/lease-order',
   // '/tourist-manager',
   // '/tourist-manager/tourist-info',
   // '/tourist-manager/epidemic-manager',
   // '/tourist-manager/tickets-manager',
   // '/tourist-manager/tickets-order',
-
   // '/staff-manager',
   // '/staff-manager/staff-info',
   // '/staff-manager/epartment',
-
   // '/garden-device',
   // '/garden-device/energy-sensor',
   // '/garden-device/energy-statistic',
-
   // '/queue-manager',
   // '/queue-manager/queue-terminal',
   // '/queue-manager/queue-info',
-
   // '/work-order',
   // '/work-order/work-process',
-
   // '/system-manager',
   // '/system-manager/user',
   // '/system-manager/role',
   // '/system-manager/resource',
   // '/system-manager/function',
   // '/system-manager/params',
-
   // 测试使用
   // '/test-demo',
   // '/test-demo/demo1',

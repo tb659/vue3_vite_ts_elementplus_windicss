@@ -3,24 +3,26 @@ import { ContentWrap } from '@/components/ContentWrap'
 import { Search } from '@/components/Search'
 import { Dialog } from '@/components/Dialog'
 import { useI18n } from '@/hooks/web/useI18n'
-import { ElButton, ElLink, ElMessage } from 'element-plus'
+import { ElButton, ElLink, ElTag, ElMessage } from 'element-plus'
 import { Table } from '@/components/Table'
 import { useTable } from '@/hooks/web/useTable'
-import { ref, unref, reactive } from 'vue'
+import { h, ref, unref, reactive } from 'vue'
 import Write from './components/Write.vue'
 import { CrudSchema, useCrudSchemas } from '@/hooks/web/useCrudSchemas'
 import {
-  getStaffInfoApi,
-  postStaffInfoApi,
-  putStaffInfoApi,
-  deleteStaffInfoApi
-} from '@/api/adminStaffManager/staffInfo'
-import { StaffInfoData } from '@/api/adminStaffManager/staffInfo/types'
+  getQueueTerminalDataApi,
+  postQueueTerminalDataApi,
+  putQueueTerminalDataApi,
+  deleteQueueTerminalDataApi
+} from '@/api/adminQueueManager/queueTerminal'
+import { QueueTerminalData } from '@/api/adminQueueManager/queueTerminal/types'
+import { getShopInfoApi } from '@/api/adminShopManager/shopInfo'
+import { ShopInfoData } from '@/api/adminShopManager/shopInfo/types'
 import { dateNumFormat } from '@/utils'
 
-const { register, tableObject, methods } = useTable<StaffInfoData>({
-  getListApi: getStaffInfoApi,
-  delListApi: deleteStaffInfoApi,
+const { register, tableObject, methods } = useTable<QueueTerminalData>({
+  getListApi: getQueueTerminalDataApi,
+  delListApi: deleteQueueTerminalDataApi,
   response: { rows: 'rows', total: 'total' }
 })
 
@@ -42,50 +44,64 @@ const crudSchemas = reactive<CrudSchema[]>([
     label: t('queueManager.terminalName'),
     search: { show: true },
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
-    field: 'ID',
+    field: 'id',
     label: t('queueManager.terminalId'),
+    form: { show: false }
+  },
+  {
+    field: 'currentNumber',
+    label: t('queueManager.currentNumber'),
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 },
+      component: 'InputNumber'
     }
   },
   {
-    field: 'venueName',
+    field: 'mchId',
     label: t('venueManager.venueName'),
     form: {
-      colProps: { span: 24 }
-    }
-  },
-  {
-    field: 'lastVisitTime',
-    label: t('common.lastVisitTime'),
-    form: {
-      colProps: { span: 24 }
-    }
-  },
-  {
-    field: 'status',
-    label: t('common.status'),
-    form: {
-      colProps: { span: 24 },
-      value: '1',
-      component: 'Radio',
+      colProps: { span: 22 },
+      component: 'Select',
       componentProps: {
-        options: [
-          { label: t('common.offLine'), value: 0 },
-          { label: t('common.onLine'), value: 1 }
-        ]
+        style: { width: '100%' },
+        options: []
       }
     }
   },
   {
-    field: 'secret',
+    field: 'lastAccessTime',
+    label: t('common.lastVisitTime'),
+    form: { show: false }
+  },
+  {
+    field: 'queuingDeviceState',
+    label: t('common.status'),
+    form: {
+      colProps: { span: 22 },
+      value: 'online',
+      component: 'Radio',
+      componentProps: {
+        options: [
+          { label: t('common.online'), value: 'online' },
+          { label: t('common.offline'), value: 'offline' }
+        ]
+      }
+    },
+    formatter: (_: Recordable, __: TableColumn, cellValue: string) => {
+      return h(ElTag, { type: cellValue ? '' : 'danger' }, () =>
+        t(cellValue === 'online' ? 'common.online' : 'common.offline')
+      )
+    }
+  },
+  {
+    field: 'queuingDeviceSecret',
     label: t('queueManager.secret'),
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
@@ -112,14 +128,16 @@ const dialogVisible = ref(false)
 
 const dialogTitle = ref('')
 
-const AddAction = () => {
+const AddAction = async () => {
+  await updateSchemas()
   dialogTitle.value = t('common.add')
   actionType.value = ''
   tableObject.currentRow = null
   dialogVisible.value = true
 }
 
-const action = (row: StaffInfoData, type: string) => {
+const action = async (row: QueueTerminalData, type: string) => {
+  await updateSchemas()
   dialogTitle.value = t(type === 'edit' ? 'common.edit' : 'common.detail')
   actionType.value = type
   tableObject.currentRow = row
@@ -135,10 +153,10 @@ const save = async () => {
   await write?.elFormRef?.validate(async (isValid) => {
     if (isValid) {
       loading.value = true
-      const data = (await write?.getFormData()) as StaffInfoData
-      let api = putStaffInfoApi
-      if (!data.id) {
-        api = postStaffInfoApi
+      const data = (await write?.getFormData()) as QueueTerminalData
+      let api = postQueueTerminalDataApi
+      if (data.id) {
+        api = putQueueTerminalDataApi
       }
       const res = await api(data)
         .catch(() => {})
@@ -155,12 +173,28 @@ const save = async () => {
   })
 }
 
-// const delData = async (row: StaffInfoData | null, multiple: boolean) => {
-//   tableObject.currentRow = row
-//   const { delList, getSelections } = methods
-//   const selections = await getSelections()
-//   await delList(multiple ? selections.map((v) => v.id) : [tableObject.currentRow!.id], multiple)
-// }
+const delData = async (row: QueueTerminalData | null, multiple: boolean) => {
+  tableObject.currentRow = row
+  const { delList, getSelections } = methods
+  const selections = await getSelections()
+  await delList(multiple ? selections.map((v) => v.id) : [tableObject.currentRow!.id], multiple)
+}
+
+const shopInfoListData = ref<ShopInfoData[]>([])
+
+const updateSchemas = async () => {
+  const res = await getShopInfoApi({ page: 1, size: 999, mchCategory: 'venue' })
+  if (res) {
+    shopInfoListData.value = res.data.rows
+  }
+  const keys = ['formSchema']
+  keys.forEach((key) => {
+    allSchemas[key].filter((schema) => schema.field === 'mchId')[0].componentProps!.options =
+      shopInfoListData.value.map((item) => {
+        return { label: item.name, value: item.id }
+      })
+  })
+}
 </script>
 
 <template>
@@ -185,8 +219,11 @@ const save = async () => {
       }"
       @register="register"
     >
+      <template #mchId="{ row }">
+        {{ row.mch.name }}
+      </template>
       <template #action="{ row }">
-        <!-- <ElLink
+        <ElLink
           :underline="false"
           type="primary"
           class="ml-10px cursor-pointer"
@@ -201,22 +238,6 @@ const save = async () => {
           @click="delData(row, false)"
         >
           {{ t('common.del') }}
-        </ElLink> -->
-        <ElLink
-          :underline="false"
-          type="primary"
-          class="ml-10px cursor-pointer"
-          @click="action(row, 'epidemic')"
-        >
-          {{ t('common.epidemic') }}
-        </ElLink>
-        <ElLink
-          :underline="false"
-          type="primary"
-          class="ml-10px cursor-pointer"
-          @click="action(row, 'ticket')"
-        >
-          {{ t('common.ticket') }}
         </ElLink>
       </template>
     </Table>

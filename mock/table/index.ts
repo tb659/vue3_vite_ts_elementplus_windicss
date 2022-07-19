@@ -12,7 +12,7 @@ const count = 100
 const baseContent =
   '<p>I am testing data, I am testing data.</p><p><img src="https://wpimg.wallstcn.com/4c69009c-0fd4-4153-b112-6cb53d1cf943"></p>'
 
-let List: {
+const List: {
   id: string
   author: string
   title: string
@@ -37,7 +37,6 @@ for (let i = 0; i < count; i++) {
     })
   )
 }
-
 export default [
   // 列表接口
   {
@@ -69,23 +68,11 @@ export default [
     timeout,
     response: ({ body }) => {
       if (!body.id) {
-        List = [
-          Object.assign(body, {
-            id: toAnyString()
-          })
-        ].concat(List)
         return {
           code: result_code,
           data: 'success'
         }
       } else {
-        List.map((item) => {
-          if (item.id === body.id) {
-            for (const key in item) {
-              item[key] = body[key]
-            }
-          }
-        })
         return {
           code: result_code,
           data: 'success'

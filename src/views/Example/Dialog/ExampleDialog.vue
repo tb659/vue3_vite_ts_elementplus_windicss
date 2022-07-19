@@ -28,7 +28,7 @@ const { t } = useI18n()
 const crudSchemas = reactive<CrudSchema[]>([
   {
     field: 'index',
-    label: t('common.index'),
+    label: t('tableDemo.index'),
     type: 'index',
     form: {
       show: false
@@ -63,7 +63,7 @@ const crudSchemas = reactive<CrudSchema[]>([
       component: 'DatePicker',
       componentProps: {
         type: 'datetime',
-        valueFormat: 'YYYY-MM-DD HH:mm'
+        valueFormat: 'YYYY-MM-DD HH:mm:ss'
       }
     }
   },
@@ -87,6 +87,9 @@ const crudSchemas = reactive<CrudSchema[]>([
     form: {
       component: 'Select',
       componentProps: {
+        style: {
+          width: '100%'
+        },
         options: [
           {
             label: '重要',
@@ -149,7 +152,6 @@ const dialogTitle = ref('')
 
 const AddAction = () => {
   dialogTitle.value = t('exampleDemo.add')
-  actionType.value = ''
   tableObject.currentRow = null
   dialogVisible.value = true
 }
@@ -226,13 +228,17 @@ const save = async () => {
       @register="register"
     >
       <template #action="{ row }">
-        <ElButton type="primary" @click="action(row, 'edit')">
+        <ElButton type="primary" v-hasPermi="['example:dialog:edit']" @click="action(row, 'edit')">
           {{ t('exampleDemo.edit') }}
         </ElButton>
-        <ElButton type="success" @click="action(row, 'detail')">
+        <ElButton
+          type="success"
+          v-hasPermi="['example:dialog:view']"
+          @click="action(row, 'detail')"
+        >
           {{ t('exampleDemo.detail') }}
         </ElButton>
-        <ElButton type="danger" @click="delData(row, false)">
+        <ElButton type="danger" v-hasPermi="['example:dialog:delete']" @click="delData(row, false)">
           {{ t('exampleDemo.del') }}
         </ElButton>
       </template>

@@ -4,6 +4,7 @@ import { useForm } from '@/hooks/web/useForm'
 import { PropType, reactive, watch } from 'vue'
 import { useValidator } from '@/hooks/web/useValidator'
 import { StaffInfoData } from '@/api/adminStaffManager/staffInfo/types'
+import { cloneDeep } from 'lodash-es'
 
 const { required } = useValidator()
 
@@ -19,7 +20,12 @@ const props = defineProps({
 })
 
 const rules = reactive({
-  name: [required()]
+  name: [required()],
+  workNo: [required()],
+  empNo: [required()],
+  dutyGroupId: [required()],
+  mchId: [required()],
+  handset: [required()]
 })
 
 const { register, methods, elFormRef } = useForm({
@@ -31,7 +37,10 @@ watch(
   (currentRow) => {
     if (!currentRow) return
     const { setValues } = methods
-    setValues(currentRow)
+    let data = cloneDeep(currentRow)
+    data.dutyGroupId = data.dutyGroup.id
+    data.merchantId = data.merchantIds?.split(',').map((id) => +id) || []
+    setValues(data)
   },
   { deep: true, immediate: true }
 )

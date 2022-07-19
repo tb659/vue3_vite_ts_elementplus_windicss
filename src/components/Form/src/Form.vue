@@ -47,7 +47,7 @@ export default defineComponent({
     // 表单label宽度
     labelWidth: propTypes.oneOfType([String, Number]).def('auto')
   },
-  emits: ['register'],
+  emits: ['register', 'get-form'],
   setup(props, { slots, expose, emit }) {
     // element form 实例
     const elFormRef = ref<ComponentRef<typeof ElForm>>()
@@ -131,6 +131,16 @@ export default defineComponent({
       },
       {
         immediate: true,
+        deep: true
+      }
+    )
+    // 监听表单
+    watch(
+      () => unref(formModel),
+      (form) => {
+        emit('get-form', form)
+      },
+      {
         deep: true
       }
     )

@@ -10,24 +10,21 @@ const List: {
   password: string
   role: string
   roleId: string
+  permissions: string | string[]
 }[] = [
   {
     username: 'admin',
     password: 'admin',
     role: 'admin',
-    roleId: '1'
+    roleId: '1',
+    permissions: ['*.*.*']
   },
   {
     username: 'test',
     password: 'test',
     role: 'test',
-    roleId: '2'
-  },
-  {
-    username: 'asd',
-    password: 'asd',
-    role: 'asd',
-    roleId: '3'
+    roleId: '2',
+    permissions: ['example:dialog:create', 'example:dialog:delete']
   }
 ]
 
@@ -58,13 +55,14 @@ export default [
   },
   // 登录接口
   {
-    url: '/login',
+    url: '/user/login',
     method: 'post',
     timeout,
-    response: ({ query }) => {
+    response: ({ body }) => {
+      const data = body
       let hasUser = false
       for (const user of List) {
-        if (user.username === query.username && user.password === query.password) {
+        if (user.username === data.username && user.password === data.password) {
           hasUser = true
           return {
             code: result_code,

@@ -16,16 +16,19 @@ interface TableResponse<T = any> {
 }
 
 interface UseTableConfig<T = any> {
-  getListApi: (option: any) => Promise<IResponse<TableResponse<T>>>
+  getListApi?: (option: any) => Promise<IResponse<TableResponse<T>>>
   delListApi?: (option: any) => Promise<IResponse>
   enableApi?: (option: any) => Promise<IResponse>
   disableApi?: (option: any) => Promise<IResponse>
+  onShelfApi?: (option: any) => Promise<IResponse>
+  offShelfApi?: (option: any) => Promise<IResponse>
   // 返回数据格式配置
-  response: {
-    rows: string
+  response?: {
+    rows?: string
     total?: string
   }
   props?: TableProps
+  customEvent?: Function
 }
 
 interface TableObject<T = any> {
@@ -121,7 +124,7 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
           : tableObject.currentPage
 
       tableObject.currentPage = currentPage
-      methods.getList()
+      await methods.getList()
     }
   }
   // TODO 声明的methods对象
@@ -137,7 +140,23 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
     const res = await (config?.disableApi && config?.disableApi(id))
     if (res) {
       ElMessage.success(t('common.disableSuccess'))
-      methods.getList()
+      await methods.getList()
+    }
+  }
+
+  const onShelfData = async (id: number) => {
+    const res = await (config?.onShelfApi && config?.onShelfApi(id))
+    if (res) {
+      ElMessage.success(t('common.onShelfSuccess'))
+      await methods.getList()
+    }
+  }
+
+  const offShelfData = async (id: number) => {
+    const res = await (config?.offShelfApi && config?.offShelfApi(id))
+    if (res) {
+      ElMessage.success(t('common.offShelfSuccess'))
+      await methods.getList()
     }
   }
 
@@ -145,15 +164,17 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
     getList: async () => {
       tableObject.loading = true
       paramsObj.value.size = tableObject.isTreeList ? 99 : paramsObj.value.size
-      const res = await config?.getListApi(unref(paramsObj)).finally(() => {
-        tableObject.loading = false
-      })
+      const res = await (config?.getListApi &&
+        config?.getListApi(unref(paramsObj)).finally(() => {
+          tableObject.loading = false
+        }))
       if (res) {
         const data = res.data
         data.rows = tableObject.isTreeList ? listToTree(res.data.rows) : res.data.rows
-        tableObject.tableList = get(data || {}, config?.response.rows as string)
+        tableObject.tableList = get(data || {}, config?.response?.rows as string)
         tableObject.total = get(data || {}, config?.response?.total as string) || 0
       }
+      config?.customEvent && config?.customEvent()
     },
     setProps: async (props: TableProps = {}) => {
       const table = await getTable()
@@ -168,14 +189,14 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
       return (table?.selections || []) as T[]
     },
     // 与Search组件结合
-    setSearchParams: (data: Recordable) => {
+    setSearchParams: async (data: Recordable) => {
       tableObject.currentPage = 1
       tableObject.params = Object.assign(tableObject.params, {
         size: tableObject.pageSize,
         page: tableObject.currentPage,
         ...data
       })
-      methods.getList()
+      await methods.getList()
     },
     // 删除数据
     delList: async (ids: string[] | number[], multiple = false, message = true) => {
@@ -193,8 +214,8 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
       }
       if (message) {
         ElMessageBox.confirm(t('common.delMessage'), t('common.delWarning'), {
-          confirmButtonText: t('common.delOk'),
-          cancelButtonText: t('common.delCancel'),
+          confirmButtonText: t('common.ok'),
+          cancelButtonText: t('common.cancel'),
           type: 'warning'
         }).then(async () => {
           await delData(ids)
@@ -207,8 +228,8 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
     enableItem: async (id: number, message = true) => {
       if (message) {
         ElMessageBox.confirm(t('common.enableMessage'), t('common.enableWarning'), {
-          confirmButtonText: t('common.enableOk'),
-          cancelButtonText: t('common.enableCancel'),
+          confirmButtonText: t('common.ok'),
+          cancelButtonText: t('common.cancel'),
           type: 'warning'
         }).then(async () => {
           await enableData(id)
@@ -217,18 +238,46 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
         await enableData(id)
       }
     },
-    // 启用
+    // 禁用
     disableItem: async (id: number, message = true) => {
       if (message) {
         ElMessageBox.confirm(t('common.disableMessage'), t('common.disableWarning'), {
-          confirmButtonText: t('common.disableOk'),
-          cancelButtonText: t('common.disableCancel'),
+          confirmButtonText: t('common.ok'),
+          cancelButtonText: t('common.cancel'),
           type: 'warning'
         }).then(async () => {
           await disableData(id)
         })
       } else {
         await disableData(id)
+      }
+    },
+    // 上架
+    onShelfItem: async (id: number, message = true) => {
+      if (message) {
+        ElMessageBox.confirm(t('common.onShelfMessage'), t('common.onShelfWarning'), {
+          confirmButtonText: t('common.ok'),
+          cancelButtonText: t('common.cancel'),
+          type: 'warning'
+        }).then(async () => {
+          await onShelfData(id)
+        })
+      } else {
+        await onShelfData(id)
+      }
+    },
+    // 下架
+    offShelfItem: async (id: number, message = true) => {
+      if (message) {
+        ElMessageBox.confirm(t('common.offShelfMessage'), t('common.offShelfWarning'), {
+          confirmButtonText: t('common.ok'),
+          cancelButtonText: t('common.cancel'),
+          type: 'warning'
+        }).then(async () => {
+          await offShelfData(id)
+        })
+      } else {
+        await offShelfData(id)
       }
     }
   }

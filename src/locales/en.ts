@@ -38,24 +38,33 @@ export default {
     //
     delMessage: 'Delete the selected data?',
     delWarning: 'Warning',
-    delOk: 'OK',
-    delCancel: 'Cancel',
     delNoData: 'Please select the data to delete',
     delSuccess: 'Deleted successfully',
     //
     enableMessage: 'Enable the selected data?',
     enableWarning: 'Warning',
-    enableOk: 'OK',
-    enableCancel: 'Cancel',
     enableNoData: 'Please select the data to enable',
     enableSuccess: 'Enabled successfully',
     //
     disableMessage: 'Disable the selected data?',
     disableWarning: 'Warning',
-    disableOk: 'OK',
-    disableCancel: 'Cancel',
     disableNoData: 'Please select the data to disable',
     disableSuccess: 'Disabled successfully',
+    //
+    onShelfMessage: 'Onshelf the selected data?',
+    onShelfWarning: 'Warning',
+    onShelfNoData: 'Please select the data to onshelf',
+    onShelfSuccess: 'Onshelfed successfully',
+    //
+    offShelfMessage: 'Offshelf the selected data?',
+    offShelfWarning: 'Warning',
+    offShelfNoData: 'Please select the data to offshelf',
+    offShelfSuccess: 'Offshelfed successfully',
+    //
+    auditMessage: 'Audit the selected data?',
+    auditWarning: 'Warning',
+    auditNoData: 'Please select the data to audit',
+    auditSuccess: 'Audited successfully',
     //
     createTime: 'Create Time',
     superAdmin: 'Super admin',
@@ -65,6 +74,7 @@ export default {
     roleType: 'Role type',
     passwordSetting: 'Password setting',
     index: 'Index',
+    error: 'Error',
     add: 'Add',
     del: 'Delete',
     price: '价格',
@@ -86,21 +96,37 @@ export default {
     good: 'Good',
     commonly: 'Commonly',
     aduit: 'Aduit',
+    hasAduit: 'Has aduit',
     expired: 'Expired',
     toAudit: 'To audit',
     fail: 'Fail',
     passed: 'Passed',
     dimission: 'Dimission',
     onTheJob: 'On the job',
-    offLine: 'Off line',
-    onLine: 'On line',
+    offline: 'Off line',
+    online: 'On line',
     canNotOperation: `Can not operation`,
     noUpload: 'The file size is 0 and cannot be uploaded',
     uploadSuccess: 'Upload successfully',
     lastVisitTime: 'Last visit time',
     untreated: 'Untreated',
     processed: 'Processed',
-    canNotDispose: 'Can not dispose'
+    canNotDispose: 'Can not dispose',
+    select: 'Select',
+    success: 'Success',
+    failed: 'Failed',
+    yes: 'Yes',
+    no: 'No',
+    isMaxCount: 'Is max count',
+    payed: 'Payed',
+    used: 'Used',
+    invalid: 'Invalid',
+    waittingToPay: 'Waitting to pay',
+    paySuccess: 'Pay successfully',
+    payFaild: 'Pay faild',
+    approved: 'Approved',
+    orderInfo: 'Order info',
+    goodsInfo: 'Goods info'
   },
   error: {
     noPermission: `Sorry, you don't have permission to access this page.`,
@@ -213,6 +239,7 @@ export default {
     venueManager: 'Venue manager',
     venueInfo: 'Venue info',
     leaseGood: 'Lease good',
+    leaseOrder: 'Lease order',
     touristManager: 'Tourist manager',
     touristInfo: 'Tourist info',
     epidemicManager: 'Epidemic manager',
@@ -235,6 +262,9 @@ export default {
     resource: 'resource',
     function: 'Function',
     params: 'Params'
+  },
+  permission: {
+    hasPermission: 'Please set the operation permission value'
   },
   analysis: {
     newUser: 'New user',
@@ -434,7 +464,8 @@ export default {
     position: 'position',
     left: 'left',
     center: 'center',
-    right: 'right'
+    right: 'right',
+    dynamicOptions: 'Dynamic options'
   },
   stickyDemo: {
     sticky: 'Sticky'
@@ -474,7 +505,9 @@ export default {
     dialog: 'Dialog',
     dialogDes: 'Secondary packaging of Dialog components based on ElementPlus',
     open: 'Open',
-    close: 'Close'
+    close: 'Close',
+    combineWithForm: 'Combine with form',
+    submit: 'Submit'
   },
   imageViewerDemo: {
     open: 'Open',
@@ -548,7 +581,10 @@ export default {
     passwordSetting: 'Password setting',
     newPassword: 'New password',
     confirmPassword: 'Confirm password',
-    notEqual: `Password don't match`
+    notEqual: `Password don't match`,
+    //
+    paramsSetting: 'Params setting',
+    switch: 'Prevention control'
   },
   shopManager: {
     // shopInfo
@@ -562,14 +598,18 @@ export default {
     tipInfoForBuy: 'Tip info for buy',
     // goodInfo
     goodName: 'Good name',
+    goodImage: 'Good image',
     goodCategory: 'Good category',
     packingUnit: 'Packing unit',
     manufacturer: 'Manufacturer',
+    hasPutawaw: 'Has putawawy',
     putawawyTime: 'Putawawy time',
     standardPrice: 'Standard price',
     purchasingBase: 'Purchasing base',
     inventory: 'Inventory',
     goodDetail: 'Good detail',
+    goodCount: 'Good count',
+    amount: 'Amount',
     // goodCategory
     categoryImage: 'Category image',
     categoryName: 'Category name',
@@ -599,7 +639,7 @@ export default {
     touristName: 'Tourist name',
     idType: 'IdType',
     idNo: 'IdNo',
-    lastVisitTime: 'Last visit time',
+    phoneNumber: 'Phone number',
     // epidemicManager
     nameOrNickName: 'Name or nickname',
     dateTime: 'Date time',
@@ -608,12 +648,18 @@ export default {
     submitTime: 'Submit time',
     auditStatus: 'Audit status',
     auditTime: 'Audit time',
-    // ticketManager
+    imageUpload: 'Image upload',
+    auditSuccess: 'Pass the audit successfully',
+    // ticketsManager
     ticketName: 'Ticket name',
     ticketType: 'Ticket type',
     ticketPrice: 'Ticket price',
     putawayTime: 'Putaway time',
-    standardPrice: 'Standard price'
+    standardPrice: 'Standard price',
+    // ticketsOrder
+    VisitedDate: 'Visited date',
+    BuiedDate: 'Buied date',
+    ticketStatus: 'Ticket status'
   },
   staffManager: {
     // epartmentManager
@@ -628,7 +674,14 @@ export default {
     // queueTerminal
     terminalId: 'TerminalID',
     terminalName: 'Terminal name',
-    secret: 'Secret'
+    currentNumber: 'Current number',
+    secret: 'Secret',
+    // queueInfo
+    getNumberTime: 'Get number time',
+    enterTime: 'Enter time',
+    source: 'Source',
+    normal: 'Normal',
+    overed: 'Overed'
   },
   workOrder: {
     initiator: 'Initiator',
@@ -636,6 +689,7 @@ export default {
     content: 'Content',
     principal: 'Principal',
     estimatedTimeOfCompletion: 'Estimated time of completion',
+    finishedTimeOfCompletion: 'Finished time of completion',
     workOrderExecutionInstructions: 'Workorder execution instructions',
     workOrderExecutionImage: 'Workorder execution image'
   },

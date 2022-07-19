@@ -16,6 +16,9 @@ import { setupGlobCom } from '@/components'
 // 引入element-plus
 import { setupElementPlus } from '@/plugins/elementPlus'
 
+// 引入vue-print-nb
+import { setupPrint } from '@/plugins/print'
+
 // 引入全局样式
 import '@/styles/index.less'
 
@@ -30,6 +33,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 
 import './permission'
+
 // 创建实例
 const setupAll = async () => {
   const app = createApp(App)
@@ -41,6 +45,8 @@ const setupAll = async () => {
   setupGlobCom(app)
 
   setupElementPlus(app)
+
+  setupPrint(app)
 
   setupRouter(app)
 

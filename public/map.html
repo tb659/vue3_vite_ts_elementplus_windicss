@@ -24,10 +24,20 @@
   </body>
 </html>
 <script>
-  // var map = new BMapGL.Map('container')
-  // map.centerAndZoom(new BMapGL.Point(117.74428374487596, 39.153672586619194), 17)
-  // map.enableScrollWheelZoom(true)
-  // map.addEventListener('click', function (e) {
-  //   alert('当前点击位置经纬度：' + e.latlng.lng + ',' + e.latlng.lat)
-  // })
+  var map = new BMapGL.Map('container')
+  let pos = [117.7437357785148, 39.153071164096424]
+  let zoom = 17
+  let params = window.location.href.split('?')[1]
+  if (params) {
+    let p = params.split('--')[0]
+    if (p) {
+      pos = params.split('--')[0].split(',')
+      zoom = +params.split('--')[1]
+    }
+  }
+  map.centerAndZoom(new BMapGL.Point(+pos[0], +pos[1]), zoom)
+  map.enableScrollWheelZoom(true)
+  map.addEventListener('click', function (e) {
+    parent.postMessage(`${e.latlng.lng},${e.latlng.lat}--${parseInt(map.getZoom())}`, '*')
+  })
 </script>

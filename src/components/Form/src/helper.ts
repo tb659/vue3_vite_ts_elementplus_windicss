@@ -70,7 +70,7 @@ export const setGridProp = (col: ColProps = {}): ColProps => {
  * @returns 默认添加 clearable 属性
  */
 export const setComponentProps = (item: FormSchema): Recordable => {
-  const notNeedClearable = ['ColorPicker']
+  const notNeedClearable = ['ColorPicker', 'Uploader', 'Uploaders']
   const componentProps: Recordable = notNeedClearable.includes(item.component as string)
     ? { ...item.componentProps }
     : {

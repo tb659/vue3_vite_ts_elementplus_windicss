@@ -17,6 +17,9 @@ import {
 } from '@/api/adminTouristManager/touristInfo'
 import { TouristInfoData } from '@/api/adminTouristManager/touristInfo/types'
 import { dateNumFormat } from '@/utils'
+import { useRouter } from 'vue-router'
+
+const { push } = useRouter()
 
 const { register, tableObject, methods } = useTable<TouristInfoData>({
   getListApi: getTouristInfoApi,
@@ -41,7 +44,7 @@ const crudSchemas = reactive<CrudSchema[]>([
     field: 'nikeName',
     label: t('touristManager.touristNickName'),
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
@@ -49,21 +52,21 @@ const crudSchemas = reactive<CrudSchema[]>([
     label: t('touristManager.touristName'),
     search: { show: true },
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
     field: 'idType',
     label: t('touristManager.idType'),
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
     field: 'idNo',
     label: t('touristManager.idNo'),
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
@@ -103,6 +106,11 @@ const AddAction = () => {
 }
 
 const action = (row: TouristInfoData, type: string) => {
+  if (type === 'epidemic') {
+    return push('/tourist-manager/epidemic-manager')
+  } else if (type === 'ticket') {
+    return push('/tourist-manager/tickets-manager')
+  }
   dialogTitle.value = t(type === 'edit' ? 'common.edit' : 'common.detail')
   actionType.value = type
   tableObject.currentRow = row
@@ -119,9 +127,9 @@ const save = async () => {
     if (isValid) {
       loading.value = true
       const data = (await write?.getFormData()) as TouristInfoData
-      let api = putTouristInfoApi
-      if (!data.id) {
-        api = postTouristInfoApi
+      let api = postTouristInfoApi
+      if (data.id) {
+        api = putTouristInfoApi
       }
       const res = await api(data)
         .catch(() => {})
@@ -176,8 +184,8 @@ const save = async () => {
           @click="action(row, 'edit')"
         >
           {{ t('common.edit') }}
-        </ElLink>
-        <ElLink
+        </ElLink> -->
+        <!-- <ElLink
           :underline="false"
           type="primary"
           class="ml-10px cursor-pointer"

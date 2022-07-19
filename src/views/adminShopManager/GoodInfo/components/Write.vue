@@ -4,6 +4,7 @@ import { useForm } from '@/hooks/web/useForm'
 import { PropType, reactive, watch } from 'vue'
 import { GoodInfoData } from '@/api/adminShopManager/goodInfo/types'
 import { useValidator } from '@/hooks/web/useValidator'
+import { cloneDeep } from 'lodash-es'
 
 const { required } = useValidator()
 
@@ -19,12 +20,14 @@ const props = defineProps({
 })
 
 const rules = reactive({
-  title: [required()],
-  author: [required()],
-  importance: [required()],
-  pageviews: [required()],
-  display_time: [required()],
-  content: [required()]
+  name: [required()],
+  mchId: [required()],
+  productType: [required()],
+  packingUnit: [required()],
+  manufacturer: [required()],
+  price: [required()],
+  inventoryNumber: [required()],
+  onShelf: [required()]
 })
 
 const { register, methods, elFormRef } = useForm({
@@ -36,7 +39,10 @@ watch(
   (currentRow) => {
     if (!currentRow) return
     const { setValues } = methods
-    setValues(currentRow)
+    let data = cloneDeep(currentRow)
+    data.mchId = data.mch.id
+    data.productTypeId = data.productType.id
+    setValues(data)
   },
   { deep: true, immediate: true }
 )

@@ -6,7 +6,7 @@ import { useI18n } from '@/hooks/web/useI18n'
 import { ElButton, ElLink, ElTag, ElMessage } from 'element-plus'
 import { Table } from '@/components/Table'
 import { useTable } from '@/hooks/web/useTable'
-import { h, ref, unref, reactive, onMounted } from 'vue'
+import { h, ref, unref, reactive } from 'vue'
 import Write from './components/Write.vue'
 import { CrudSchema, useCrudSchemas } from '@/hooks/web/useCrudSchemas'
 import {
@@ -28,13 +28,21 @@ const { register, tableObject, methods } = useTable<ResourceData>({
   response: { rows: 'rows', total: 'total' }
 })
 
-const { getList, setSearchParams } = methods
-
 const { t } = useI18n()
 
 const parentResourceList = ref([{ label: '顶级资源', value: 0 }])
 
 const resourceTypeList = ref([{ label: t('systemManager.menu'), value: 1 }])
+
+const { getList, setSearchParams } = methods
+
+const getData = async () => {
+  tableObject.isTreeList = true
+  await getList()
+  updateSchemas()
+}
+
+getData()
 
 const crudSchemas = reactive<CrudSchema[]>([
   {
@@ -145,7 +153,7 @@ const crudSchemas = reactive<CrudSchema[]>([
   },
   {
     field: 'action',
-    width: '160px',
+    width: '200px',
     label: t('common.action'),
     form: { show: false }
   }
@@ -185,11 +193,12 @@ const save = async () => {
       const data = (await write?.getFormData()) as ResourceData
       // 权限控制到菜单
       data.permissions = 'Q'
-      let api = putResourceApi
-      if (!data.id) {
+      let api = postResourceApi
+      if (data.id) {
+        api = putResourceApi
+      } else {
         data.domain = ''
         data.defaultAssign = 1
-        api = postResourceApi
       }
       const res = await api(data)
         .catch(() => {})
@@ -225,19 +234,14 @@ const disableData = async (row: ResourceData) => {
 }
 
 const updateSchemas = () => {
+  parentResourceList.value = parentResourceList.value.concat(
+    tableObject.tableList.map((data) => {
+      return { label: data.name, value: data.id as number }
+    })
+  )
   allSchemas.formSchema.filter((schema) => schema.field === 'parentId')[0].componentProps!.options =
-    parentResourceList.value.concat(
-      tableObject.tableList.map((data) => {
-        return { label: data.name, value: data.id as number }
-      })
-    )
+    parentResourceList.value
 }
-
-onMounted(async () => {
-  tableObject.isTreeList = true
-  await getList()
-  updateSchemas()
-})
 </script>
 
 <template>

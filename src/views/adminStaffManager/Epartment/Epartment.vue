@@ -43,7 +43,7 @@ const crudSchemas = reactive<CrudSchema[]>([
     label: t('staffManager.epartmentName'),
     search: { show: true },
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
@@ -95,9 +95,9 @@ const save = async () => {
     if (isValid) {
       loading.value = true
       const data = (await write?.getFormData()) as EpartmentData
-      let api = putEpartmentApi
-      if (!data.id) {
-        api = postEpartmentApi
+      let api = postEpartmentApi
+      if (data.id) {
+        api = putEpartmentApi
       }
       const res = await api(data)
         .catch(() => {})

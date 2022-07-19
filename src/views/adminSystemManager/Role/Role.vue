@@ -46,7 +46,7 @@ const crudSchemas = reactive<CrudSchema[]>([
     label: t('systemManager.roleName'),
     search: { show: true },
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
@@ -54,14 +54,14 @@ const crudSchemas = reactive<CrudSchema[]>([
     label: t('systemManager.roleCode'),
     search: { show: true },
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
     field: 'note',
     label: t('systemManager.roleDecription'),
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
@@ -103,7 +103,7 @@ const crudSchemas = reactive<CrudSchema[]>([
   },
   {
     field: 'action',
-    width: '160px',
+    width: '200px',
     label: t('common.action'),
     form: { show: false }
   }
@@ -143,9 +143,9 @@ const save = async () => {
       const data = (await write?.getFormData()) as RoleData
       const keys = write?.treeRef?.getCheckedKeys().concat(write?.treeRef?.getHalfCheckedKeys())
       data.resourceList = keys?.map((key) => ({ id: key as number, permissions: 'Q' }))
-      let api = putRoleApi
-      if (!data.id) {
-        api = postRoleApi
+      let api = postRoleApi
+      if (data.id) {
+        api = putRoleApi
       }
       const res = await api(data)
         .catch(() => {})

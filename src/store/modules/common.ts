@@ -2,25 +2,25 @@ import { defineStore } from 'pinia'
 import { store } from '../index'
 
 export interface CommonState {
-  payQrCode: string
+  num: number
 }
 
 export const useCommonStore = defineStore({
   id: 'common',
   state: (): CommonState => ({
-    payQrCode: ''
+    num: 0
   }),
   persist: {
     enabled: true
   },
   getters: {
-    getPayQrCode(): string {
-      return this.payQrCode
+    getNum(): number {
+      return this.num
     }
   },
   actions: {
-    setPayQrCode(payQrCode: string) {
-      this.payQrCode = payQrCode
+    setNum(num: number) {
+      this.num += num
     }
   }
 })

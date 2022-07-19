@@ -16,6 +16,10 @@ import {
   deleteStaffInfoApi
 } from '@/api/adminStaffManager/staffInfo'
 import { StaffInfoData } from '@/api/adminStaffManager/staffInfo/types'
+import { getEpartmentApi } from '@/api/adminStaffManager/epartment'
+import { EpartmentData } from '@/api/adminStaffManager/epartment/types'
+import { getShopInfoApi } from '@/api/adminShopManager/shopInfo'
+import { ShopInfoData } from '@/api/adminShopManager/shopInfo/types'
 import { dateNumFormat } from '@/utils'
 
 const { register, tableObject, methods } = useTable<StaffInfoData>({
@@ -23,10 +27,17 @@ const { register, tableObject, methods } = useTable<StaffInfoData>({
   delListApi: deleteStaffInfoApi,
   response: { rows: 'rows', total: 'total' }
 })
-
 const { getList, setSearchParams } = methods
 
-getList()
+const shopInfoListData = ref<ShopInfoData[]>([])
+
+const epartmentListData = ref<EpartmentData[]>([])
+
+const getData = async () => {
+  await getList()
+  updateSchemas()
+}
+getData()
 
 const { t } = useI18n()
 
@@ -42,35 +53,54 @@ const crudSchemas = reactive<CrudSchema[]>([
     label: t('staffManager.name'),
     search: { show: true },
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
     field: 'workNo',
     label: t('staffManager.workNo'),
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
-    field: 'code',
+    field: 'empNo',
     label: t('staffManager.code'),
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
     field: 'dutyGroupId',
     label: t('staffManager.epartmentName'),
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 },
+      component: 'Select',
+      componentProps: {
+        style: { width: '100%' },
+        options: []
+      }
+    }
+  },
+  {
+    field: 'merchantId',
+    label: t('staffManager.shopOrVenue'),
+    form: {
+      colProps: { span: 22 },
+      value: [],
+      component: 'Select',
+      componentProps: {
+        multiple: true,
+        style: { width: '100%' },
+        options: []
+      }
     }
   },
   {
     field: 'handset',
     label: t('staffManager.phoneNumber'),
     form: {
-      colProps: { span: 24 }
+      colProps: { span: 22 }
     }
   },
   {
@@ -97,14 +127,16 @@ const dialogVisible = ref(false)
 
 const dialogTitle = ref('')
 
-const AddAction = () => {
+const AddAction = async () => {
+  await updateSchemas()
   dialogTitle.value = t('common.add')
   actionType.value = ''
   tableObject.currentRow = null
   dialogVisible.value = true
 }
 
-const action = (row: StaffInfoData, type: string) => {
+const action = async (row: StaffInfoData, type: string) => {
+  await updateSchemas()
   dialogTitle.value = t(type === 'edit' ? 'common.edit' : 'common.detail')
   actionType.value = type
   tableObject.currentRow = row
@@ -120,10 +152,17 @@ const save = async () => {
   await write?.elFormRef?.validate(async (isValid) => {
     if (isValid) {
       loading.value = true
-      const data = (await write?.getFormData()) as StaffInfoData
-      let api = putStaffInfoApi
-      if (!data.id) {
-        api = postStaffInfoApi
+      let data = (await write?.getFormData()) as StaffInfoData
+      let params = {} as StaffInfoData
+      let api = postStaffInfoApi
+      if (data.id) {
+        const keys = ['dataVersion', 'dutyGroupId', 'empNo', 'handset', 'id', 'name', 'workNo']
+        keys.forEach((key) => {
+          params[key] = data[key]
+        })
+        params.merchantIds = data.merchantId.join(',')
+        data = params
+        api = putStaffInfoApi
       }
       const res = await api(data)
         .catch(() => {})
@@ -140,12 +179,52 @@ const save = async () => {
   })
 }
 
-// const delData = async (row: StaffInfoData | null, multiple: boolean) => {
-//   tableObject.currentRow = row
-//   const { delList, getSelections } = methods
-//   const selections = await getSelections()
-//   await delList(multiple ? selections.map((v) => v.id) : [tableObject.currentRow!.id], multiple)
-// }
+const delData = async (row: StaffInfoData | null, multiple: boolean) => {
+  tableObject.currentRow = row
+  const { delList, getSelections } = methods
+  const selections = await getSelections()
+  await delList(multiple ? selections.map((v) => v.id) : [tableObject.currentRow!.id], multiple)
+}
+
+const setMchName = (row: StaffInfoData) => {
+  let name = ''
+  if (row.merchantIds) {
+    const ids = row.merchantIds.split(',')
+    name = shopInfoListData.value
+      .filter((shop) => ids.filter((id) => shop.id === +id).length)
+      .map((shop) => shop.name)
+      .join(',')
+  }
+  return name
+}
+
+const updateSchemas = async () => {
+  if (!epartmentListData.value.length) {
+    const res = await getEpartmentApi({ page: 1, size: 999 })
+    if (res) {
+      epartmentListData.value = res.data.rows
+    }
+  }
+  const keys = ['formSchema']
+  keys.forEach((key) => {
+    allSchemas[key].filter((schema) => schema.field === 'dutyGroupId')[0].componentProps!.options =
+      epartmentListData.value.map((item) => {
+        return { label: item.name, value: item.id }
+      })
+  })
+  if (!shopInfoListData.value.length) {
+    const res = await getShopInfoApi({ page: 1, size: 999 })
+    if (res) {
+      shopInfoListData.value = res.data.rows
+    }
+  }
+  keys.forEach((key) => {
+    allSchemas[key].filter((schema) => schema.field === 'merchantId')[0].componentProps!.options =
+      shopInfoListData.value.map((item) => {
+        return { label: item.name, value: item.id }
+      })
+  })
+}
 </script>
 
 <template>
@@ -170,8 +249,14 @@ const save = async () => {
       }"
       @register="register"
     >
+      <template #dutyGroupId="{ row }">
+        {{ row.dutyGroup.name }}
+      </template>
+      <template #merchantId="{ row }">
+        {{ setMchName(row) }}
+      </template>
       <template #action="{ row }">
-        <!-- <ElLink
+        <ElLink
           :underline="false"
           type="primary"
           class="ml-10px cursor-pointer"
@@ -186,22 +271,6 @@ const save = async () => {
           @click="delData(row, false)"
         >
           {{ t('common.del') }}
-        </ElLink> -->
-        <ElLink
-          :underline="false"
-          type="primary"
-          class="ml-10px cursor-pointer"
-          @click="action(row, 'epidemic')"
-        >
-          {{ t('common.epidemic') }}
-        </ElLink>
-        <ElLink
-          :underline="false"
-          type="primary"
-          class="ml-10px cursor-pointer"
-          @click="action(row, 'ticket')"
-        >
-          {{ t('common.ticket') }}
         </ElLink>
       </template>
     </Table>

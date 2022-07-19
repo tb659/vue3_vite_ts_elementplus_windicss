@@ -45,48 +45,43 @@ const crudSchemas = reactive<CrudSchema[]>([
     label: t('shopManager.categoryName'),
     search: { show: true },
     form: {
-      colProps: { span: 24 }
-    },
-    detail: { span: 24 }
+      colProps: { span: 22 }
+    }
   },
   {
-    field: 'imgPath',
+    field: 'imagePath',
     label: t('shopManager.categoryImage'),
     form: {
-      colProps: { span: 24 },
-      component: 'Uploader',
-      componentProps: {
-        accessLevel: 'PUBLIC'
-      }
+      colProps: { span: 22 },
+      component: 'Uploader'
     }
   },
   {
     field: 'codeNumber',
     label: t('shopManager.codeNumber'),
-    form: { colProps: { span: 24 } }
+    form: { colProps: { span: 22 } }
   },
   {
     field: 'mchId',
     label: t('shopManager.shopName'),
     form: {
-      colProps: { span: 24 },
+      colProps: { span: 22 },
       component: 'Select',
       componentProps: {
         style: { width: '100%' },
         options: []
       }
-    },
-    formatter: (_: Recordable, __: TableColumn, cellValue: ShopInfoData) => {
-      return cellValue.name
     }
   },
   {
     field: 'description',
     label: t('shopManager.ceategoryDescription'),
     form: {
-      colProps: { span: 24 },
-      component: 'Editor',
-      componentProps: { style: { width: '100%' } }
+      colProps: { span: 22 },
+      componentProps: {
+        style: { width: '100%' },
+        type: 'textarea'
+      }
     }
   },
   {
@@ -139,9 +134,9 @@ const save = async () => {
     if (isValid) {
       loading.value = true
       const data = (await write?.getFormData()) as GoodCategoryData
-      let api = putGoodCategoryApi
-      if (!data.id) {
-        api = postGoodCategoryApi
+      let api = postGoodCategoryApi
+      if (data.id) {
+        api = putGoodCategoryApi
       }
       const res = await api(data)
         .catch(() => {})
@@ -165,6 +160,14 @@ const delData = async (row: GoodCategoryData | null, multiple: boolean) => {
   await delList(multiple ? selections.map((v) => v.id) : [tableObject.currentRow!.id], multiple)
 }
 
+const searchData = (form) => {
+  console.log(form)
+  let data = Object.assign({}, form)
+  data.keywords = data.name
+  delete data.name
+  setSearchParams(data)
+}
+
 const shopInfoListData = ref<ShopInfoData[]>([])
 
 const updateSchemas = async () => {
@@ -184,7 +187,7 @@ const updateSchemas = async () => {
 
 <template>
   <ContentWrap>
-    <Search :schema="allSchemas.searchSchema" @search="setSearchParams" @reset="setSearchParams" />
+    <Search :schema="allSchemas.searchSchema" @search="searchData" @reset="searchData" />
 
     <div class="mb-10px">
       <ElButton type="primary" @click="AddAction">
@@ -204,12 +207,15 @@ const updateSchemas = async () => {
       }"
       @register="register"
     >
-      <template #imgPath="{ row }">
+      <template #imagePath="{ row }">
         <img
-          class="w-80px"
-          :src="`${requestUrl}${row.imgPath}`"
-          :alt="`${requestUrl}${row.imgPath}`"
+          class="w-[80px]"
+          :src="`${requestUrl}${row.imagePath}`"
+          :alt="`${requestUrl}${row.imagePath}`"
         />
+      </template>
+      <template #mchId="{ row }">
+        {{ row.mch.name }}
       </template>
       <template #action="{ row }">
         <ElLink

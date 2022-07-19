@@ -13,6 +13,7 @@ export type GoodInfoData = {
   leaseUnit: string
   manufacturer: string
   mch: ShopInfoData
+  mchId: number
   crtTime: number
   name: string
   onShelf: boolean
@@ -20,6 +21,7 @@ export type GoodInfoData = {
   packingUnit: string
   price: number
   productCategory: 'goods' | 'lease' | 'ticket'
+  productTypeId: number
   productImage: string
   productType: GoodCategoryData
   purchasePrice: number

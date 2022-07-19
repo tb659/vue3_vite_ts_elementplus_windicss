@@ -3,7 +3,5 @@ import { ContentWrap } from '@/components/ContentWrap'
 </script>
 
 <template>
-  <ContentWrap title="GardenDevice/EnergyStatistic/EnergyStatistic">
-    GardenDevice/EnergyStatistic/EnergyStatistic
-  </ContentWrap>
+  <ContentWrap title=""> 待第三方接入 </ContentWrap>
 </template>

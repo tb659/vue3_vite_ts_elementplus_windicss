@@ -8,11 +8,13 @@ import { getToken, setToken } from '@/utils/auth'
 
 import { config } from '@/config/axios/config'
 
+import { formatUrl } from '@/utils'
+
+import { REQUEST_TOKEN_KEY } from './config'
+
 const { result_code, base_url } = config
 
 export const PATH_URL = base_url[import.meta.env.VITE_API_BASEPATH]
-
-export const REQUEST_TOKEN_KEY = 'authorization'
 
 // 创建axios实例
 const service: AxiosInstance = axios.create({
@@ -32,19 +34,12 @@ service.interceptors.request.use(
     // get参数编码
     if (config.method === 'get' && config.params) {
       let url = config.url as string
-      url += '?'
-      const keys = Object.keys(config.params)
-      for (const key of keys) {
-        if (config.params[key] !== void 0 && config.params[key] !== null) {
-          url += `${key}=${encodeURIComponent(config.params[key])}&`
-        }
-      }
-      url = url.substring(0, url.length - 1)
+      url = formatUrl(url, config.params)
       config.params = {}
       config.url = url
     }
     // 携带授权信息
-    config!.headers![REQUEST_TOKEN_KEY] = getToken() || ''
+    getToken() && (config!.headers![REQUEST_TOKEN_KEY] = getToken())
     return config
   },
   (error: AxiosError) => {

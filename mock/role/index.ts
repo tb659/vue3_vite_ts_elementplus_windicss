@@ -286,6 +286,14 @@ const adminList = [
         meta: {
           title: 'useWatermark'
         }
+      },
+      {
+        path: 'useCrudSchemas',
+        component: 'views/hooks/useCrudSchemas',
+        name: 'UseCrudSchemas',
+        meta: {
+          title: 'useCrudSchemas'
+        }
       }
     ]
   },
@@ -384,7 +392,7 @@ const adminList = [
           noTagsView: true,
           noCache: true,
           hidden: true,
-          showMainRoute: true,
+          canTo: true,
           activeMenu: '/example/example-page'
         }
       },
@@ -397,7 +405,7 @@ const adminList = [
           noTagsView: true,
           noCache: true,
           hidden: true,
-          showMainRoute: true,
+          canTo: true,
           activeMenu: '/example/example-page'
         }
       },
@@ -410,7 +418,7 @@ const adminList = [
           noTagsView: true,
           noCache: true,
           hidden: true,
-          showMainRoute: true,
+          canTo: true,
           activeMenu: '/example/example-page'
         }
       }
@@ -488,6 +496,7 @@ const testList: string[] = [
   '/Components/Sticky',
   '/hooks',
   '/hooks/useWatermark',
+  '/hooks/useCrudSchemas',
   '/level',
   '/level/menu1',
   '/level/menu1/menu1-1',

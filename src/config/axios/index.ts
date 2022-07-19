@@ -14,6 +14,7 @@ import { REQUEST_TOKEN_KEY } from './config'
 
 const { result_code, base_url } = config
 
+// export const PATH_URL = 'http://120.55.167.167:9202'
 export const PATH_URL = base_url[import.meta.env.VITE_API_BASEPATH]
 
 // 创建axios实例

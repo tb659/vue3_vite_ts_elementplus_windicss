@@ -1,4 +1,6 @@
-export const requestUrl = 'http://120.55.167.167:9202'
+import { PATH_URL } from './index'
+
+export const requestUrl = PATH_URL
 
 export const REQUEST_TOKEN_KEY = 'authorization'
 
@@ -19,16 +21,15 @@ const config: {
   base_url: {
     // 开发环境接口前缀
     base: '/api',
-    // base: '',
 
     // 打包开发环境接口前缀
-    dev: '/api',
+    dev: '',
 
     // 打包生产环境接口前缀
-    pro: '/api',
+    pro: '',
 
     // 打包测试环境接口前缀
-    test: '/api'
+    test: ''
   },
 
   /**

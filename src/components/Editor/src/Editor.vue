@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { onBeforeUnmount, computed, PropType, unref, nextTick, ref, watch, shallowRef } from 'vue'
+import {
+  onBeforeUnmount,
+  computed,
+  /* PropType, */ unref,
+  nextTick,
+  ref,
+  watch,
+  shallowRef
+} from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import {
   IDomEditor,
@@ -12,7 +20,7 @@ import { propTypes } from '@/utils/propTypes'
 import { isNumber } from '@/utils/is'
 import { ElMessage } from 'element-plus'
 import { useLocaleStore } from '@/store/modules/locale'
-import { requestUrl } from '@/config/axios/config'
+// import { REQUEST_URL } from '@/config/axios/config'
 import { postUploadApi } from '@/api/common'
 
 type ImageElement = SlateElement & {
@@ -31,10 +39,10 @@ i18nChangeLanguage(unref(currentLocale).lang)
 const props = defineProps({
   editorId: propTypes.string.def('wangeEditor-1'),
   height: propTypes.oneOfType([Number, String]).def('400px'),
-  editorConfig: {
-    type: Object as PropType<IEditorConfig>,
-    default: () => undefined
-  },
+  // editorConfig: {
+  //   type: Object as PropType<IEditorConfig>,
+  //   default: () => undefined
+  // },
   fileName: propTypes.string.def('file'),
   uploadUrl: propTypes.string.def('/api/file/upload?accessLevel=PUBLIC'),
   modelValue: propTypes.string.def('')
@@ -133,7 +141,7 @@ const editorConfig = computed((): IEditorConfig => {
         }
       }
     },
-    props.editorConfig || {}
+    /* props.editorConfig || */ {}
   )
 })
 
@@ -141,7 +149,7 @@ const customUploadFn = async (file) => {
   const formData = new FormData()
   formData.append('file', file)
   const res = await postUploadApi(props.uploadUrl, formData)
-  return requestUrl + res.data
+  return location.origin + res.data
 }
 // 自定义校验图片
 const customCheckImageFn = (src: string): boolean | undefined | string => {

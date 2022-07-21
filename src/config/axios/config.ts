@@ -1,5 +1,5 @@
-// export const requestUrl = 'http://120.55.167.167:9202'
-export const requestUrl = ''
+export const REQUEST_URL = 'http://120.55.167.167:9202'
+// export const REQUEST_URL = ''
 
 export const REQUEST_TOKEN_KEY = 'authorization'
 
@@ -19,7 +19,8 @@ const config: {
    */
   base_url: {
     // 开发环境接口前缀
-    base: '/api',
+    // base: import.meta.env.VITE_API_BASEPATH === 'base' ? REQUEST_URL : '',
+    base: REQUEST_URL,
 
     // 打包开发环境接口前缀
     dev: '',

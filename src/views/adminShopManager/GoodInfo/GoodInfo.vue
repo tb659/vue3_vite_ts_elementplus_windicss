@@ -22,7 +22,7 @@ import { getShopInfoApi } from '@/api/adminShopManager/shopInfo'
 import { ShopInfoData } from '@/api/adminShopManager/shopInfo/types'
 import { getGoodCategoryApi } from '@/api/adminShopManager/goodCategory'
 import { GoodCategoryData } from '@/api/adminShopManager/goodCategory/types'
-import { requestUrl } from '@/config/axios/config'
+import { REQUEST_URL } from '@/config/axios/config'
 
 const { register, tableObject, methods } = useTable<GoodInfoData>({
   getListApi: getGoodInfoApi,
@@ -280,8 +280,8 @@ const updateSchemas = () => {
       <template #productImage="{ row }">
         <img
           class="w-80px"
-          :src="`${requestUrl}${row.productImage}`"
-          :alt="`${requestUrl}${row.productImage}`"
+          :src="`${REQUEST_URL}${row.productImage}`"
+          :alt="`${REQUEST_URL}${row.productImage}`"
         />
       </template>
       <template #mchId="{ row }">

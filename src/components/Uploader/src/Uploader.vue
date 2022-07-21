@@ -4,7 +4,7 @@ import type { UploadProps } from 'element-plus'
 import { propTypes } from '@/utils/propTypes'
 import { reactive, ref, unref, watch } from 'vue'
 import { useI18n } from '@/hooks/web/useI18n'
-import { requestUrl } from '@/config/axios/config'
+import { REQUEST_URL } from '@/config/axios/config'
 import { REQUEST_TOKEN_KEY } from '@/config/axios/config'
 import { getToken } from '@/utils/auth'
 
@@ -26,7 +26,7 @@ watch(
   () => props.modelValue,
   (val: string) => {
     if (val === unref(imageUrl)) return
-    imageUrl.value = requestUrl + val
+    imageUrl.value = REQUEST_URL + val
   },
   { immediate: true }
 )
@@ -52,7 +52,7 @@ const handleSuccess: UploadProps['onSuccess'] = async (res, uploadFile) => {
   <ElUpload
     class="avatar-uploader"
     v-bind="$attrs"
-    :action="requestUrl + $props.uploadUrl"
+    :action="REQUEST_URL + $props.uploadUrl"
     :headers="uploadHeader"
     :show-file-list="false"
     :on-success="handleSuccess"

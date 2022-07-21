@@ -580,7 +580,7 @@ export default {
     notEqual: '两次密码不一致',
     //
     paramsSetting: '参数设置',
-    switch: '防控开关'
+    switch: '是否启用疫情防控'
   },
   shopManager: {
     // shopInfo

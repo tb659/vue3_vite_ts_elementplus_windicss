@@ -52,3 +52,14 @@ declare interface IResponse<T = any> {
 declare interface Window {
   BMap: any
 }
+declare interface Env {
+  BASE_URL?: string
+  DEV?: boolean
+  MODE?: string
+  PROD?: boolean
+  SSR?: boolean
+  VITE_API_BASEPATH?: string
+  VITE_APP_TITLE?: string
+  VITE_BASE_PATH?: string
+  VITE_USER_NODE_ENV?: string
+}

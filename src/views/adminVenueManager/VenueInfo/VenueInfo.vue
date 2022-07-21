@@ -16,7 +16,7 @@ import {
   deleteShopInfoApi
 } from '@/api/adminShopManager/shopInfo'
 import { ShopInfoData } from '@/api/adminShopManager/shopInfo/types'
-import { requestUrl } from '@/config/axios/config'
+import { REQUEST_URL } from '@/config/axios/config'
 import { dateNumFormat } from '@/utils'
 import { useRouter } from 'vue-router'
 
@@ -207,8 +207,8 @@ const delData = async (row: ShopInfoData | null, multiple: boolean) => {
       <template #payQrCode="{ row }">
         <img
           class="w-80px"
-          :src="`${requestUrl}${row.payQrCode}`"
-          :alt="`${requestUrl}${row.payQrCode}`"
+          :src="`${REQUEST_URL}${row.payQrCode}`"
+          :alt="`${REQUEST_URL}${row.payQrCode}`"
         />
       </template>
       <template #action="{ row }">

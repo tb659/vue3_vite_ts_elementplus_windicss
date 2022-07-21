@@ -224,6 +224,12 @@ module.exports = {
           {
             ignorePseudoElements: ['v-deep', 'v-global', 'v-slotted']
           }
+        ],
+        'function-no-unknown': [
+          true,
+          {
+            ignoreFunctions: ['v-bind']
+          }
         ]
       }
     }

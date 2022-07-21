@@ -98,12 +98,12 @@ const dialogVisible = ref(false)
 
 const dialogTitle = ref('')
 
-const AddAction = () => {
-  dialogTitle.value = t('common.add')
-  actionType.value = ''
-  tableObject.currentRow = null
-  dialogVisible.value = true
-}
+// const AddAction = () => {
+//   dialogTitle.value = t('common.add')
+//   actionType.value = ''
+//   tableObject.currentRow = null
+//   dialogVisible.value = true
+// }
 
 const action = (row: TouristInfoData, type: string) => {
   if (type === 'epidemic') {
@@ -158,12 +158,12 @@ const save = async () => {
   <ContentWrap>
     <Search :schema="allSchemas.searchSchema" @search="setSearchParams" @reset="setSearchParams" />
 
-    <div class="mb-10px">
+    <!-- <div class="mb-10px">
       <ElButton type="primary" @click="AddAction">
         <Icon icon="akar-icons:circle-plus" class="mr-5px" />
         {{ t('common.add') }}
       </ElButton>
-    </div>
+    </div> -->
 
     <Table
       v-model:pageSize="tableObject.pageSize"

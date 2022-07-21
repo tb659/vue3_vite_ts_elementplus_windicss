@@ -10,22 +10,27 @@ import Weather from '@/views/Dashboard/components/bigScreen-weather.vue'
 import LivingConsumption from '@/views/Dashboard/components/bigScreen-LivingConsumption.vue'
 import SexRatio from '@/views/Dashboard/components/bigScreen-sexRatio.vue'
 import WorderOrder from '@/views/Dashboard/components/bigScreen-worderOrder.vue'
-import { useAppStore } from '@/store/modules/app'
-import { computed, ref, watch } from 'vue'
+import { ref, onUnmounted, onDeactivated, onActivated, provide } from 'vue'
 
-const appStore = useAppStore()
+const isFullScreen = ref(true)
 
-const tagsView = computed(() => appStore.getTagsView)
+provide('isFullScreen', isFullScreen)
 
-const style = ref({ height: 'calc(100vh - 85px)' })
+const toggleFull = () => {
+  isFullScreen.value = !isFullScreen.value
+}
 
-watch(
-  () => tagsView,
-  (curr) => {
-    style.value = { height: curr.value ? 'calc(100vh - 85px)' : 'calc(100vh - 50px)' }
-  },
-  { immediate: true, deep: true }
-)
+onUnmounted(() => {
+  isFullScreen.value = false
+})
+
+onDeactivated(() => {
+  isFullScreen.value = false
+})
+
+onActivated(() => {
+  isFullScreen.value = true
+})
 </script>
 
 <template>
@@ -33,7 +38,14 @@ watch(
         系统 85px
         容器内边距 40px
         headerBox 70px -->
-  <div class="screenBox" :style="style">
+  <div class="screenBox" :class="isFullScreen ? 'fullScreen' : ''">
+    <Icon
+      class="cursor-pointer is-hover fullIcon"
+      :icon="isFullScreen ? 'zmdi:fullscreen-exit' : 'zmdi:fullscreen'"
+      color="var(--el-color-info)"
+      :size="20"
+      @click="toggleFull"
+    />
     <div class="headerbox">
       <img src="@/assets/imgs-bigScreen/bigScreen2.png" alt="" />
     </div>
@@ -96,8 +108,25 @@ watch(
   </div>
 </template>
 <style scoped lang="less">
-@height1: calc(85px + 0px); //系统盒子占位高度
+@height1: v-bind("isFullScreen ? '0px': '85px'"); //系统盒子占位高度
 @height2: 70px; //header盒子高度
+
+.fullScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+}
+
+.fullIcon {
+  position: absolute;
+  top: 8px;
+  right: 6px;
+}
+
 .screenBox {
   width: calc(100% + 40px);
   height: calc(100vh - @height1);

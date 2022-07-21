@@ -1,7 +1,7 @@
 // import type { Plugin } from 'vue'
 import { getToken } from '@/utils/auth'
 import { REQUEST_TOKEN_KEY } from '@/config/axios/config'
-import { requestUrl } from '@/config/axios/config'
+import { REQUEST_URL } from '@/config/axios/config'
 
 /**
  *
@@ -161,7 +161,7 @@ export const formatUrl = (url, params) => {
  * @return {*}
  */
 export const exportFile = (params) => {
-  let url = `${requestUrl}/api/tourist_order/export`
+  let url = `${REQUEST_URL}/api/tourist_order/export`
   url = formatUrl(url, params)
   console.log('fetch------url', url)
   fetch(`${url}`, {

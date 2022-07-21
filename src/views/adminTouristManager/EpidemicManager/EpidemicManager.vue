@@ -1,26 +1,31 @@
 <script setup lang="ts">
 import { ContentWrap } from '@/components/ContentWrap'
 import { Search } from '@/components/Search'
-import { Dialog } from '@/components/Dialog'
+// import { Dialog } from '@/components/Dialog'
 import { useI18n } from '@/hooks/web/useI18n'
-import { ElButton, ElMessage, ElMessageBox, ElLink, ElTag /* , ElUpload */ } from 'element-plus'
+import {
+  /* ElButton, */ ElMessage,
+  ElMessageBox,
+  ElLink,
+  ElTag /* , ElUpload */
+} from 'element-plus'
 import { Table } from '@/components/Table'
 import { useTable } from '@/hooks/web/useTable'
-import { ref, unref, reactive } from 'vue'
-import Write from './components/Write.vue'
+import { /* ref, unref, */ reactive } from 'vue'
+// import Write from './components/Write.vue'
 import { CrudSchema, useCrudSchemas } from '@/hooks/web/useCrudSchemas'
 import {
   getEpidemicManagerApi,
   deleteEpidemicManagerApi,
-  postEpidemicManagerApi,
-  putEpidemicManagerApi,
+  // postEpidemicManagerApi,
+  // putEpidemicManagerApi,
   approvalEpidemicManagerApi
 } from '@/api/adminTouristManager/epidemicManager'
 import { EpidemicManager } from '@/api/adminTouristManager/epidemicManager/types'
-import { getTouristInfoApi } from '@/api/adminTouristManager/touristInfo'
-import { TouristInfoData } from '@/api/adminTouristManager/touristInfo/types'
+// import { getTouristInfoApi } from '@/api/adminTouristManager/touristInfo'
+// import { TouristInfoData } from '@/api/adminTouristManager/touristInfo/types'
 import { dateNumFormat } from '@/utils'
-import { requestUrl } from '@/config/axios/config'
+import { REQUEST_URL } from '@/config/axios/config'
 import { useDesign } from '@/hooks/web/useDesign'
 // import type { UploadProps } from 'element-plus'
 
@@ -53,7 +58,7 @@ const formatData = () => {
       item['imgList'].push({
         name: Math.random() + '',
         uid: Math.random() * 10,
-        url: requestUrl + imgItem
+        url: REQUEST_URL + imgItem
       })
     })
     item['imgs'] = img.length ? JSON.stringify(img) : '[]'
@@ -99,6 +104,24 @@ const crudSchemas = reactive<CrudSchema[]>([
     label: t('common.index'),
     type: 'index',
     form: { show: false }
+  },
+  {
+    field: 'nickName',
+    label: t('touristManager.touristNickName'),
+    search: { show: true },
+    form: {
+      colProps: { span: 22 },
+      show: false
+    }
+  },
+  {
+    field: 'name',
+    label: t('touristManager.touristName'),
+    search: { show: true },
+    form: {
+      colProps: { span: 22 },
+      show: false
+    }
   },
   {
     field: 'imgs',
@@ -151,22 +174,6 @@ const crudSchemas = reactive<CrudSchema[]>([
       colProps: { span: 11 }
     },
     table: { show: false }
-  },
-  {
-    field: 'nickName',
-    label: t('touristManager.touristNickName'),
-    form: {
-      colProps: { span: 22 },
-      show: false
-    }
-  },
-  {
-    field: 'name',
-    label: t('touristManager.touristName'),
-    form: {
-      colProps: { span: 22 },
-      show: false
-    }
   },
   {
     field: 'touristId',
@@ -237,11 +244,11 @@ const crudSchemas = reactive<CrudSchema[]>([
   {
     field: 'status',
     label: t('touristManager.auditStatus'),
-    search: {
-      show: true,
-      component: 'Select',
-      componentProps: { options: auditType }
-    },
+    // search: {
+    //   show: true,
+    //   component: 'Select',
+    //   componentProps: { options: auditType }
+    // },
     form: {
       colProps: { span: 22 },
       component: 'Select',
@@ -252,10 +259,10 @@ const crudSchemas = reactive<CrudSchema[]>([
   {
     field: 'approvalTime',
     label: t('touristManager.auditTime'),
-    form: { show: false },
-    formatter: (_: Recordable, __: TableColumn, cellValue: number) => {
-      return cellValue ? dateNumFormat(cellValue) : ''
-    }
+    form: { show: false }
+    // formatter: (_: Recordable, __: TableColumn, cellValue: number) => {
+    //   return cellValue ? dateNumFormat(cellValue) : ''
+    // }
   },
   {
     field: 'action',
@@ -268,70 +275,70 @@ const crudSchemas = reactive<CrudSchema[]>([
 
 const { allSchemas } = useCrudSchemas(crudSchemas)
 
-const actionType = ref('')
+// const actionType = ref('')
 
-const dialogVisible = ref(false)
+// const dialogVisible = ref(false)
 
-const dialogTitle = ref('')
+// const dialogTitle = ref('')
 
-const AddAction = async () => {
-  await updateSchemas()
-  dialogTitle.value = t('common.add')
-  actionType.value = ''
-  tableObject.currentRow = null
-  dialogVisible.value = true
-}
+// const AddAction = async () => {
+//   await updateSchemas()
+//   dialogTitle.value = t('common.add')
+//   actionType.value = ''
+//   tableObject.currentRow = null
+//   dialogVisible.value = true
+// }
 
-const action = async (row: EpidemicManager, type: string) => {
-  await updateSchemas()
-  dialogTitle.value = t(type === 'edit' ? 'common.edit' : 'common.detail')
-  actionType.value = type
-  tableObject.currentRow = row
-  dialogVisible.value = true
-}
+// const action = async (row: EpidemicManager, type: string) => {
+//   await updateSchemas()
+//   dialogTitle.value = t(type === 'edit' ? 'common.edit' : 'common.detail')
+//   actionType.value = type
+//   tableObject.currentRow = row
+//   dialogVisible.value = true
+// }
 
-const writeRef = ref<ComponentRef<typeof Write>>()
+// const writeRef = ref<ComponentRef<typeof Write>>()
 
-const loading = ref(false)
+// const loading = ref(false)
 
-const save = async () => {
-  const write = unref(writeRef)
-  await write?.elFormRef?.validate(async (isValid) => {
-    if (isValid) {
-      loading.value = true
-      const data = (await write?.getFormData()) as EpidemicManager
-      let api = postEpidemicManagerApi
-      if (data.id) {
-        api = putEpidemicManagerApi
-      }
-      let params = {} as EpidemicManager
-      if (data.imgs) {
-        const imgs = JSON.parse(data.imgs)
-        for (let i = 1; i <= 4; i++) {
-          data['imagePath' + i] = imgs[i - 1] || ''
-        }
-        for (const key in data) {
-          if (key !== ' imgs' && key !== 'imgList') {
-            params[key] = data[key]
-          }
-        }
-      } else {
-        params = data
-      }
-      const res = await api(params)
-        .catch(() => {})
-        .finally(() => {
-          loading.value = false
-        })
-      if (res) {
-        ElMessage.success(t('common.saveSuccess'))
-        dialogVisible.value = false
-        tableObject.currentPage = 1
-        await getList()
-      }
-    }
-  })
-}
+// const save = async () => {
+//   const write = unref(writeRef)
+//   await write?.elFormRef?.validate(async (isValid) => {
+//     if (isValid) {
+//       loading.value = true
+//       const data = (await write?.getFormData()) as EpidemicManager
+//       let api = postEpidemicManagerApi
+//       if (data.id) {
+//         api = putEpidemicManagerApi
+//       }
+//       let params = {} as EpidemicManager
+//       if (data.imgs) {
+//         const imgs = JSON.parse(data.imgs)
+//         for (let i = 1; i <= 4; i++) {
+//           data['imagePath' + i] = imgs[i - 1] || ''
+//         }
+//         for (const key in data) {
+//           if (key !== ' imgs' && key !== 'imgList') {
+//             params[key] = data[key]
+//           }
+//         }
+//       } else {
+//         params = data
+//       }
+//       const res = await api(params)
+//         .catch(() => {})
+//         .finally(() => {
+//           loading.value = false
+//         })
+//       if (res) {
+//         ElMessage.success(t('common.saveSuccess'))
+//         dialogVisible.value = false
+//         tableObject.currentPage = 1
+//         await getList()
+//       }
+//     }
+//   })
+// }
 
 const delData = async (row: EpidemicManager | null, multiple: boolean) => {
   tableObject.currentRow = row
@@ -349,30 +356,28 @@ const aduit = async (id: number) => {
     const res = await approvalEpidemicManagerApi(id)
     if (res) {
       ElMessage.success(t('touristManager.auditSuccess'))
-      dialogVisible.value = false
       tableObject.currentPage = 1
       await getList()
-      formatData()
     }
   })
 }
 
-const touristListData = ref<TouristInfoData[]>([])
+// const touristListData = ref<TouristInfoData[]>([])
 
-const updateSchemas = async () => {
-  if (touristListData.value.length) return
-  const res = await getTouristInfoApi({ page: 1, size: 999 })
-  if (res) {
-    touristListData.value = res.data.rows
-    const keys = ['formSchema']
-    keys.forEach((key) => {
-      allSchemas[key].filter((schema) => schema.field === 'touristId')[0].componentProps!.options =
-        touristListData.value.map((item) => {
-          return { label: item.name, value: item.id }
-        })
-    })
-  }
-}
+// const updateSchemas = async () => {
+//   if (touristListData.value.length) return
+//   const res = await getTouristInfoApi({ page: 1, size: 999 })
+//   if (res) {
+//     touristListData.value = res.data.rows
+//     const keys = ['formSchema']
+//     keys.forEach((key) => {
+//       allSchemas[key].filter((schema) => schema.field === 'touristId')[0].componentProps!.options =
+//         touristListData.value.map((item) => {
+//           return { label: item.name, value: item.id }
+//         })
+//     })
+//   }
+// }
 // const imageUrl = ref('')
 
 // const imageVisible = ref(false)
@@ -389,12 +394,12 @@ const updateSchemas = async () => {
   <ContentWrap :class="prefixCls">
     <Search :schema="allSchemas.searchSchema" @search="searchData" @reset="searchData" />
 
-    <div class="mb-10px">
+    <!-- <div class="mb-10px">
       <ElButton type="primary" @click="AddAction">
         <Icon icon="akar-icons:circle-plus" class="mr-5px" />
         {{ t('common.add') }}
       </ElButton>
-    </div>
+    </div> -->
 
     <Table
       v-model:pageSize="tableObject.pageSize"
@@ -450,14 +455,14 @@ const updateSchemas = async () => {
       </template>
 
       <template #action="{ row }">
-        <ElLink
+        <!-- <ElLink
           :underline="false"
           type="primary"
           class="ml-10px cursor-pointer"
           @click="action(row, 'edit')"
         >
           {{ t('common.edit') }}
-        </ElLink>
+        </ElLink> -->
         <ElLink
           :underline="false"
           type="primary"
@@ -479,7 +484,7 @@ const updateSchemas = async () => {
     </Table>
   </ContentWrap>
 
-  <Dialog v-model="dialogVisible" :title="dialogTitle">
+  <!-- <Dialog v-model="dialogVisible" :title="dialogTitle">
     <Write
       v-if="actionType !== 'detail'"
       ref="writeRef"
@@ -493,7 +498,7 @@ const updateSchemas = async () => {
         {{ t('common.save') }}
       </ElButton>
     </template>
-  </Dialog>
+  </Dialog> -->
 
   <!-- <Dialog v-model="imageVisible" :title="'预览'">
     <div>

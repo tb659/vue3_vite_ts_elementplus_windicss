@@ -18,7 +18,7 @@ import {
 import { GoodCategoryData } from '@/api/adminShopManager/goodCategory/types'
 import { getShopInfoApi } from '@/api/adminShopManager/shopInfo'
 import { ShopInfoData } from '@/api/adminShopManager/shopInfo/types'
-import { requestUrl } from '@/config/axios/config'
+import { REQUEST_URL } from '@/config/axios/config'
 import { dateNumFormat } from '@/utils'
 
 const { register, tableObject, methods } = useTable<GoodCategoryData>({
@@ -210,8 +210,8 @@ const updateSchemas = async () => {
       <template #imagePath="{ row }">
         <img
           class="w-[80px]"
-          :src="`${requestUrl}${row.imagePath}`"
-          :alt="`${requestUrl}${row.imagePath}`"
+          :src="`${REQUEST_URL}${row.imagePath}`"
+          :alt="`${REQUEST_URL}${row.imagePath}`"
         />
       </template>
       <template #mchId="{ row }">

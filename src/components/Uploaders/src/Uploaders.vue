@@ -3,7 +3,7 @@ import { ElUpload, ElButton } from 'element-plus'
 import type { UploadProps, UploadUserFile } from 'element-plus'
 import { propTypes } from '@/utils/propTypes'
 import { reactive, ref, unref, watch } from 'vue'
-import { requestUrl } from '@/config/axios/config'
+import { REQUEST_URL } from '@/config/axios/config'
 import { REQUEST_TOKEN_KEY } from '@/config/axios/config'
 import { getToken } from '@/utils/auth'
 import { Dialog } from '@/components/Dialog'
@@ -34,12 +34,12 @@ const fileList = ref<UploadUserFile[]>([
   // {
   //   name: '5eab7b55e34b2bdef8a51b4854aef4cb.png',
   //   uid: 1278346128,
-  //   url: requestUrl + '/public/10/ab/10ab4e2c6e644931880dba2528b4717e.png'
+  //   url: REQUEST_URL + '/public/10/ab/10ab4e2c6e644931880dba2528b4717e.png'
   // },
   // {
   //   name: '5eab7b55e34b2bdef8a51b4854aef4cb.png',
   //   uid: 1278346118,
-  //   url: requestUrl + '/public/73/95/739562f5b63b4ad796d53959494a8bc0.png'
+  //   url: REQUEST_URL + '/public/73/95/739562f5b63b4ad796d53959494a8bc0.png'
   // }
 ])
 
@@ -54,7 +54,7 @@ watch(
       fileArr[index] = {
         name: item,
         uid: new Date().getTime(),
-        url: requestUrl + item
+        url: REQUEST_URL + item
       }
       const name = fileName.value.filter((filename) => filename === item)[0]
       !name && fileName.value.push(item)
@@ -102,7 +102,7 @@ const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
     v-bind="$attrs"
     v-model:file-list="fileList"
     list-type="picture-card"
-    :action="requestUrl + $props.uploadUrl"
+    :action="REQUEST_URL + $props.uploadUrl"
     :multiple="true"
     :headers="uploadHeader"
     :on-remove="handleRemove"

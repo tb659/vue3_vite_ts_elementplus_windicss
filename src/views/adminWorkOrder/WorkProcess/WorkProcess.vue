@@ -19,7 +19,7 @@ import { WorkOrderData } from '@/api/adminWorkOrder/workProcess/types'
 import { getStaffInfoApi } from '@/api/adminStaffManager/staffInfo'
 import { StaffInfoData } from '@/api/adminStaffManager/staffInfo/types'
 import { dateNumFormat } from '@/utils'
-import { requestUrl } from '@/config/axios/config'
+import { REQUEST_URL } from '@/config/axios/config'
 import { workOrderStatus } from '@/utils/common'
 
 const { t } = useI18n()
@@ -39,7 +39,7 @@ const formatData = () => {
       item['imgList'].push({
         name: Math.random() + '',
         uid: Math.random() * 10,
-        url: requestUrl + imgItem
+        url: REQUEST_URL + imgItem
       })
     })
     item['imgs'] = img.length ? JSON.stringify(img) : '[]'
@@ -57,7 +57,6 @@ const { getList } = methods
 
 const getData = async () => {
   await getList()
-  formatData()
 }
 getData()
 

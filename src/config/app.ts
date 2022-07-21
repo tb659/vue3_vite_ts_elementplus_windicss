@@ -62,6 +62,7 @@ export const appModules: AppState = {
   password: `${prefix}_password`, // 登录状态存储字段-建议每个项目换一个字段，避免与其他项目冲突
   remember: `${prefix}_remember`, // 登录状态存储字段-建议每个项目换一个字段，避免与其他项目冲突
   iParkRememberTime: 30, // 登录状态存储30天
+
   sizeMap: ['default', 'large', 'small'],
   mobile: wsCache.get(`${prefix}_mobile`) || false, // 是否是移动端
   title: import.meta.env.VITE_APP_TITLE, // 标题

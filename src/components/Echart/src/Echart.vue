@@ -4,7 +4,18 @@ import echarts from '@/plugins/echarts'
 import { debounce } from 'lodash-es'
 import 'echarts-wordcloud'
 import { propTypes } from '@/utils/propTypes'
-import { computed, PropType, ref, unref, watch, onMounted, onBeforeUnmount, onActivated } from 'vue'
+import {
+  computed,
+  PropType,
+  ref,
+  unref,
+  watch,
+  onMounted,
+  onBeforeUnmount,
+  onActivated,
+  inject,
+  nextTick
+} from 'vue'
 import { useAppStore } from '@/store/modules/app'
 import { isString } from '@/utils/is'
 import { useDesign } from '@/hooks/web/useDesign'
@@ -23,6 +34,8 @@ const props = defineProps({
   width: propTypes.oneOfType([Number, String]).def(''),
   height: propTypes.oneOfType([Number, String]).def('500px')
 })
+
+const isFullScreen = inject('isFullScreen')
 
 const isDark = computed(() => appStore.getIsDark)
 
@@ -67,6 +80,17 @@ watch(
     if (echartRef) {
       echartRef?.setOption(options)
     }
+  },
+  {
+    deep: true
+  }
+)
+
+watch(
+  () => isFullScreen,
+  async () => {
+    await nextTick()
+    echartRef?.resize()
   },
   {
     deep: true

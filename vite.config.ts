@@ -12,7 +12,7 @@ import PurgeIcons from 'vite-plugin-purge-icons'
 import { viteMockServe } from 'vite-plugin-mock'
 import DefineOptions from 'unplugin-vue-define-options/vite'
 import { createHtmlPlugin } from 'vite-plugin-html'
-import { requestUrl } from './src/config/axios/config'
+// import { REQUEST_URL } from './src/config/axios/config'
 
 const root = process.cwd()
 
@@ -62,21 +62,21 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       }),
       PurgeIcons(),
       // 开启mock
-      viteMockServe({
-        ignore: /^\_/,
-        // 解析根目录下的mock文件夹
-        mockPath: 'mock', 
-        // 开发打包开关
-        localEnabled: !isBuild, 
-        // 生产打包开关
-        prodEnabled: isBuild, 
-        // 这样可以控制关闭mock的时候不让mock打包到最终代码内
-        injectCode: `
-          import { setupProdMockServer } from '../mock/_createProductionServer'
+      // viteMockServe({
+      //   ignore: /^\_/,
+      //   // 解析根目录下的mock文件夹
+      //   mockPath: 'mock', 
+      //   // 开发打包开关
+      //   localEnabled: !isBuild, 
+      //   // 生产打包开关
+      //   prodEnabled: isBuild, 
+      //   // 这样可以控制关闭mock的时候不让mock打包到最终代码内
+      //   injectCode: `
+      //     import { setupProdMockServer } from '../mock/_createProductionServer'
 
-          setupProdMockServer()
-          `
-      }),
+      //     setupProdMockServer()
+      //     `
+      // }),
       DefineOptions(),
       createHtmlPlugin({
         inject: {
@@ -123,14 +123,14 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     server: {
       port: 4000,
-      proxy: {
-        // 选项写法
-        '/api': {
-          target: requestUrl,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, '')
-        }
-      },
+      // proxy: {
+      //   // 选项写法
+      //   '/api': {
+      //     target: REQUEST_URL,
+      //     changeOrigin: true,
+      //     rewrite: (path) => path.replace(/^\/api/, '')
+      //   }
+      // },
       hmr: {
         overlay: false
       },
